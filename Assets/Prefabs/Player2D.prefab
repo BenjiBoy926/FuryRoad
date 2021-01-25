@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 309163216}
   - component: {fileID: 309163218}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,9 +181,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -230,4 +230,5 @@ MonoBehaviour:
   movementModule:
     rb2D: {fileID: 309163217}
     thrust: 10
-    turn: 10
+    turn: 4
+    topSpeed: 30

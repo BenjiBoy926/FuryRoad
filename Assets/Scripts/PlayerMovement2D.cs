@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement2D : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("Information used to move the cart")]
-    private MovementModule movementModule;
+    [Tooltip("Information used to move the car")]
+    private MovementModule2D movementModule;
 
     private void Update()
     {

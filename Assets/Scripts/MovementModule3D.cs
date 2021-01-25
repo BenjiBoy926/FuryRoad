@@ -3,36 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MovementModule
+public class MovementModule3D
 {
     [SerializeField]
     [Tooltip("The rigidbody to move")]
-    private Rigidbody2D rb2D;
+    private Rigidbody rb;
     [SerializeField]
     [Tooltip("Power of the racer's acceleration")]
-    private float thrust;
+    private float thrust = 10f;
     [SerializeField]
     [Tooltip("Tightness of the racer's turn")]
-    private float turn;
+    private float turn = 10f;
     [SerializeField]
     [Tooltip("Maximum speed of the racer")]
-    private float topSpeed;
+    private float topSpeed = 30f;
 
-    public MovementModule(Rigidbody2D rb2D, float thrust, float turn)
+    public MovementModule3D(Rigidbody rb, float thrust, float turn)
     {
-        this.rb2D = rb2D;
+        this.rb = rb;
         this.thrust = thrust;
         this.turn = turn;
     }
 
     public void Turn(float horizontal)
     {
-        rb2D.MoveRotation(rb2D.rotation - horizontal * turn);
+        Quaternion rotation = Quaternion.Euler(0f, horizontal * turn, 0f);
+        rb.MoveRotation(rb.rotation * rotation);
+        rb.velocity = rotation * rb.velocity;
     }
 
     public void Thrust(float vertical)
     {
-        rb2D.AddRelativeForce(new Vector2(0, vertical * thrust));
-        rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, topSpeed);
+        rb.AddRelativeForce(Vector3.forward * vertical * thrust);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, topSpeed);
     }
 }
