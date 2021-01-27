@@ -507,13 +507,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da0545a36accdc49889b389ab807ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementModule:
+  m_MovementModule:
     m_Rigidbody: {fileID: 8136108589224610194}
     m_Thrust: 30
     m_Turn: 60
     m_TopSpeed: 30
-  respawnTag: Respawn
-  pitLevel: -25
+  m_RespawnTag: Respawn
+  m_PitLevel: -25
 --- !u!1 &9076931921287678722
 GameObject:
   m_ObjectHideFlags: 0
