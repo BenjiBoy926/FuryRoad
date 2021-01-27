@@ -7,34 +7,46 @@ public class MovementModule3D
 {
     [SerializeField]
     [Tooltip("The rigidbody to move")]
-    private Rigidbody rb;
+    private Rigidbody m_Rigidbody;
     [SerializeField]
     [Tooltip("Power of the racer's acceleration")]
-    private float thrust = 10f;
+    private float m_Thrust = 10f;
     [SerializeField]
     [Tooltip("Tightness of the racer's turn")]
-    private float turn = 10f;
+    private float m_Turn = 10f;
     [SerializeField]
     [Tooltip("Maximum speed of the racer")]
-    private float topSpeed = 30f;
+    private float m_TopSpeed = 30f;
+
+    public Rigidbody rigidbody
+    {
+        get
+        {
+            return m_Rigidbody;
+        }
+    }
 
     public MovementModule3D(Rigidbody rb, float thrust, float turn)
     {
-        this.rb = rb;
-        this.thrust = thrust;
-        this.turn = turn;
+        m_Rigidbody = rb;
+        m_Thrust = thrust;
+        m_Turn = turn;
     }
 
     public void Turn(float horizontal)
     {
-        Quaternion rotation = Quaternion.Euler(0f, horizontal * turn, 0f);
-        rb.MoveRotation(rb.rotation * rotation);
-        rb.velocity = rotation * rb.velocity;
+        // Car can only turn while moving
+        if(m_Rigidbody.velocity.sqrMagnitude > 0.1f)
+        {
+            Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
+            m_Rigidbody.MoveRotation(m_Rigidbody.rotation * rotation);
+            m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
+        }
     }
 
     public void Thrust(float vertical)
     {
-        rb.AddRelativeForce(Vector3.forward * vertical * thrust);
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, topSpeed);
+        m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust);
+        m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
     }
 }

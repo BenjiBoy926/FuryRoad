@@ -17,21 +17,32 @@ public class PlayerMovement3D : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y < pitLevel)
+        {
+            Respawn();
+        }
+    }
+
+    private void FixedUpdate()
+    {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
         movementModule.Turn(h);
         movementModule.Thrust(v);
+    }
 
-        if(transform.position.y < pitLevel)
+    private void Respawn()
+    {
+        GameObject respawn = GameObject.FindGameObjectWithTag(respawnTag);
+
+        if (respawn != null)
         {
-            GameObject respawn = GameObject.FindGameObjectWithTag(respawnTag);
+            transform.position = respawn.transform.position;
+            transform.rotation = respawn.transform.rotation;
 
-            if(respawn != null)
-            {
-                transform.position = respawn.transform.position;
-                transform.rotation = respawn.transform.rotation;
-            }
+            movementModule.rigidbody.velocity = Vector3.zero;
+            movementModule.rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

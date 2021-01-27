@@ -488,8 +488,8 @@ Rigidbody:
   m_GameObject: {fileID: 8136108589224610185}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 1
+  m_Drag: 0
+  m_AngularDrag: 0.01
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -508,10 +508,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementModule:
-    rb: {fileID: 8136108589224610194}
-    thrust: 20
-    turn: 2
-    topSpeed: 30
+    m_Rigidbody: {fileID: 8136108589224610194}
+    m_Thrust: 30
+    m_Turn: 60
+    m_TopSpeed: 30
   respawnTag: Respawn
   pitLevel: -25
 --- !u!1 &9076931921287678722
