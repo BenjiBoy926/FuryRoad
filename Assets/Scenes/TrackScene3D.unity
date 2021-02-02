@@ -364,10 +364,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player3D
       objectReference: {fileID: 0}
+    - target: {fileID: 8136108589224610194, guid: ee7c73511ee9a2945a71092e0ff87c49,
+        type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
         type: 3}
