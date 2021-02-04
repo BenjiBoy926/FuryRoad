@@ -30,18 +30,24 @@ public class PlayerMovement3D : MonoBehaviour
     {
         m_HorizontalAxis = Input.GetAxis("Horizontal");
         m_VerticalAxis = Input.GetAxis("Vertical");
-        Debug.Log(isGrounded);
+        Debug.Log("isGrounded " + isGrounded);
+        Debug.Log("Falling " + falling);
         if (!isGrounded && !falling){
             Vector3 m_fallLocation = transform.position;
             m_respawnLocation = ClosestPoint(m_beginningOfTrack, m_endOfTrack, m_fallLocation);
             falling = true;
         }
 
-        if (transform.position.y < m_PitLevel && falling)
+        if (transform.position.y < m_PitLevel)
         {
             Respawn(m_respawnLocation);
             falling = false;
         }
+
+        if(isGrounded){
+            falling = false;
+        }
+        
     }
 
     private void FixedUpdate()
@@ -65,6 +71,8 @@ public class PlayerMovement3D : MonoBehaviour
 
             m_MovementModule.rigidbody.velocity = Vector3.zero;
             m_MovementModule.rigidbody.angularVelocity = Vector3.zero;
+
+            falling = false;
         }
     }
 
