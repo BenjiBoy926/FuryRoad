@@ -52,4 +52,14 @@ public class MovementModule3D : MonoBehaviour
             rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, m_TopSpeed);
         }
     }
+
+    public void CleanUp()
+    {
+        // If the car is facing slightly upside-down, correct it to face right side up again and remove angular velocity
+        if(Vector3.Dot(transform.up, Vector3.down) > 0)
+        {
+            rigidbody.rotation = Quaternion.Euler(rigidbody.rotation.eulerAngles.x, rigidbody.rotation.eulerAngles.y, 0f);
+            rigidbody.angularVelocity = Vector3.zero;
+        }
+    }
 }

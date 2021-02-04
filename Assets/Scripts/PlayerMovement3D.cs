@@ -30,5 +30,6 @@ public class PlayerMovement3D : MonoBehaviour
     {
         movementModule.Turn(m_HorizontalAxis);
         movementModule.Thrust(m_VerticalAxis);
+        movementModule.CleanUp();
     }
 }
