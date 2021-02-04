@@ -310,6 +310,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: first_track
       objectReference: {fileID: 0}
+    - target: {fileID: 3373875031732019508, guid: 1563830ceba7c1d41b0a29caec50106c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8853748854076717617, guid: 1563830ceba7c1d41b0a29caec50106c,
         type: 3}
       propertyPath: m_Enabled
@@ -363,11 +368,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player3D
-      objectReference: {fileID: 0}
-    - target: {fileID: 8136108589224610194, guid: ee7c73511ee9a2945a71092e0ff87c49,
-        type: 3}
-      propertyPath: m_AngularDrag
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8136108589224610197, guid: ee7c73511ee9a2945a71092e0ff87c49,
         type: 3}
