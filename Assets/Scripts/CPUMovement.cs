@@ -15,10 +15,4 @@ public class CPUMovement : MonoBehaviour
     {
         nav.SetDestination(destination.position);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
