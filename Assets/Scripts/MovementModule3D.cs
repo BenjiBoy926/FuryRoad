@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class MovementModule3D
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(GroundingModule))]
+public class MovementModule3D : MonoBehaviour
 {
-    [SerializeField]
-    [Tooltip("The rigidbody to move")]
-    private Rigidbody m_Rigidbody;
     [SerializeField]
     [Tooltip("Power of the racer's acceleration")]
     private float m_Thrust = 10f;
@@ -18,25 +16,20 @@ public class MovementModule3D
     [Tooltip("Maximum speed of the racer")]
     private float m_TopSpeed = 30f;
 
-    public Rigidbody rigidbody
-    {
-        get
-        {
-            return m_Rigidbody;
-        }
-    }
+    // Components required
+    private Rigidbody m_Rigidbody;
+    private GroundingModule m_GroundingModule;
 
-    public MovementModule3D(Rigidbody rb, float thrust, float turn)
+    private void Start()
     {
-        m_Rigidbody = rb;
-        m_Thrust = thrust;
-        m_Turn = turn;
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_GroundingModule = GetComponent<GroundingModule>();
     }
 
     public void Turn(float horizontal)
     {
-        // Car can only turn while moving
-        if(m_Rigidbody.velocity.sqrMagnitude > 0.1f)
+        // Car can only turn while moving and grounded
+        if(m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.Grounded())
         {
             Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
             m_Rigidbody.MoveRotation(m_Rigidbody.rotation * rotation);
@@ -46,7 +39,21 @@ public class MovementModule3D
 
     public void Thrust(float vertical)
     {
-        m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust);
-        m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
+        // Car can only thrust while grounded
+        if(m_GroundingModule.Grounded())
+        {
+            m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
+        }
+    }
+
+    public void CleanUp()
+    {
+        // If the car is facing slightly upside-down, correct it to face right side up again and remove angular velocity
+        if (Vector3.Dot(transform.up, Vector3.down) > 0)
+        {
+            m_Rigidbody.rotation = Quaternion.Euler(m_Rigidbody.rotation.eulerAngles.x, m_Rigidbody.rotation.eulerAngles.y, 0f);
+            m_Rigidbody.angularVelocity = Vector3.zero;
+        }
     }
 }

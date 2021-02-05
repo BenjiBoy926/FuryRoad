@@ -310,6 +310,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: first_track
       objectReference: {fileID: 0}
+    - target: {fileID: 3373875031732019508, guid: 1563830ceba7c1d41b0a29caec50106c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Platform
+      objectReference: {fileID: 0}
     - target: {fileID: 8853748854076717617, guid: 1563830ceba7c1d41b0a29caec50106c,
         type: 3}
       propertyPath: m_Enabled
