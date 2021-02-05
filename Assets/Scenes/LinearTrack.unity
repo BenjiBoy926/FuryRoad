@@ -283,6 +283,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4430343124011269244, guid: ee7c73511ee9a2945a71092e0ff87c49,
+        type: 3}
+      propertyPath: m_MovementModule.m_TopSpeed
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 8136108589224610185, guid: ee7c73511ee9a2945a71092e0ff87c49,
         type: 3}
       propertyPath: m_Name
@@ -431,11 +436,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: second_track
-      objectReference: {fileID: 0}
-    - target: {fileID: 2140617366077363414, guid: 6cd7728bd48a4c74ebedb86d85967cb6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cd7728bd48a4c74ebedb86d85967cb6, type: 3}
