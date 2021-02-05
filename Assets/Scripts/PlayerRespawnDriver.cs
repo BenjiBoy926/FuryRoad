@@ -13,6 +13,7 @@ public class PlayerRespawnDriver : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private GroundingModule m_GroundingModule;
 
+    private Quaternion m_InitialRotation;
     private Vector3 m_beginningOfTrack = new Vector3(-135.16f, 0.55f, 0.0086f);
     private Vector3 m_endOfTrack = new Vector3(135.80f, 0.55f, 1.45f);
     private Vector3 m_respawnLocation;
@@ -22,10 +23,10 @@ public class PlayerRespawnDriver : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
+        m_InitialRotation = transform.rotation;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (!m_GroundingModule.Grounded() && !falling)
         {
@@ -33,7 +34,7 @@ public class PlayerRespawnDriver : MonoBehaviour
             falling = true;
         }
 
-        if (transform.position.y < m_PitLevel)
+        if (m_Rigidbody.position.y < m_PitLevel)
         {
             Respawn(m_respawnLocation);
             falling = false;
@@ -49,7 +50,7 @@ public class PlayerRespawnDriver : MonoBehaviour
     private void Respawn(Vector3 respawnLocation)
     {
         m_Rigidbody.position = respawnLocation + (Vector3.up * 5f);
-        m_Rigidbody.rotation = Quaternion.Euler(m_Rigidbody.rotation.x, m_Rigidbody.rotation.y, 0f);
+        m_Rigidbody.rotation = ComputeTrackForward();
 
         m_Rigidbody.velocity = Vector3.zero;
         m_Rigidbody.angularVelocity = Vector3.zero;
@@ -70,5 +71,11 @@ public class PlayerRespawnDriver : MonoBehaviour
         float t = -dotProduct / lineVectorSqrMag;
 
         return limit1 + Mathf.Clamp01(t) * lineVector;
+    }
+
+    // Use this function to determine how to rotate the car so it face "forward" on the track
+    private Quaternion ComputeTrackForward()
+    {
+        return Quaternion.LookRotation(transform.forward, Vector3.up);
     }
 }
