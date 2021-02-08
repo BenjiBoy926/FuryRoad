@@ -13,7 +13,6 @@ public class PlayerRespawnDriver : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private GroundingModule m_GroundingModule;
 
-    private Quaternion m_InitialRotation;
     private Vector3 m_beginningOfTrack = new Vector3(-135.16f, 0.55f, 0.0086f);
     private Vector3 m_endOfTrack = new Vector3(135.80f, 0.55f, 1.45f);
     private Vector3 m_respawnLocation;
@@ -23,7 +22,6 @@ public class PlayerRespawnDriver : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
-        m_InitialRotation = transform.rotation;
     }
 
     private void FixedUpdate()
