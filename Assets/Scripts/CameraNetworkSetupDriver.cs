@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(CameraSetupModule))]
-public class CameraSetupDriver : MonoBehaviour
+public class CameraNetworkSetupDriver : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

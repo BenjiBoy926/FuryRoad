@@ -13,8 +13,8 @@ public class CameraSetupModule : MonoBehaviour
 
     public void Setup(Transform parent)
     {
-        transform.parent = parent;
         transform.localRotation = Quaternion.LookRotation(parent.forward);
+        transform.parent = parent;
         transform.localPosition = new Vector3(0f, lift, -backDistance);
     }
 }
