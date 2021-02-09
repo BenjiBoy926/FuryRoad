@@ -52,7 +52,9 @@ public class MovementModule3D : MonoBehaviour
         // If the car is facing slightly upside-down, correct it to face right side up again and remove angular velocity
         if (Vector3.Dot(transform.up, Vector3.down) > 0)
         {
-            m_Rigidbody.rotation = Quaternion.Euler(m_Rigidbody.rotation.eulerAngles.x, m_Rigidbody.rotation.eulerAngles.y, 0f);
+            m_Rigidbody.rotation = Quaternion.AngleAxis(0f, transform.forward);
+            m_Rigidbody.position += Vector3.up * 5f;
+            //m_Rigidbody.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(m_Rigidbody.velocity, Vector3.up));
             m_Rigidbody.angularVelocity = Vector3.zero;
         }
     }
