@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(BoxCollider))]
 public class GroundingModule : MonoBehaviour
 {
     [SerializeField]
@@ -10,44 +10,61 @@ public class GroundingModule : MonoBehaviour
     private LayerMask groundMask;
 
     // Collider on the car
-    private new Collider collider;
+    private new BoxCollider collider;
 
     private void Start()
     {
-        collider = GetComponent<Collider>();
+        collider = GetComponent<BoxCollider>();
     }
 
     public bool Grounded()
     {
-        bool grnd = false;
-        Vector3 originOffset = Vector3.up * 0.1f;
+        // The ray that is cast at each corner of the box collider
+        Ray ray = new Ray(Vector3.zero, transform.up * -1);
+
+        // Position of the center of the bottom face of the box collider in world space
+        Vector3 bottom = collider.center - (transform.up * (collider.size.y / 2f)) + transform.position + transform.up * 0.1f;
+        // Middle bottom of the forward edge of the box collider
+        Vector3 forward = bottom + (transform.forward * (collider.size.z / 2f));
+        // Middle bottom of the backward edge of the box collider
+        Vector3 back = bottom - (transform.forward * (collider.size.z / 2f));
+
+        // Length of the raycast
         float length = 0.2f;
 
-        // Cast the ray at the min position
-        Ray ray = new Ray(collider.bounds.min + originOffset, transform.up * -1f);
-        grnd |= Physics.Raycast(ray, length, groundMask);
-        Debug.DrawRay(ray.origin, ray.direction);
-
+        // Cast the ray at the front-right-bottom corner
+        ray.origin = forward + (transform.right * (collider.size.x / 2f));
+        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
         // We check to see if each raycast hits after each raycast so we can terminate early without doing every raycast
-        if (grnd) return grnd;
+        if (Physics.Raycast(ray, length, groundMask))
+        {
+            return true;
+        }
 
-        // Cast the ray to right of the min corner
-        ray.origin = collider.bounds.min + Vector3.right * collider.bounds.size.x + originOffset;
-        grnd |= Physics.Raycast(ray, length, groundMask);
-        Debug.DrawRay(ray.origin, ray.direction);
-        if (grnd) return grnd;
+        // Cast the ray at the front-left-bottom corner
+        ray.origin = forward - (transform.right * (collider.size.x / 2f));
+        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
+        if (Physics.Raycast(ray, length, groundMask))
+        {
+            return true;
+        }
 
-        // Cast the ray in front of the min corner
-        ray.origin = collider.bounds.min + Vector3.forward * collider.bounds.size.z + originOffset;
-        grnd |= Physics.Raycast(ray, length, groundMask);
-        Debug.DrawRay(ray.origin, ray.direction);
-        if (grnd) return grnd;
+        // Cast the ray at the back-right-bottom corner
+        ray.origin = back + (transform.right * (collider.size.x / 2f));
+        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
+        if (Physics.Raycast(ray, length, groundMask))
+        {
+            return true;
+        }
 
-        // Cast a ray in front and to the right of the min corner
-        ray.origin = collider.bounds.min + Vector3.right * collider.bounds.size.x  + Vector3.forward * collider.bounds.size.z + originOffset;
-        grnd |= Physics.Raycast(ray, length, groundMask);
-        Debug.DrawRay(ray.origin, ray.direction);
+        // Cast a ray at the back-left-bottom corner
+        ray.origin = back - (transform.right * (collider.size.x / 2f));
+        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
+        if (Physics.Raycast(ray, length, groundMask))
+        {
+            return true;
+        }
 
-        return grnd;
+        return false;
     }
 }
