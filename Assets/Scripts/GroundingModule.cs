@@ -23,7 +23,7 @@ public class GroundingModule : MonoBehaviour
         Ray ray = new Ray(Vector3.zero, transform.up * -1);
 
         // Position of the center of the bottom face of the box collider in world space
-        Vector3 bottom = collider.center - (transform.up * (collider.size.y / 2f)) + transform.position + transform.up * 0.1f;
+        Vector3 bottom = collider.center - (transform.up * (collider.size.y / 2f)) + transform.up * 0.1f + transform.position;
         // Middle bottom of the forward edge of the box collider
         Vector3 forward = bottom + (transform.forward * (collider.size.z / 2f));
         // Middle bottom of the backward edge of the box collider

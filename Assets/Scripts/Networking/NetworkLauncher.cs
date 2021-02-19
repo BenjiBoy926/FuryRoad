@@ -15,6 +15,9 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     [Tooltip("Parent object for the controls that show the player network connection progress")]
     private GameObject loadingControls;
     [SerializeField]
+    [Tooltip("Name of the scene in the build settings where the player goes to wait for other players to connect")]
+    private string lobbyName;
+    [SerializeField]
     [Tooltip("The maximum number of players allowed in a room")]
     private byte maxPlayersPerRoom = 4;
 
@@ -74,8 +77,8 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log("Network launcher successfully loaded a room");
-       PhotonNetwork.LoadLevel("Lobby");
+       Debug.Log("Network launcher successfully loaded a room");
+       PhotonNetwork.LoadLevel(lobbyName);
     }
     
 }

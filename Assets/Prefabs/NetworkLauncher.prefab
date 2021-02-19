@@ -1021,7 +1021,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playControls: {fileID: 2712125123347381636}
   loadingControls: {fileID: 2712125124709581374}
-  maxPlayersPerRoom: 4
+  lobbyName: Lobby
+  maxPlayersPerRoom: 2
 --- !u!1 &2712125124709581374
 GameObject:
   m_ObjectHideFlags: 0

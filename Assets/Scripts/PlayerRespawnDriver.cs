@@ -26,7 +26,10 @@ public class PlayerRespawnDriver : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!m_GroundingModule.Grounded() && !falling)
+        // Store the result of the function since we use it multiple times
+        bool grounded = m_GroundingModule.Grounded();
+
+        if (!grounded && !falling)
         {
             m_respawnLocation = ClosestPoint(m_beginningOfTrack, m_endOfTrack, transform.position);
             falling = true;
@@ -38,7 +41,7 @@ public class PlayerRespawnDriver : MonoBehaviour
             falling = false;
         }
 
-        if (m_GroundingModule.Grounded())
+        if (grounded)
         {
             falling = false;
         }
@@ -71,7 +74,7 @@ public class PlayerRespawnDriver : MonoBehaviour
         return limit1 + Mathf.Clamp01(t) * lineVector;
     }
 
-    // Use this function to determine how to rotate the car so it face "forward" on the track
+    // Use this function to determine how to rotate the car so it faces "forward" on the track
     private Quaternion ComputeTrackForward()
     {
         return Quaternion.LookRotation(transform.forward, Vector3.up);
