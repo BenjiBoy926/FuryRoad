@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1159783492930218189}
   - component: {fileID: 728577798855615369}
   m_Layer: 0
-  m_Name: MainCamera
+  m_Name: MainNetworkCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418a614ceb961654d8440027a9aa6f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backDistance: 7
-  lift: 2
+  backDistance: 11
+  lift: 4
 --- !u!114 &728577798855615369
 MonoBehaviour:
   m_ObjectHideFlags: 0

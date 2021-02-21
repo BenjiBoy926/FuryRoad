@@ -17,7 +17,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        NetworkHelper.localObject.transform.position = Vector3.up * 5f;
+        NetworkHelper.localPlayerManager.transform.position = Vector3.up * 5f;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -26,7 +26,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         {
             Debug.Log("Maximum players in lobby reached");
             LoadRace();
-            //Invoke("LoadRace", 0.5f);
         }
     }
 

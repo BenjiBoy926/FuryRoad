@@ -7,6 +7,8 @@ public class NetworkHelper : MonoBehaviour
     [Tooltip("Game object to instantiate as the player")]
     private GameObject playerPrefab;
 
+    private PlayerManagementModule m_LocalPlayerManager;
+
     public static NetworkHelper instance;
 
     private void Awake()
@@ -22,17 +24,25 @@ public class NetworkHelper : MonoBehaviour
         }
     }
 
-    public static GameObject localObject
+    public static PlayerManagementModule localPlayerManager
     {
         get
         {
-            if(PhotonNetwork.LocalPlayer.TagObject == null)
+            // If there is no tag object on the local network player, instantiate it
+            if (PhotonNetwork.LocalPlayer.TagObject == null)
             {
                 GameObject playerInstance = PhotonNetwork.Instantiate(instance.playerPrefab.name, Vector3.zero, instance.playerPrefab.transform.rotation);
                 PhotonNetwork.LocalPlayer.TagObject = playerInstance;
                 DontDestroyOnLoad(playerInstance);
+                instance.m_LocalPlayerManager = playerInstance.GetComponent<PlayerManagementModule>();
+
+                if(instance.m_LocalPlayerManager == null)
+                {
+                    throw new MissingComponentException("No player management script found on instance of player prefab!");
+                }
             }
-            return (GameObject)PhotonNetwork.LocalPlayer.TagObject;
+
+            return instance.m_LocalPlayerManager;
         }
     }
 }

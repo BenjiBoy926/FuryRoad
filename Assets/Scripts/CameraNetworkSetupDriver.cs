@@ -8,6 +8,6 @@ public class CameraNetworkSetupDriver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<CameraSetupModule>().Setup(NetworkHelper.localObject.transform);
+        GetComponent<CameraSetupModule>().Setup(NetworkHelper.localPlayerManager.transform);
     }
 }
