@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RaceBeginModule : MonoBehaviour
+public class RaceBegin: MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Reference to the module that helps with the countdown GUI")]
@@ -28,7 +28,7 @@ public class RaceBeginModule : MonoBehaviour
         tickWait = new WaitForSeconds(timeBetweenTicks);
     }
 
-    public void RaceBegin()
+    public void BeginRace()
     {
         StartCoroutine(RaceBeginCoroutine());
     }

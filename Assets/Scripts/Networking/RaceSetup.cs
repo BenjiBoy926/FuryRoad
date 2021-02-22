@@ -48,6 +48,7 @@ public class RaceSetup: MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
+            Debug.Log("Race is ready to begin!");
             raceReady.Invoke();
         }
     }
