@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class PlayerManagementModule: MonoBehaviour, IPunInstantiateMagicCallback
 {
-    private PlayerMovementDriver3D movementDriver;
+    private PlayerMovementDriver movementDriver;
 
     public int localActorNumber
     {
@@ -17,7 +17,7 @@ public class PlayerManagementModule: MonoBehaviour, IPunInstantiateMagicCallback
 
     private void Awake()
     {
-        movementDriver = GetComponent<PlayerMovementDriver3D>();
+        movementDriver = GetComponent<PlayerMovementDriver>();
     }
 
     public void EnableControl(bool active)
