@@ -38,6 +38,7 @@ public class NetworkHelper : MonoBehaviour
         }
     }
 
+    // Try to get a player manager on the game object, throw an exception if it does not exist
     public static PlayerManagementModule GetPlayerManager(GameObject instance)
     {
         PlayerManagementModule player = instance.GetComponent<PlayerManagementModule>();

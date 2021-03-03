@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class RaceResults : MonoBehaviour
+public class RaceResults : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     [Tooltip("Reference to the text used to display this player's placement")]
@@ -19,6 +20,11 @@ public class RaceResults : MonoBehaviour
         finishLine = finishLineObject.GetComponent<FinishLine>();
         finishLine.onRacerFinished.AddListener(CheckRacerFinished);
 
+        rankText.enabled = false;
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
         rankText.enabled = false;
     }
 

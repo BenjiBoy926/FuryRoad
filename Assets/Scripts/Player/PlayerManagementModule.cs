@@ -31,5 +31,6 @@ public class PlayerManagementModule: MonoBehaviour, IPunInstantiateMagicCallback
             " received OnPhotonInstantiate callback from Player #" +
             info.Sender.ActorNumber);
         info.Sender.TagObject = NetworkHelper.GetPlayerManager(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 }
