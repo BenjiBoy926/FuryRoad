@@ -23,6 +23,11 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
         {
             m_HorizontalAxis = Input.GetAxis("Horizontal");
             m_VerticalAxis = Input.GetAxis("Vertical");
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                m_MovementModule.CleanUp();
+            }
         }
     }
 
@@ -34,7 +39,7 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
         {
             m_MovementModule.Turn(m_HorizontalAxis);
             m_MovementModule.Thrust(m_VerticalAxis);
-            m_MovementModule.CleanUp();
+            //m_MovementModule.CleanUp();
         }
     }
 

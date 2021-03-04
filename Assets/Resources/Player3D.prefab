@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6065238973000688244}
   - component: {fileID: 4184129030045687373}
   - component: {fileID: 5666692437332970417}
+  - component: {fileID: 5380841607437601331}
   m_Layer: 0
   m_Name: Player3D
   m_TagString: Player
@@ -62,7 +63,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8136108589224610185}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 1
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 1
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Thrust: 150
   m_Turn: 90
   m_TopSpeed: 1800
+  m_RotationStrength: 200
 --- !u!114 &6065238973000688244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +195,20 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &5380841607437601331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8136108589224610185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69f4f583d6f5f9419c39e05035386eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backDistance: 11
+  lift: 4
 --- !u!1001 &5860200436000496870
 PrefabInstance:
   m_ObjectHideFlags: 0

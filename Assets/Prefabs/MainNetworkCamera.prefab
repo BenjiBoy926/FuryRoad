@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 3356468730727633178}
   - component: {fileID: 7852052350704610280}
   - component: {fileID: 4805054551805387213}
-  - component: {fileID: 1159783492930218189}
-  - component: {fileID: 728577798855615369}
   m_Layer: 0
   m_Name: MainNetworkCamera
   m_TagString: MainCamera
@@ -85,29 +83,3 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3996684397395781027}
   m_Enabled: 1
---- !u!114 &1159783492930218189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3996684397395781027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 418a614ceb961654d8440027a9aa6f9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backDistance: 11
-  lift: 4
---- !u!114 &728577798855615369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3996684397395781027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df5805b0c20534e4eb998fb2dc1d2c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
