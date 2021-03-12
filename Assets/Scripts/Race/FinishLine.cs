@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
 
-public class FinishLine : MonoBehaviourPunCallbacks, IPunObservable
+public class FinishLine : MonoBehaviourPunCallbacks
 {
     [System.Serializable]
     public class IntEvent : UnityEvent<int> { }
@@ -24,8 +24,8 @@ public class FinishLine : MonoBehaviourPunCallbacks, IPunObservable
         // add the racer to the ranking and raise the event
         if(racer != null && !ranking.Contains(racer.localActorNumber))
         {
-            ranking.Add(racer.localActorNumber);
-            onRacerFinished.Invoke(racer.localActorNumber);
+            AddRacer(racer.localActorNumber);
+            photonView.RPC("AddRacer", RpcTarget.Others, racer.localActorNumber);
         }
     }
 
@@ -38,15 +38,43 @@ public class FinishLine : MonoBehaviourPunCallbacks, IPunObservable
         return ranking.IndexOf(player.localActorNumber) + 1;
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    [PunRPC]
+    public void AddRacer(int racerNumber)
     {
-        if(stream.IsWriting)
+        ranking.Add(racerNumber);
+        onRacerFinished.Invoke(racerNumber);
+
+        string message = "Current racer ranking updated! --> ";
+        foreach(int rank in ranking)
         {
-            stream.SendNext(ranking);
+            message += rank.ToString() + ", ";
         }
-        else
-        {
-            ranking = (List<int>)stream.ReceiveNext();
-        }
+        Debug.Log(message);
     }
+
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if(stream.IsWriting)
+    //    {
+    //        //string message = "Player " + PhotonNetwork.LocalPlayer.ActorNumber + " sending player ranking: ";
+    //        //foreach (int rank in ranking)
+    //        //{
+    //        //    message += rank.ToString() + ", ";
+    //        //}
+    //        //Debug.Log(message);
+
+    //        stream.SendNext(ranking.ToArray());
+    //    }
+    //    else
+    //    {
+    //        ranking = new List<int>((int[])stream.ReceiveNext());
+
+    //        string message = "Player " + PhotonNetwork.LocalPlayer.ActorNumber + " receiving player ranking from Player " + info.Sender.ActorNumber + ": ";
+    //        foreach (int rank in ranking)
+    //        {
+    //            message += rank.ToString() + ", ";
+    //        }
+    //        Debug.Log(message);
+    //    }
+    //}
 }

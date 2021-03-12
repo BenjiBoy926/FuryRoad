@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RaceBegin: MonoBehaviour
+public class RaceBegin : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Reference to the module that helps with the countdown GUI")]

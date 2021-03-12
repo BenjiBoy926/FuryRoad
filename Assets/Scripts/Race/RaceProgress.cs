@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class RaceResults : MonoBehaviourPunCallbacks
+public class RaceProgress : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    [Tooltip("Reference to the text used to display this player's placement")]
-    private Text rankText;
+    [Tooltip("The object that is the parent of the text that displays the player's placement")]
+    private GameObject rankParent;
+    [SerializeField]
+    [Tooltip("Event invoked when the race is finished")]
+    private UnityEvent onRaceFinished;
 
+    // Text that displays the user's placement in the race
+    private Text rankText;
     // Object that ranks the players who cross the finish line
     private FinishLine finishLine;
+
+    // Determine if the race is in progress
+    public static bool raceInProgress
+    {
+        get; private set;
+    }
 
     private void Start()
     {
@@ -20,19 +32,20 @@ public class RaceResults : MonoBehaviourPunCallbacks
         finishLine = finishLineObject.GetComponent<FinishLine>();
         finishLine.onRacerFinished.AddListener(CheckRacerFinished);
 
-        rankText.enabled = false;
+        rankText = rankParent.GetComponentInChildren<Text>();
+        rankParent.SetActive(false);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public void OnRaceReady()
     {
-        rankText.enabled = false;
+        raceInProgress = true;
     }
 
     public void CheckRacerFinished(int playerFinished)
     {
-        if(playerFinished == PhotonNetwork.LocalPlayer.ActorNumber)
+        if(playerFinished == PhotonNetwork.LocalPlayer.ActorNumber && raceInProgress)
         {
-            rankText.enabled = true;
+            rankParent.SetActive(true);
 
             int rank = finishLine.GetLocalPlayerRanking();
             rankText.text = rank.ToString();
@@ -53,6 +66,15 @@ public class RaceResults : MonoBehaviourPunCallbacks
             {
                 rankText.text += "th place...";
             }
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if(PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        {
+            rankParent.SetActive(false);
+            raceInProgress = false;
         }
     }
 }
