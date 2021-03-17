@@ -13,7 +13,18 @@ public class FinishLine : MonoBehaviourPunCallbacks
     public IntEvent onRacerFinished;
 
     // List of racers that have passed the finish line, in the order that they passed
-    private List<int> ranking = new List<int>();
+    public List<int> ranking
+    {
+        get; private set;
+    } = new List<int>();
+
+    public bool allRacersFinished
+    {
+        get
+        {
+            return ranking.Count >= PhotonNetwork.CurrentRoom.PlayerCount;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,7 +46,11 @@ public class FinishLine : MonoBehaviourPunCallbacks
     }
     public int GetPlayerRanking(PlayerManagementModule player)
     {
-        return ranking.IndexOf(player.localActorNumber) + 1;
+        return GetPlayerRanking(player.localActorNumber);
+    }
+    public int GetPlayerRanking(int actorNumber)
+    {
+        return ranking.IndexOf(actorNumber) + 1;
     }
 
     [PunRPC]
@@ -43,38 +58,5 @@ public class FinishLine : MonoBehaviourPunCallbacks
     {
         ranking.Add(racerNumber);
         onRacerFinished.Invoke(racerNumber);
-
-        string message = "Current racer ranking updated! --> ";
-        foreach(int rank in ranking)
-        {
-            message += rank.ToString() + ", ";
-        }
-        Debug.Log(message);
     }
-
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if(stream.IsWriting)
-    //    {
-    //        //string message = "Player " + PhotonNetwork.LocalPlayer.ActorNumber + " sending player ranking: ";
-    //        //foreach (int rank in ranking)
-    //        //{
-    //        //    message += rank.ToString() + ", ";
-    //        //}
-    //        //Debug.Log(message);
-
-    //        stream.SendNext(ranking.ToArray());
-    //    }
-    //    else
-    //    {
-    //        ranking = new List<int>((int[])stream.ReceiveNext());
-
-    //        string message = "Player " + PhotonNetwork.LocalPlayer.ActorNumber + " receiving player ranking from Player " + info.Sender.ActorNumber + ": ";
-    //        foreach (int rank in ranking)
-    //        {
-    //            message += rank.ToString() + ", ";
-    //        }
-    //        Debug.Log(message);
-    //    }
-    //}
 }

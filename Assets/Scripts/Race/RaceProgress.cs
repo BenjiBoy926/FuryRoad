@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using Photon.Pun;
@@ -11,9 +9,8 @@ public class RaceProgress : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("The object that is the parent of the text that displays the player's placement")]
     private GameObject rankParent;
-    [SerializeField]
     [Tooltip("Event invoked when the race is finished")]
-    private UnityEvent onRaceFinished;
+    public UnityEvent onRaceFinished;
 
     // Text that displays the user's placement in the race
     private Text rankText;
@@ -28,8 +25,7 @@ public class RaceProgress : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        GameObject finishLineObject = GameObject.FindGameObjectWithTag("FinishLine");
-        finishLine = finishLineObject.GetComponent<FinishLine>();
+        finishLine = GetComponentInChildren<FinishLine>();
         finishLine.onRacerFinished.AddListener(CheckRacerFinished);
 
         rankText = rankParent.GetComponentInChildren<Text>();
@@ -48,25 +44,19 @@ public class RaceProgress : MonoBehaviourPunCallbacks
             rankParent.SetActive(true);
 
             int rank = finishLine.GetLocalPlayerRanking();
-            rankText.text = rank.ToString();
+            rankText.text = RaceHelper.OrdinalString(rank);
 
-            if(rank == 1)
+            if(rank <= 3)
             {
-                rankText.text += "st place!";
-            }
-            else if(rank == 2)
-            {
-                rankText.text += "nd place!";
-            }
-            else if(rank == 3)
-            {
-                rankText.text += "rd place!";
+                rankText.text += " place!";
             }
             else
             {
-                rankText.text += "th place...";
+                rankText.text += " place...";
             }
         }
+
+        CheckAllRacersFinished();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -76,5 +66,20 @@ public class RaceProgress : MonoBehaviourPunCallbacks
             rankParent.SetActive(false);
             raceInProgress = false;
         }
+    }
+
+    //[PunRPC]
+    public void CheckAllRacersFinished()
+    {
+        if(finishLine.allRacersFinished)
+        {
+            AllRacersFinished();
+        }
+    }
+
+    private void AllRacersFinished()
+    {
+        rankParent.SetActive(false);
+        onRaceFinished.Invoke();
     }
 }
