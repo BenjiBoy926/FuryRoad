@@ -12,6 +12,8 @@ public class FinishLine : MonoBehaviourPunCallbacks
     [Tooltip("Event called when a racer who has not crossed the finish line before crosses")]
     public IntEvent onRacerFinished;
 
+    public Timer time2;
+
     // List of racers that have passed the finish line, in the order that they passed
     public List<int> ranking
     {
@@ -35,6 +37,7 @@ public class FinishLine : MonoBehaviourPunCallbacks
         // add the racer to the ranking and raise the event
         if(racer != null && !ranking.Contains(racer.localActorNumber))
         {
+            time2.Finished();
             AddRacer(racer.localActorNumber);
             photonView.RPC("AddRacer", RpcTarget.Others, racer.localActorNumber);
         }
