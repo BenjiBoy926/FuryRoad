@@ -64,6 +64,7 @@ public class RaceCountdownGUIModule : MonoBehaviour
             {
                 shaker.SetShakingActive(false);
             }
+            currentTick = 0;
             countdownText.text = "Ready...";
         }
     }

@@ -61,6 +61,7 @@ public class RaceProgress : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        // TODO: this code does not always work
         if(PhotonNetwork.CurrentRoom.PlayerCount <= 1)
         {
             rankParent.SetActive(false);

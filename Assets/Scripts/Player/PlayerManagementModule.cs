@@ -33,4 +33,14 @@ public class PlayerManagementModule: MonoBehaviour, IPunInstantiateMagicCallback
         info.Sender.TagObject = NetworkHelper.GetPlayerManager(gameObject);
         //DontDestroyOnLoad(gameObject);
     }
+
+    //private void OnDestroy()
+    //{
+    //    PhotonNetwork.LeaveRoom();
+    //}
+
+    //private void OnApplicationQuit()
+    //{
+    //    PhotonNetwork.LeaveRoom();
+    //}
 }

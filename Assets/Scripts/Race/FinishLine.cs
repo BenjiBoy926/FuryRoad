@@ -40,6 +40,11 @@ public class FinishLine : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OnRaceBegin()
+    {
+        ranking.Clear();
+    }
+
     public int GetLocalPlayerRanking()
     {
         return GetPlayerRanking(NetworkHelper.localPlayerManager);
