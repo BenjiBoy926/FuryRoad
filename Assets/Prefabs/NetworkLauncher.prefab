@@ -1022,7 +1022,7 @@ MonoBehaviour:
   playControls: {fileID: 2712125123347381636}
   loadingControls: {fileID: 2712125124709581374}
   lobbyName: Race
-  maxPlayersPerRoom: 2
+  maxPlayersPerRoom: 3
 --- !u!1 &2712125124709581374
 GameObject:
   m_ObjectHideFlags: 0
