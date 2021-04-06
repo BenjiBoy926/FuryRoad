@@ -43,9 +43,10 @@ public class FinishLine : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnRaceBegin()
+    public void OnRaceReady()
     {
         ranking.Clear();
+        Debug.Log("Cleared out the ranking for local player: " + PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     public int GetLocalPlayerRanking()

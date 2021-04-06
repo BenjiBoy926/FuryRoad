@@ -23,7 +23,7 @@ public class RaceResults : MonoBehaviour
         raceProgress.onRaceFinished.AddListener(OnRaceFinished);
     }
 
-    public void OnRaceBegin()
+    public void OnRaceReady()
     {
         gui.gameObject.SetActive(false);
     }

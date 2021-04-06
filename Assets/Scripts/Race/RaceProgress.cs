@@ -17,7 +17,6 @@ public class RaceProgress : MonoBehaviourPunCallbacks
     // Object that ranks the players who cross the finish line
     private FinishLine finishLine;
 
-
     // Determine if the race is in progress
     public static bool raceInProgress
     {
@@ -37,13 +36,13 @@ public class RaceProgress : MonoBehaviourPunCallbacks
     public void OnRaceReady()
     {
         raceInProgress = true;
+        rankParent.SetActive(false);
     }
 
     public void CheckRacerFinished(int playerFinished)
     {
         if(playerFinished == PhotonNetwork.LocalPlayer.ActorNumber && raceInProgress)
         {
-            
             rankParent.SetActive(true);
 
             int rank = finishLine.GetLocalPlayerRanking();
