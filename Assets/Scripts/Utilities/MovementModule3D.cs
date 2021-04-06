@@ -73,9 +73,12 @@ public class MovementModule3D : MonoBehaviour
     }
     public bool TryStartBoost()
     {
-        bool boostBegin = m_BoostingModule.TryBeginBoosting();
-        if (boostBegin) StartBoost();
-        return boostBegin;
+        if(!m_BoostingModule.boostActive && m_GroundingModule.Grounded())
+        {
+            StartBoost();
+            return true;
+        }
+        return false;
     }
     public void StartBoost()
     {

@@ -171,7 +171,7 @@ PrefabInstance:
     - target: {fileID: 2712125124641230851, guid: 0684b3e82a7adb147878acc6fbead370,
         type: 3}
       propertyPath: lobbyName
-      value: Lobby
+      value: Race
       objectReference: {fileID: 0}
     - target: {fileID: 2712125124641230852, guid: 0684b3e82a7adb147878acc6fbead370,
         type: 3}
