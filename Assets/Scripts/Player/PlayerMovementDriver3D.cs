@@ -9,6 +9,7 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
     private MovementModule3D m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
+    private bool m_Boost;
     public AudioSource drivingAudio;
     public AudioClip drivingAudioClip;
     public AudioClip idleAudioClip;
@@ -30,6 +31,11 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
         {
             m_HorizontalAxis = Input.GetAxis("Horizontal");
             m_VerticalAxis = Input.GetAxis("Vertical");
+
+            if(Input.GetButtonDown("Jump"))
+            {
+                m_MovementModule.TryStartBoost();
+            }
         }
 
         EngineAudio();

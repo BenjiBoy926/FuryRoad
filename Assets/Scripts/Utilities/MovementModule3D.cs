@@ -17,6 +17,10 @@ public class MovementModule3D : MonoBehaviour
     [Tooltip("Maximum speed of the racer")]
     private float m_TopSpeed = 30f;
 
+    [SerializeField]
+    [Tooltip("Module with the information on how to boost")]
+    private BoostingModule m_BoostingModule;
+
     // Components required
     private Rigidbody m_Rigidbody;
     private GroundingModule m_GroundingModule;
@@ -25,6 +29,15 @@ public class MovementModule3D : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
+    }
+
+    private void Update()
+    {
+        // If the boost is in progress, set the velocity to 
+        if(m_BoostingModule.boostActive)
+        {
+            m_Rigidbody.velocity = transform.forward * m_BoostingModule.BoostSpeed(m_TopSpeed);
+        }
     }
 
     public void Turn(float horizontal)
@@ -41,7 +54,7 @@ public class MovementModule3D : MonoBehaviour
     public void Thrust(float vertical)
     {
         // Car can only thrust while grounded
-        if(m_GroundingModule.Grounded())
+        if(m_GroundingModule.Grounded() && !m_BoostingModule.boostActive)
         {
             m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
             m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
@@ -57,5 +70,23 @@ public class MovementModule3D : MonoBehaviour
             m_Rigidbody.position += Vector3.up * 5f;
             m_Rigidbody.angularVelocity = Vector3.zero;
         }
+    }
+    public bool TryStartBoost()
+    {
+        bool boostBegin = m_BoostingModule.TryBeginBoosting();
+        if (boostBegin) StartBoost();
+        return boostBegin;
+    }
+    public void StartBoost()
+    {
+        m_BoostingModule.BeginBoosting();
+
+        CancelInvoke();
+        Invoke("DisableBoostParticles", m_BoostingModule.boostDuration);
+    }
+
+    private void DisableBoostParticles()
+    {
+        m_BoostingModule.SetEffectsActive(false);
     }
 }
