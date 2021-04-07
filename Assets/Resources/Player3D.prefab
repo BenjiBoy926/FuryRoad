@@ -171,7 +171,16 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_JetstreamParticle: {fileID: 23515935580924307}
+    m_JetstreamParticle: {fileID: 23515935580924317}
+    m_OnBoostBegin:
+      m_PersistentCalls:
+        m_Calls: []
+    m_OnBoostUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+    m_OnBoostEnd:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &6065238973000688244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +446,7 @@ PrefabInstance:
     - target: {fileID: 199415281191444998, guid: 0cbb7aa14482c9e469057880da64f57f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 199415281191445000, guid: 0cbb7aa14482c9e469057880da64f57f,
         type: 3}
@@ -511,15 +520,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cbb7aa14482c9e469057880da64f57f, type: 3}
---- !u!1 &23515935580924307 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 199415281191444998, guid: 0cbb7aa14482c9e469057880da64f57f,
-    type: 3}
-  m_PrefabInstance: {fileID: 186895786107194261}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &23515935580924316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 199415281191445001, guid: 0cbb7aa14482c9e469057880da64f57f,
+    type: 3}
+  m_PrefabInstance: {fileID: 186895786107194261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &23515935580924317 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 199415281191445000, guid: 0cbb7aa14482c9e469057880da64f57f,
     type: 3}
   m_PrefabInstance: {fileID: 186895786107194261}
   m_PrefabAsset: {fileID: 0}

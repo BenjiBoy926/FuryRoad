@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backDistance: 11
+  maxBoostZoom: 5
   lift: 4
 --- !u!114 &728577798855615369
 MonoBehaviour:

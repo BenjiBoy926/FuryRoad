@@ -8,8 +8,13 @@ public class CameraSetupModule : MonoBehaviour
     [Tooltip("Distance behind the car that the camera will sit")]
     private float backDistance;
     [SerializeField]
+    [Tooltip("Amount that the camera moves away from the car as the boost goes faster")]
+    private float maxBoostZoom;
+    [SerializeField]
     [Tooltip("Distance above the car that the camera hovers")]
     private float lift;
+
+    private Vector3 localPositionBase => new Vector3(0f, lift, -backDistance);
 
     public void Setup(Transform parent)
     {
@@ -20,12 +25,27 @@ public class CameraSetupModule : MonoBehaviour
         {
             transform.localRotation = Quaternion.LookRotation(parent.forward);
             transform.parent = parent;
-            transform.localPosition = new Vector3(0f, lift, -backDistance);
+            transform.localPosition = localPositionBase;
+
+            // Subscribe to boosting events on the movement module
+            MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
+            movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
+            movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
         }
         // If a camera already exists for the parent object, destroy this camera
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnBoostUpdate(float boostPower)
+    {
+        transform.localPosition = localPositionBase + Vector3.ClampMagnitude(localPositionBase, boostPower * maxBoostZoom);
+    }
+
+    private void OnBoostEnd()
+    {
+        transform.localPosition = localPositionBase;
     }
 }

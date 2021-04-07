@@ -25,6 +25,9 @@ public class MovementModule3D : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private GroundingModule m_GroundingModule;
 
+    // Public getters
+    public BoostingModule boostingModule => m_BoostingModule;
+
     private void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -33,11 +36,7 @@ public class MovementModule3D : MonoBehaviour
 
     private void Update()
     {
-        // If the boost is in progress, set the velocity to 
-        if(m_BoostingModule.boostActive)
-        {
-            m_Rigidbody.velocity = transform.forward * m_BoostingModule.BoostSpeed(m_TopSpeed);
-        }
+        m_BoostingModule.Update();
     }
 
     public void Turn(float horizontal)
@@ -73,23 +72,10 @@ public class MovementModule3D : MonoBehaviour
     }
     public bool TryStartBoost()
     {
-        if(!m_BoostingModule.boostActive && m_GroundingModule.Grounded())
-        {
-            StartBoost();
-            return true;
-        }
-        return false;
+        return m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed);
     }
     public void StartBoost()
     {
-        m_BoostingModule.BeginBoosting();
-
-        CancelInvoke();
-        Invoke("DisableBoostParticles", m_BoostingModule.boostDuration);
-    }
-
-    private void DisableBoostParticles()
-    {
-        m_BoostingModule.SetEffectsActive(false);
+        m_BoostingModule.StartBoosting(m_Rigidbody, m_TopSpeed);
     }
 }
