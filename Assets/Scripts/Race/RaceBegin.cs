@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +20,8 @@ public class RaceBegin : MonoBehaviour
     [SerializeField]
     [Tooltip("Event raised as soon as the race begins")]
     private UnityEvent raceBegunEvent;
+    
+    public Timer time2;
 
     private WaitForSeconds tickWait;
 
@@ -31,6 +33,7 @@ public class RaceBegin : MonoBehaviour
     public void BeginRace()
     {
         StartCoroutine(RaceBeginCoroutine());
+        time2.startTimer();
     }
 
     private IEnumerator RaceBeginCoroutine()
@@ -73,4 +76,5 @@ public class RaceBegin : MonoBehaviour
     {
         countdownModule.Advance();
     }
+
 }
