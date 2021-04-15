@@ -36,6 +36,16 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
             {
                 m_MovementModule.TryStartBoost();
             }
+
+            if(Input.GetButtonDown("Fire1"))
+            {
+                m_MovementModule.TryStartDrifting(m_HorizontalAxis);
+            }
+
+            if(Input.GetButtonUp("Fire1"))
+            {
+                m_MovementModule.StopDrifting();
+            }
         }
 
         EngineAudio();

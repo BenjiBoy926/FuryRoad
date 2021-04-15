@@ -37,11 +37,6 @@ public class MovementModule3D : MonoBehaviour
         m_GroundingModule = GetComponent<GroundingModule>();
     }
 
-    private void Update()
-    {
-        m_BoostingModule.Update();
-    }
-
     public void Turn(float horizontal)
     {
         // Car can only turn while moving and grounded
@@ -50,6 +45,9 @@ public class MovementModule3D : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
             m_Rigidbody.MoveRotation(m_Rigidbody.rotation * rotation);
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
+
+            // Update the drift
+            m_DriftingModule.Update(horizontal);
         }
     }
 
@@ -60,6 +58,9 @@ public class MovementModule3D : MonoBehaviour
         {
             m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
             m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
+
+            // Update the boosting module
+            m_BoostingModule.Update();
         }
     }
 
@@ -73,6 +74,7 @@ public class MovementModule3D : MonoBehaviour
             m_Rigidbody.angularVelocity = Vector3.zero;
         }
     }
+    // Delegates for the boosting module
     public bool TryStartBoost()
     {
         return m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed);
@@ -80,5 +82,18 @@ public class MovementModule3D : MonoBehaviour
     public void StartBoost()
     {
         m_BoostingModule.StartBoosting(m_Rigidbody, m_TopSpeed);
+    }
+    // Delegates for the drifting module
+    public bool TryStartDrifting(float h)
+    {
+        return m_DriftingModule.TryStartDrifting(m_GroundingModule, m_Rigidbody, h);
+    }
+    public void StartDrifting(float h)
+    {
+        m_DriftingModule.StartDrifting(m_Rigidbody, h);
+    }
+    public void StopDrifting()
+    {
+        m_DriftingModule.StopDrifting(m_TopSpeed);
     }
 }
