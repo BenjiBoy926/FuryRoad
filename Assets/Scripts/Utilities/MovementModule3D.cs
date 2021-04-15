@@ -20,6 +20,9 @@ public class MovementModule3D : MonoBehaviour
     [SerializeField]
     [Tooltip("Module with the information on how to boost")]
     private BoostingModule m_BoostingModule;
+    [SerializeField]
+    [Tooltip("Module with the information on how to drift")]
+    private DriftingModule m_DriftingModule;
 
     // Components required
     private Rigidbody m_Rigidbody;

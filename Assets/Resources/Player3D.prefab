@@ -181,6 +181,10 @@ MonoBehaviour:
     m_OnBoostEnd:
       m_PersistentCalls:
         m_Calls: []
+  m_DriftingModule:
+    radiusRange:
+      _min: 1
+      _max: 4
 --- !u!114 &6065238973000688244
 MonoBehaviour:
   m_ObjectHideFlags: 0

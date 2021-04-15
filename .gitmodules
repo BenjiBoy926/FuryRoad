@@ -1,0 +1,3 @@
+[submodule "Assets/UnityAssets"]
+	path = Assets/UnityAssets
+	url = https://github.com/BenjiBoy926/UnityAssets.git
