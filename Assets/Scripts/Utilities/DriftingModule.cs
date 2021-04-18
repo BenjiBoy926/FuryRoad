@@ -13,7 +13,7 @@ public class DriftingModule
     private float driftBoostChargeTime;
     [SerializeField]
     [Tooltip("Boost that the rigidbody receives when the drift is finished")]
-    private BoostingModule driftBoost;
+    private BoostingModule m_DriftBoost;
 
     // Rigidbody with affected velocity for the drift
     private Rigidbody m_Rigidbody;
@@ -24,15 +24,22 @@ public class DriftingModule
     // Time when the drifting started
     private float m_DriftStartTime;
 
+    public BoostingModule driftBoost => m_DriftBoost;
+
+    public void Start()
+    {
+        m_DriftBoost.Start();
+    }
+
     public void Update(float h)
     {
         if(m_DriftActive)
         {
-            // MEH?!
+            // Meh?
         }
 
         // Always update the drift boost
-        //driftBoost.Update();
+        m_DriftBoost.Update();
     }
 
     public bool TryStartDrifting(GroundingModule groundingModule, Rigidbody rigidbody, float h)
@@ -65,9 +72,8 @@ public class DriftingModule
         // If we have been drifting long enough to charge the drift boost, then boost!
         if (m_DriftActive && Time.time - m_DriftStartTime > driftBoostChargeTime)
         {
-            driftBoost.StartBoosting(m_Rigidbody, topSpeed);
+            m_DriftBoost.StartBoosting(m_Rigidbody, topSpeed);
         }
-
         m_DriftActive = false;
     }
 }

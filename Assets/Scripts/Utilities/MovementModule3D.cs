@@ -30,11 +30,15 @@ public class MovementModule3D : MonoBehaviour
 
     // Public getters
     public BoostingModule boostingModule => m_BoostingModule;
+    public DriftingModule driftingModule => m_DriftingModule;
 
     private void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
+
+        m_BoostingModule.Start();
+        m_DriftingModule.Start();
     }
 
     public void Turn(float horizontal)
@@ -45,10 +49,10 @@ public class MovementModule3D : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
             m_Rigidbody.MoveRotation(m_Rigidbody.rotation * rotation);
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
-
-            // Update the drift
-            m_DriftingModule.Update(horizontal);
         }
+
+        // Update the drift
+        m_DriftingModule.Update(horizontal);
     }
 
     public void Thrust(float vertical)
@@ -58,10 +62,10 @@ public class MovementModule3D : MonoBehaviour
         {
             m_Rigidbody.AddRelativeForce(Vector3.forward * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
             m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
-
-            // Update the boosting module
-            m_BoostingModule.Update();
         }
+
+        // Update the boosting module
+        m_BoostingModule.Update();
     }
 
     public void CleanUp()

@@ -30,31 +30,40 @@ public class BoostingModule
     private UnityEvent m_OnBoostEnd;
 
     // The time when the boost began
-    private float m_BoostBeginTime;
+    private float m_BoostBeginTime = 0f;
     // Rigidbody with affected velocity for the boost
     private Rigidbody m_Rigidbody;
     // Top speed of the car before boosting
     private float m_TopSpeed;
     // True if the boost has stopped
-    private bool m_BoostHasStopped;
+    private bool m_BoostHasStopped = true;
 
     // Public getters for the events
     public UnityEvent onBoostBegin => m_OnBoostBegin;
     public UnityEvent<float> onBoostUpdate => m_OnBoostUpdate;
     public UnityEvent onBoostEnd => m_OnBoostEnd;
 
-    public bool boostActive => boostInterpolator < 1f;
-    public float boostTime => Time.time - m_BoostBeginTime;
-    public float boostInterpolator => boostTime / m_BoostDuration;
-    public float boostSpeed => m_TopSpeed + (m_BoostCurve.Evaluate(boostInterpolator) * m_BoostSpeed);
+    // True if the boost is still active
+    public bool boostActive => Time.time < m_BoostBeginTime + m_BoostDuration;
+    // Amount of time that the module has been boosting
+    public float currentBoostTime => Time.time - m_BoostBeginTime;
+    public float currentBoostInterpolator => currentBoostTime / m_BoostDuration;
+    public float boostSpeed => m_TopSpeed + (m_BoostCurve.Evaluate(currentBoostInterpolator) * m_BoostSpeed);
+
+    public void Start()
+    {
+        // Set so that we do not think we are boosting at the start of the game
+        m_BoostBeginTime = -m_BoostDuration - 1f;
+    }
 
     public void Update()
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
+            Debug.Log("Boost is active!");
             m_Rigidbody.velocity = m_Rigidbody.transform.forward * boostSpeed;
-            m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(boostInterpolator));
+            m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
         // This is used so that we can invoke an event on the first frame that the boost stops
