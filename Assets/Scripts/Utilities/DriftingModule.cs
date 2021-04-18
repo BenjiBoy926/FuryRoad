@@ -32,7 +32,7 @@ public class DriftingModule
         }
 
         // Always update the drift boost
-        driftBoost.Update();
+        //driftBoost.Update();
     }
 
     public bool TryStartDrifting(GroundingModule groundingModule, Rigidbody rigidbody, float h)

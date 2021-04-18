@@ -69,3 +69,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Do not include compressed build folder
+[Bb]uild.zip
+[Bb]uilds.zip
+[Bb]uild.app
+[Bb]uilds.app
