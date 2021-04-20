@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Race.unity
     guid: aba957d001a42a0468ebdb8b63159386
   - enabled: 1
-    path: Assets/Scenes/CircleTrack.unity
+    path: Assets/Scenes/LatestTrack.unity
     guid: 1d2254f162988d24c8175681c4541da5
   - enabled: 1
     path: Assets/Scenes/TestScene.unity

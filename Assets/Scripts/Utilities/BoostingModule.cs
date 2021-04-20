@@ -56,12 +56,13 @@ public class BoostingModule
         m_BoostBeginTime = -m_BoostDuration - 1f;
     }
 
-    public void Update(Vector3 heading)
+    public void FixedUpdate(Vector3 heading)
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
-            m_Rigidbody.velocity = heading * boostSpeed;
+            m_Rigidbody.AddForce(heading * boostSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            //m_Rigidbody.velocity = heading * boostSpeed;
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -72,21 +73,24 @@ public class BoostingModule
         }
     }
 
-    public bool TryStartBoosting(GroundingModule groundingModule, Rigidbody rb, float topSpeed)
+    public bool TryStartBoosting(GroundingModule groundingModule, Rigidbody rb, float topSpeed, Vector3 heading)
     {
         if(!boostActive && groundingModule.grounded)
         {
-            StartBoosting(rb, topSpeed);
+            StartBoosting(rb, topSpeed, heading);
             return true;
         }
         return false;
     }
 
-    public void StartBoosting(Rigidbody rb, float topSpeed)
+    public void StartBoosting(Rigidbody rb, float topSpeed, Vector3 heading)
     {
         // Setup the rigidbody and top speed of the car
         m_Rigidbody = rb;
         m_TopSpeed = topSpeed;
+
+        // At the start of the boost, set the velocity to the top speed
+        rb.velocity = heading * topSpeed;
 
         // Set the time when the boost began
         m_BoostBeginTime = Time.time;

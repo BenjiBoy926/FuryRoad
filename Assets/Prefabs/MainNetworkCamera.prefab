@@ -100,6 +100,7 @@ MonoBehaviour:
   backDistance: 11
   maxBoostZoom: 5
   lift: 4
+  smoothingSpeed: 100
 --- !u!114 &728577798855615369
 MonoBehaviour:
   m_ObjectHideFlags: 0

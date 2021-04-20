@@ -31,7 +31,7 @@ public class DriftingModule
         m_DriftBoost.Start();
     }
 
-    public void Update(Vector3 heading, float h)
+    public void FixedUpdate(Vector3 heading, float h)
     {
         if(m_DriftActive)
         {
@@ -46,7 +46,7 @@ public class DriftingModule
         }
 
         // Always update the drift boost
-        m_DriftBoost.Update(heading);
+        m_DriftBoost.FixedUpdate(heading);
     }
 
     public bool TryStartDrifting(GroundingModule groundingModule, Rigidbody rigidbody, float h)
@@ -74,12 +74,12 @@ public class DriftingModule
         else m_Dir = Vector3.right;
     }
 
-    public void StopDrifting(float topSpeed)
+    public void StopDrifting(float topSpeed, Vector3 heading)
     {
         // If we have been drifting long enough to charge the drift boost, then boost!
         if (m_DriftActive && Time.time - m_DriftStartTime > driftBoostChargeTime)
         {
-            m_DriftBoost.StartBoosting(m_Rigidbody, topSpeed);
+            m_DriftBoost.StartBoosting(m_Rigidbody, topSpeed, heading);
         }
         m_DriftActive = false;
     }

@@ -56,12 +56,12 @@ public class MovementModule3D : MonoBehaviour
         m_DriftingModule.Start();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Vector3 groundNormal = m_GroundingModule.groundNormal;
 
-        // If the heading as at an angle with the ground normal, re-assign the heading of the movement module
-        if(Mathf.Abs(Vector3.Dot(_heading, groundNormal)) > 0.1f)
+        // If the heading is at an angle with the ground normal, re-assign the heading of the movement module
+        if (Mathf.Abs(Vector3.Dot(_heading, groundNormal)) > 0.001f)
         {
             _heading = Vector3.ProjectOnPlane(_heading, groundNormal).normalized;
         }
@@ -70,10 +70,10 @@ public class MovementModule3D : MonoBehaviour
         //{
         //    Debug.Log("Top speed reached!");
         //}
-    }
 
-    private void FixedUpdate()
-    {
+        // Gravity pulls against the ground normal, it will not pull directly down!
+        // This is the only way the sphere can naturally drive on an inclined surface,
+        // otherwise it cannot fight its own weight to work up the incline
         m_Rigidbody.AddForce(m_GroundingModule.groundNormal * gravity, ForceMode.Acceleration);
     }
 
@@ -93,7 +93,7 @@ public class MovementModule3D : MonoBehaviour
         }
 
         // Update the drift
-        m_DriftingModule.Update(heading, horizontal);
+        m_DriftingModule.FixedUpdate(heading, horizontal);
     }
 
     public void Thrust(float vertical)
@@ -106,17 +106,17 @@ public class MovementModule3D : MonoBehaviour
         }
 
         // Update the boosting module
-        m_BoostingModule.Update(heading);
+        m_BoostingModule.FixedUpdate(heading);
     }
 
     // Delegates for the boosting module
     public bool TryStartBoost()
     {
-        return m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed);
+        return m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed, heading);
     }
     public void StartBoost()
     {
-        m_BoostingModule.StartBoosting(m_Rigidbody, m_TopSpeed);
+        m_BoostingModule.StartBoosting(m_Rigidbody, m_TopSpeed, heading);
     }
     // Delegates for the drifting module
     public bool TryStartDrifting(float h)
@@ -129,6 +129,6 @@ public class MovementModule3D : MonoBehaviour
     }
     public void StopDrifting()
     {
-        m_DriftingModule.StopDrifting(m_TopSpeed);
+        m_DriftingModule.StopDrifting(m_TopSpeed, heading);
     }
 }
