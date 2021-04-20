@@ -25,7 +25,7 @@ public class PlayerRespawnDriver : MonoBehaviour
     circleTrackCheckpoints.add(new Vector3(564, 4.7, -580));*/
 
     private Vector3 closestCheckPoint;
-    private float minDistance = 9999999.0;
+    private float minDistance = 9999999.0f;
 
     private Vector3 m_respawnLocation;
     bool falling;
