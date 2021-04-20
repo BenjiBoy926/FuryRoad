@@ -2,69 +2,88 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(Collider))]
 public class GroundingModule : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Distance of the raycast down from the collider")]
+    private float raycastDistance;
     [SerializeField]
     [Tooltip("Physics layer to check for ground collisions")]
     private LayerMask groundMask;
 
     // Collider on the car
-    private new BoxCollider collider;
+    private Collider _collider;
+    // True if the racast has already updated this frame
+    private bool raycastQueryUpdated = false;
+    // True if the module is currently grounded
+    private bool _grounded = false;
+    // Information about what the raycast hit
+    private RaycastHit _hit = new RaycastHit() { normal = Vector3.up };
 
-    private void Start()
+    private new Collider collider
     {
-        collider = GetComponent<BoxCollider>();
+        get
+        {
+            if(_collider == null)
+            {
+                _collider = GetComponent<Collider>();
+            }
+            return _collider;
+        }
+    }
+    public bool grounded
+    {
+        get
+        {
+            if(!raycastQueryUpdated)
+            {
+                UpdateRaycastQuery();
+            }
+            return _grounded;
+        }
+    }
+    public RaycastHit hit
+    {
+        get
+        {
+            if(!raycastQueryUpdated)
+            {
+                UpdateRaycastQuery();
+            }
+            return _hit;
+        }
+    }
+    // Normal with the ground.  If we are not hitting anything, then the normal is straight up
+    public Vector3 groundNormal
+    {
+        get
+        {
+            if (grounded) return hit.normal;
+            else return Vector3.up;
+        }
     }
 
-    public bool Grounded()
+    // At the end of the frame, set raycast query updated to false
+    private void LateUpdate()
     {
-        // The ray that is cast at each corner of the box collider
-        Ray ray = new Ray(Vector3.zero, transform.up * -1);
+        raycastQueryUpdated = false;
+    }
 
-        // Position of the center of the bottom face of the box collider in world space
-        Vector3 bottom = collider.center - (transform.up * (collider.size.y / 2f)) + transform.up * 0.1f + transform.position;
-        // Middle bottom of the forward edge of the box collider
-        Vector3 forward = bottom + (transform.forward * (collider.size.z / 2f));
-        // Middle bottom of the backward edge of the box collider
-        Vector3 back = bottom - (transform.forward * (collider.size.z / 2f));
+    private void UpdateRaycastQuery()
+    {
+        float margin = 0.1f;
+        Vector3 origin = collider.bounds.center + Vector3.down * (collider.bounds.extents.y - margin);
+        Vector3 direction = Vector3.down;
 
-        // Length of the raycast
-        float length = 0.2f;
+        // The ray that is cast down from the bottom of the collider
+        Ray ray = new Ray(origin, direction);
 
-        // Cast the ray at the front-right-bottom corner
-        ray.origin = forward + (transform.right * (collider.size.x / 2f));
-        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
-        // We check to see if each raycast hits after each raycast so we can terminate early without doing every raycast
-        if (Physics.Raycast(ray, length, groundMask))
-        {
-            return true;
-        }
+        // Cast the ray, and store the result in "grounded" and "hit"
+        RaycastHit tempHit;
+        _grounded = Physics.Raycast(ray, out tempHit, raycastDistance + margin, groundMask);
 
-        // Cast the ray at the front-left-bottom corner
-        ray.origin = forward - (transform.right * (collider.size.x / 2f));
-        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
-        if (Physics.Raycast(ray, length, groundMask))
-        {
-            return true;
-        }
-
-        // Cast the ray at the back-right-bottom corner
-        ray.origin = back + (transform.right * (collider.size.x / 2f));
-        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
-        if (Physics.Raycast(ray, length, groundMask))
-        {
-            return true;
-        }
-
-        // Cast a ray at the back-left-bottom corner
-        ray.origin = back - (transform.right * (collider.size.x / 2f));
-        Debug.DrawRay(ray.origin, ray.direction.normalized * length);
-        if (Physics.Raycast(ray, length, groundMask))
-        {
-            return true;
-        }
-
-        return false;
+        // Only update the hit if the value changed, otherwise we want to keep the most recent value in tact
+        if (_grounded) _hit = tempHit;
     }
 }

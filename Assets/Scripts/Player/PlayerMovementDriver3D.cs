@@ -60,7 +60,6 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
         {
             m_MovementModule.Turn(m_HorizontalAxis);
             m_MovementModule.Thrust(m_VerticalAxis);
-            m_MovementModule.CleanUp();
         }
     }
 

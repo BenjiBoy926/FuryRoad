@@ -56,13 +56,12 @@ public class BoostingModule
         m_BoostBeginTime = -m_BoostDuration - 1f;
     }
 
-    public void Update()
+    public void Update(Vector3 heading)
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
-            Debug.Log("Boost is active!");
-            m_Rigidbody.velocity = m_Rigidbody.transform.forward * boostSpeed;
+            m_Rigidbody.velocity = heading * boostSpeed;
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -75,7 +74,7 @@ public class BoostingModule
 
     public bool TryStartBoosting(GroundingModule groundingModule, Rigidbody rb, float topSpeed)
     {
-        if(!boostActive && groundingModule.Grounded())
+        if(!boostActive && groundingModule.grounded)
         {
             StartBoosting(rb, topSpeed);
             return true;

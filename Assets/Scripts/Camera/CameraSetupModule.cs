@@ -14,7 +14,9 @@ public class CameraSetupModule : MonoBehaviour
     [Tooltip("Distance above the car that the camera hovers")]
     private float lift;
 
-    private Vector3 localPositionBase => new Vector3(0f, lift, -backDistance);
+    // The target movement module
+    private MovementModule3D target;
+    private bool boostUpdating = false;
 
     public void Setup(Transform parent)
     {
@@ -23,9 +25,7 @@ public class CameraSetupModule : MonoBehaviour
         // If no camera exists on the parent object yet, setup this camera for it
         if(existingCamera == null)
         {
-            transform.localRotation = Quaternion.LookRotation(parent.forward);
-            transform.parent = parent;
-            transform.localPosition = localPositionBase;
+            target = parent.GetComponent<MovementModule3D>();
 
             // Subscribe to boosting events on the movement module
             MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
@@ -39,13 +39,32 @@ public class CameraSetupModule : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(!boostUpdating)
+        {
+            transform.position = GetGlobalPosition(backDistance);
+        }
+        transform.rotation = Quaternion.LookRotation(target.heading);
+    }
+
     private void OnBoostUpdate(float boostPower)
     {
-        transform.localPosition = localPositionBase + Vector3.ClampMagnitude(localPositionBase, boostPower * maxBoostZoom);
+        boostUpdating = true;
+        transform.position = GetGlobalPosition(backDistance + (maxBoostZoom * boostPower));
     }
 
     private void OnBoostEnd()
     {
-        transform.localPosition = localPositionBase;
+        boostUpdating = false;
+    }
+
+    private Vector3 GetLocalPosition(float backDistance)
+    {
+        return -target.heading * backDistance + (target.groundingModule.groundNormal * lift);
+    }
+    private Vector3 GetGlobalPosition(float backDistance)
+    {
+        return target.transform.position + GetLocalPosition(backDistance);
     }
 }

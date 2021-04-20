@@ -27,7 +27,7 @@ public class PlayerRespawnDriver : MonoBehaviour
     private void FixedUpdate()
     {
         // Store the result of the function since we use it multiple times
-        bool grounded = m_GroundingModule.Grounded();
+        bool grounded = m_GroundingModule.grounded;
 
         if (!grounded && !falling)
         {

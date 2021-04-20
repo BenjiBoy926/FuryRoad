@@ -31,20 +31,27 @@ public class DriftingModule
         m_DriftBoost.Start();
     }
 
-    public void Update(float h)
+    public void Update(Vector3 heading, float h)
     {
         if(m_DriftActive)
         {
-            // Meh?
+            if(Mathf.Abs(h - m_Dir.x) > 1f)
+            {
+                m_Rigidbody.velocity = m_Dir * m_Rigidbody.velocity.magnitude;
+            }
+            else
+            {
+                // Meh?
+            }
         }
 
         // Always update the drift boost
-        m_DriftBoost.Update();
+        m_DriftBoost.Update(heading);
     }
 
     public bool TryStartDrifting(GroundingModule groundingModule, Rigidbody rigidbody, float h)
     {
-        if(!m_DriftActive && (h < -0.001 || h > 0.001) && groundingModule.Grounded())
+        if(!m_DriftActive && (h < -0.001 || h > 0.001) && groundingModule.grounded)
         {
             StartDrifting(rigidbody, h);
             return true;
