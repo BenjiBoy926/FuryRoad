@@ -233,6 +233,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 8286214186525001062, guid: 0684b3e82a7adb147878acc6fbead370,
+        type: 3}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0684b3e82a7adb147878acc6fbead370, type: 3}
 --- !u!1001 &3914638805264454940

@@ -6,24 +6,26 @@ using UnityEngine;
 public class DriftingModule
 {
     [SerializeField]
-    [Tooltip("Min-max radii for the vehicle's drifting")]
-    private FloatRange driftAngleRange;
-    [SerializeField]
     [Tooltip("Time that the module must be drifting for in order to receive a drift boost at the end")]
     private float driftBoostChargeTime;
+    [SerializeField]
+    [Tooltip("Amount that the steering changes while the drift is active.  " +
+        "A value of 1 indicates that the vehicle moves straight forward while turning against the drift," +
+        "a value of 0 indicates that the vehicle's turning will not be modified at all")]
+    private float steeringModifier;
     [SerializeField]
     [Tooltip("Boost that the rigidbody receives when the drift is finished")]
     private BoostingModule m_DriftBoost;
 
-    // Rigidbody with affected velocity for the drift
-    private Rigidbody m_Rigidbody;
-    // Direction that the vehicle is drifting
-    private Vector3 m_Dir;
+    // Direction that the vehicle is drifting, either -1 for left or 1 for right
+    private float m_CurrentDirection;
     // True if the drifting module is actively drifting
     private bool m_DriftActive;
     // Time when the drifting started
     private float m_DriftStartTime;
 
+    public bool driftActive => m_DriftActive;
+    public float currentDirection => m_CurrentDirection;
     public BoostingModule driftBoost => m_DriftBoost;
 
     public void Start()
@@ -31,55 +33,55 @@ public class DriftingModule
         m_DriftBoost.Start();
     }
 
-    public void FixedUpdate(Vector3 heading, float h)
+    public void FixedUpdate(Vector3 heading)
     {
-        if(m_DriftActive)
-        {
-            if(Mathf.Abs(h - m_Dir.x) > 1f)
-            {
-                m_Rigidbody.velocity = m_Dir * m_Rigidbody.velocity.magnitude;
-            }
-            else
-            {
-                // Meh?
-            }
-        }
-
         // Always update the drift boost
         m_DriftBoost.FixedUpdate(heading);
     }
 
-    public bool TryStartDrifting(GroundingModule groundingModule, Rigidbody rigidbody, float h)
+    // Get the steering of the drifting module.
+    // If we are not drifting, let the steering pass through unchanged
+    // If we are drifting, remap the steering from (-1, 1) -> (-2, 0) for left drift
+    // and (-1, 1) -> (0, 2) for right drift
+    public float GetSteer(float steer)
+    {
+        if (m_DriftActive)
+        {
+            return steer + (m_CurrentDirection * steeringModifier);
+        }
+        else return steer;
+    }
+
+    public bool TryStartDrifting(GroundingModule groundingModule, float h)
     {
         if(!m_DriftActive && (h < -0.001 || h > 0.001) && groundingModule.grounded)
         {
-            StartDrifting(rigidbody, h);
+            StartDrifting(h);
             return true;
         }
         return false;
     }
 
-    public void StartDrifting(Rigidbody rigidbody, float h)
+    public void StartDrifting(float h)
     {
         // Set drifting to be active
         m_DriftActive = true;
         m_DriftStartTime = Time.time;
-        m_Rigidbody = rigidbody;
 
         // Set drifting direction
         if (h < 0)
         {
-            m_Dir = Vector3.left;
+            m_CurrentDirection = -1f;
         }
-        else m_Dir = Vector3.right;
+        else m_CurrentDirection = 1f;
     }
 
-    public void StopDrifting(float topSpeed, Vector3 heading)
+    public void StopDrifting(Rigidbody rb, float topSpeed, Vector3 heading)
     {
         // If we have been drifting long enough to charge the drift boost, then boost!
         if (m_DriftActive && Time.time - m_DriftStartTime > driftBoostChargeTime)
         {
-            m_DriftBoost.StartBoosting(m_Rigidbody, topSpeed, heading);
+            m_DriftBoost.StartBoosting(rb, topSpeed, heading);
         }
         m_DriftActive = false;
     }

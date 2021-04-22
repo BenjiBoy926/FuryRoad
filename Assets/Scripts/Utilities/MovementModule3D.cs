@@ -82,6 +82,9 @@ public class MovementModule3D : MonoBehaviour
         // Car can only turn while moving and grounded
         if(m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
         {
+            // Let the drifting module decide how we will actually steer the car
+            horizontal = m_DriftingModule.GetSteer(horizontal);
+
             // Define a rotation around the y axis
             Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
             
@@ -93,7 +96,7 @@ public class MovementModule3D : MonoBehaviour
         }
 
         // Update the drift
-        m_DriftingModule.FixedUpdate(heading, horizontal);
+        m_DriftingModule.FixedUpdate(heading);
     }
 
     public void Thrust(float vertical)
@@ -121,14 +124,14 @@ public class MovementModule3D : MonoBehaviour
     // Delegates for the drifting module
     public bool TryStartDrifting(float h)
     {
-        return m_DriftingModule.TryStartDrifting(m_GroundingModule, m_Rigidbody, h);
+        return m_DriftingModule.TryStartDrifting(m_GroundingModule, h);
     }
     public void StartDrifting(float h)
     {
-        m_DriftingModule.StartDrifting(m_Rigidbody, h);
+        m_DriftingModule.StartDrifting(h);
     }
     public void StopDrifting()
     {
-        m_DriftingModule.StopDrifting(m_TopSpeed, heading);
+        m_DriftingModule.StopDrifting(m_Rigidbody, m_TopSpeed, heading);
     }
 }

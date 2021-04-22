@@ -723,6 +723,7 @@ GameObject:
   - component: {fileID: 5847470927096604062}
   - component: {fileID: 5836870813516917956}
   - component: {fileID: 3749488477528168295}
+  - component: {fileID: 653342053324170883}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -806,6 +807,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e51f3f7581c7f245b074f9b472b9c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  driftOffset: 30
+--- !u!114 &653342053324170883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5861381026453735334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &5861434213829850442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,10 +1086,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   m_DriftingModule:
-    driftAngleRange:
-      _min: 30
-      _max: 60
     driftBoostChargeTime: 2
+    steeringModifier: 0.5
     m_DriftBoost:
       m_BoostSpeed: 10
       m_BoostDuration: 1
@@ -1140,12 +1156,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
+  observableSearch: 1
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 6065238973000688244}
   - {fileID: 5666692437332970417}
+  - {fileID: 653342053324170883}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

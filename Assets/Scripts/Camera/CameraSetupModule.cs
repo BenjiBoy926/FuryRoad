@@ -29,8 +29,12 @@ public class CameraSetupModule : MonoBehaviour
 
             // Subscribe to boosting events on the movement module
             MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
+            
             movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
             movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
+
+            movementModule.driftingModule.driftBoost.onBoostUpdate.AddListener(OnBoostUpdate);
+            movementModule.driftingModule.driftBoost.onBoostEnd.AddListener(OnBoostEnd);
         }
         // If a camera already exists for the parent object, destroy this camera
         else
