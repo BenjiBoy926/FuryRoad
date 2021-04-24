@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(GroundingModule))]
 public class PlayerRespawnDriver : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("If the car passes below this height, it respawns on the track")]
     private float m_PitLevel;
-
+    [SerializeField]
+    [Tooltip("Rigidbody to move when we respawn")]
     private Rigidbody m_Rigidbody;
+
     private GroundingModule m_GroundingModule;
 
     private Vector3 m_beginningOfTrack = new Vector3(-135.16f, 0.55f, 0.0086f);
@@ -32,7 +33,6 @@ public class PlayerRespawnDriver : MonoBehaviour
 
     private void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
     }
 

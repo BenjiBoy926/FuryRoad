@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(GroundingModule))]
 public class MovementModule3D : MonoBehaviour
 {
     [Header("Driving")]
 
+    [SerializeField]
+    [Tooltip("Referene to the sphere rigidbody that moves the car around")]
+    private Rigidbody m_Rigidbody;
     [SerializeField]
     [Tooltip("Strength of gravity's pull on the movement module")]
     private float gravity = -9.81f;
@@ -35,12 +37,12 @@ public class MovementModule3D : MonoBehaviour
     private DriftingModule m_DriftingModule;
 
     // Components required
-    private Rigidbody m_Rigidbody;
     private GroundingModule m_GroundingModule;
     // Current heading of the movement module
     private Vector3 _heading;
 
     // Public getters
+    public new Rigidbody rigidbody => m_Rigidbody;
     public BoostingModule boostingModule => m_BoostingModule;
     public DriftingModule driftingModule => m_DriftingModule;
     public GroundingModule groundingModule => m_GroundingModule;
@@ -48,9 +50,8 @@ public class MovementModule3D : MonoBehaviour
 
     private void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
         m_GroundingModule = GetComponent<GroundingModule>();
-        _heading = transform.forward;
+        _heading = Vector3.forward;
 
         m_BoostingModule.Start();
         m_DriftingModule.Start();
@@ -61,10 +62,12 @@ public class MovementModule3D : MonoBehaviour
         Vector3 groundNormal = m_GroundingModule.groundNormal;
 
         // If the heading is at an angle with the ground normal, re-assign the heading of the movement module
-        if (Mathf.Abs(Vector3.Dot(_heading, groundNormal)) > 0.001f)
+        if (Mathf.Abs(Vector3.Dot(_heading, groundNormal)) > Mathf.Epsilon)
         {
             _heading = Vector3.ProjectOnPlane(_heading, groundNormal).normalized;
         }
+
+        Debug.DrawRay(transform.position, heading * 10f);
 
         //if(m_Rigidbody.velocity.magnitude >= m_TopSpeed - 0.001f)
         //{

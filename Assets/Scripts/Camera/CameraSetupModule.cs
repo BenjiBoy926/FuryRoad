@@ -43,7 +43,7 @@ public class CameraSetupModule : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!boostUpdating)
         {
@@ -69,6 +69,6 @@ public class CameraSetupModule : MonoBehaviour
     }
     private Vector3 GetGlobalPosition(float backDistance)
     {
-        return target.transform.position + GetLocalPosition(backDistance);
+        return target.rigidbody.position + GetLocalPosition(backDistance);
     }
 }

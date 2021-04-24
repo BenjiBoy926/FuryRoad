@@ -4,8 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(MovementModule3D))]
-public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
+public class PlayerMovementDriver3D : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Reference to the photon view that is attached to the player movement sphere")]
+    private PhotonView photonView;
     private MovementModule3D m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
@@ -18,7 +21,6 @@ public class PlayerMovementDriver3D : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-
         m_MovementModule = GetComponent<MovementModule3D>();
         //audioPitch = drivingAudio.pitch;
     }

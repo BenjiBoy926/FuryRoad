@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class GroundingModule : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Collider to check from to see if we are grounded")]
+    private new Collider collider;
     [SerializeField]
     [Tooltip("Distance of the raycast down from the collider")]
     private float raycastDistance;
@@ -12,8 +14,6 @@ public class GroundingModule : MonoBehaviour
     [Tooltip("Physics layer to check for ground collisions")]
     private LayerMask groundMask;
 
-    // Collider on the car
-    private Collider _collider;
     // True if the racast has already updated this frame
     private bool raycastQueryUpdated = false;
     // True if the module is currently grounded
@@ -21,17 +21,6 @@ public class GroundingModule : MonoBehaviour
     // Information about what the raycast hit
     private RaycastHit _hit = new RaycastHit() { normal = Vector3.up };
 
-    private new Collider collider
-    {
-        get
-        {
-            if(_collider == null)
-            {
-                _collider = GetComponent<Collider>();
-            }
-            return _collider;
-        }
-    }
     public bool grounded
     {
         get
