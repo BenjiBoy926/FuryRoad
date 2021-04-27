@@ -67,8 +67,6 @@ public class MovementModule3D : MonoBehaviour
             _heading = Vector3.ProjectOnPlane(_heading, groundNormal).normalized;
         }
 
-        Debug.DrawRay(transform.position, heading * 10f);
-
         //if(m_Rigidbody.velocity.magnitude >= m_TopSpeed - 0.001f)
         //{
         //    Debug.Log("Top speed reached!");

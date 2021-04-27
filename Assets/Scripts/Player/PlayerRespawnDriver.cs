@@ -29,8 +29,7 @@ public class PlayerRespawnDriver : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GameObject sphere = GameObject.Find("Sphere");
-        collisionDetection collisionScript = sphere.GetComponent<collisionDetection>();
+        collisionDetection collisionScript = m_Rigidbody.GetComponent<collisionDetection>();
         closestCheckPoint = collisionScript.closestCheckPoint;
         // Store the result of the function since we use it multiple times
         bool grounded = m_GroundingModule.grounded;
