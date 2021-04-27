@@ -12,21 +12,11 @@ public class PlayerRespawnDriver : MonoBehaviour
     [Tooltip("Rigidbody to move when we respawn")]
     private Rigidbody m_Rigidbody;
 
+
     private GroundingModule m_GroundingModule;
 
-    private Vector3 m_beginningOfTrack = new Vector3(-135.16f, 0.55f, 0.0086f);
-    private Vector3 m_endOfTrack = new Vector3(135.80f, 0.55f, 1.45f);
 
-
-
-    /*private List<Transform> circleTrackCheckpoints = new List<Vector3>();
-    circleTrackCheckpoints.add(new Vector3(-417, 4.7, -751));
-    circleTrackCheckpoints.add(new Vector3(409, 4.7, 699));
-    circleTrackCheckpoints.add(new Vector3(-417, 4.7, 883));
-    circleTrackCheckpoints.add(new Vector3(564, 4.7, -580));*/
-
-    private Vector3 closestCheckPoint;
-    private float minDistance = 9999999.0f;
+    public Vector3 closestCheckPoint;
 
     private Vector3 m_respawnLocation;
     bool falling;
@@ -34,24 +24,20 @@ public class PlayerRespawnDriver : MonoBehaviour
     private void Start()
     {
         m_GroundingModule = GetComponent<GroundingModule>();
+        
     }
 
     private void FixedUpdate()
     {
+        GameObject sphere = GameObject.Find("Sphere");
+        collisionDetection collisionScript = sphere.GetComponent<collisionDetection>();
+        closestCheckPoint = collisionScript.closestCheckPoint;
         // Store the result of the function since we use it multiple times
         bool grounded = m_GroundingModule.grounded;
 
         if (!grounded && !falling)
         {
-            
-            /*for(Vector3 checkpoint in circleTrackCheckpoints){
-                if(Vector3.Distance(transform.position, checkpoint) < minDistance){
-                    minDistance = Vector3.Distance(transform.position, checkpoint);
-                    closestCheckPoint = checkpoint;
-                }
-            }*/
-
-            m_respawnLocation = ClosestPoint(m_beginningOfTrack, m_endOfTrack, transform.position);
+            m_respawnLocation = closestCheckPoint;
             falling = true;
         }
 
@@ -99,4 +85,5 @@ public class PlayerRespawnDriver : MonoBehaviour
     {
         return Quaternion.LookRotation(transform.forward, Vector3.up);
     }
+
 }
