@@ -97,10 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418a614ceb961654d8440027a9aa6f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  translateSpeed: 20
+  rotateSpeed: 20
   backDistance: 11
   maxBoostZoom: 5
   lift: 4
-  smoothingSpeed: 100
 --- !u!114 &728577798855615369
 MonoBehaviour:
   m_ObjectHideFlags: 0

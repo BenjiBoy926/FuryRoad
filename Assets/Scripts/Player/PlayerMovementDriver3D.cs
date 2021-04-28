@@ -39,14 +39,14 @@ public class PlayerMovementDriver3D : MonoBehaviour
                 m_MovementModule.TryStartBoost();
             }
 
-            if(Input.GetButtonDown("Fire1"))
+            if(Input.GetButton("Fire1"))
             {
                 m_MovementModule.TryStartDrifting(m_HorizontalAxis);
             }
 
             if(Input.GetButtonUp("Fire1"))
             {
-                m_MovementModule.StopDrifting();
+                m_MovementModule.FinishDrifting();
             }
         }
 

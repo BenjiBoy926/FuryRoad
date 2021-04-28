@@ -42,6 +42,6 @@ public class VehicleModelController : MonoBehaviour
         }
 
         // Rotate the forward vector towards the heading target
-        transform.forward = Vector3.RotateTowards(transform.forward, headingTarget, rotateSpeed * Time.fixedDeltaTime, 1000f);
+        transform.forward = Vector3.Lerp(transform.forward, headingTarget, rotateSpeed * Time.fixedDeltaTime);
     }
 }

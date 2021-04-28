@@ -5,6 +5,12 @@ using UnityEngine;
 public class CameraSetupModule : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Speed at which the camera moves to follow the player")]
+    private float translateSpeed = 20f;
+    [SerializeField]
+    [Tooltip("Speed at which the camera rotates to look at the player")]
+    private float rotateSpeed = 20f;
+    [SerializeField]
     [Tooltip("Distance behind the car that the camera will sit")]
     private float backDistance;
     [SerializeField]
@@ -47,15 +53,21 @@ public class CameraSetupModule : MonoBehaviour
     {
         if(!boostUpdating)
         {
-            transform.position = GetGlobalPosition(backDistance);
+            // Lerp towards the target position
+            Vector3 target = GetGlobalPosition(backDistance);
+            transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
         }
-        transform.rotation = Quaternion.LookRotation(target.heading);
+        // Lerp towards the target rotation
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.heading), rotateSpeed * Time.fixedDeltaTime);
     }
 
     private void OnBoostUpdate(float boostPower)
     {
         boostUpdating = true;
-        transform.position = GetGlobalPosition(backDistance + (maxBoostZoom * boostPower));
+
+        // Lerp towards a position that is further back from the car as the car boosts
+        Vector3 target = GetGlobalPosition(backDistance + (maxBoostZoom * boostPower));
+        transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
     }
 
     private void OnBoostEnd()

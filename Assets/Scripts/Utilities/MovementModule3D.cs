@@ -97,7 +97,7 @@ public class MovementModule3D : MonoBehaviour
         }
 
         // Update the drift
-        m_DriftingModule.FixedUpdate(heading);
+        m_DriftingModule.FixedUpdate(m_Rigidbody.velocity, heading);
     }
 
     public void Thrust(float vertical)
@@ -131,8 +131,8 @@ public class MovementModule3D : MonoBehaviour
     {
         m_DriftingModule.StartDrifting(h);
     }
-    public void StopDrifting()
+    public void FinishDrifting()
     {
-        m_DriftingModule.StopDrifting(m_Rigidbody, m_TopSpeed, heading);
+        m_DriftingModule.FinishDrifting(m_Rigidbody, m_TopSpeed, heading);
     }
 }

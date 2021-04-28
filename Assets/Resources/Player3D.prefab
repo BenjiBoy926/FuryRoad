@@ -198,7 +198,8 @@ MonoBehaviour:
         m_Calls: []
   m_DriftingModule:
     driftBoostChargeTime: 2
-    steeringModifier: 0.5
+    steeringModifier: 0.8
+    cancelThreshold: 20
     m_DriftBoost:
       m_BoostSpeed: 10
       m_BoostDuration: 1
