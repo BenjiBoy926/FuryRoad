@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2665546512117134491}
   - component: {fileID: 4593508692327077803}
   - component: {fileID: 3199282475134685322}
-  m_Layer: 0
+  - component: {fileID: 3896925005505819358}
+  m_Layer: 8
   m_Name: RaceTrack_Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3896925005505819358
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985604755175844330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8991529888415569470, guid: 085133a8969f1294cab9dc3bf8f93925, type: 3}
 --- !u!1 &4249651173632174200
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +275,7 @@ GameObject:
   - component: {fileID: 4249651174125780706}
   - component: {fileID: 4249651174125780707}
   - component: {fileID: 4249651174125780708}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +354,7 @@ GameObject:
   - component: {fileID: 4249651174243657383}
   - component: {fileID: 4249651174243657384}
   - component: {fileID: 4249651174243657385}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4249651174638146944}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +687,7 @@ GameObject:
   - component: {fileID: 4249651174707317775}
   - component: {fileID: 4249651174707317808}
   - component: {fileID: 4249651174707317809}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +766,7 @@ GameObject:
   - component: {fileID: 7401420087861336883}
   - component: {fileID: 755372920531943057}
   - component: {fileID: 4048811960506290036}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Guidelines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -830,7 +845,8 @@ GameObject:
   - component: {fileID: 1151052560973436799}
   - component: {fileID: 6019001939644821795}
   - component: {fileID: 526044290998538917}
-  m_Layer: 0
+  - component: {fileID: 9176839647878086109}
+  m_Layer: 8
   m_Name: RaceTrack_Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,6 +914,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &9176839647878086109
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5989677359369109267}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2169886563357727345, guid: 085133a8969f1294cab9dc3bf8f93925, type: 3}
 --- !u!1 &8511272093718996030
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +937,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9031349424174972548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: race_track_3b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
