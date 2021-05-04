@@ -159,6 +159,12 @@ MonoBehaviour:
   m_Thrust: 150
   m_Turn: 90
   m_TopSpeed: 90
+  m_BoostResources:
+    m_BoostsAvailable: 3
+    m_DriftRechargeRate: 2
+    m_DraftRechargeRate: 1.5
+    m_AirTimeRechargeRate: 1
+    m_BoostPowerGravity: 3
   m_BoostingModule:
     m_BoostSpeed: 90
     m_BoostDuration: 2

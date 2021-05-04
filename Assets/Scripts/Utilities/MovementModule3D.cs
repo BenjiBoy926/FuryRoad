@@ -27,6 +27,9 @@ public class MovementModule3D : MonoBehaviour
     [Header("Boosting")]
 
     [SerializeField]
+    [Tooltip("Used to manage the boosting resources of the vehicle")]
+    private BoostingResources m_BoostResources;
+    [SerializeField]
     [Tooltip("Module with the information on how to boost")]
     private BoostingModule m_BoostingModule;
 
@@ -76,6 +79,9 @@ public class MovementModule3D : MonoBehaviour
         // This is the only way the sphere can naturally drive on an inclined surface,
         // otherwise it cannot fight its own weight to work up the incline
         m_Rigidbody.AddForce(m_GroundingModule.groundNormal * gravity, ForceMode.Acceleration);
+
+        // Update the boost resources so that it knows when to increase boost
+        m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
     }
 
     public void Turn(float horizontal)
@@ -116,11 +122,19 @@ public class MovementModule3D : MonoBehaviour
     // Delegates for the boosting module
     public bool TryStartBoost()
     {
-        return m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed, heading);
-    }
-    public void StartBoost()
-    {
-        m_BoostingModule.StartBoosting(m_Rigidbody, m_TopSpeed, heading);
+        // If we have resources for a boost, then try to boost
+        if (m_BoostResources.canBoost)
+        {
+            // Try to start boosting and store the result of the attempt
+            bool result = m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed, _heading);
+
+            // If we started boosting, then consume a boost resource
+            if (result) m_BoostResources.ConsumeBoostResource();
+
+            // Return true/false if we are now boosting or not
+            return result;
+        }
+        else return false;
     }
     // Delegates for the drifting module
     public bool TryStartDrifting(float h)

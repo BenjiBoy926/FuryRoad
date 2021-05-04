@@ -75,3 +75,6 @@ crashlytics-build.properties
 [Bb]uilds.zip
 [Bb]uild.app
 [Bb]uilds.app
+
+# Do not include submission files, like pdf's
+*.pdf
