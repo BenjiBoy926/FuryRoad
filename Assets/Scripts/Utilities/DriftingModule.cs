@@ -31,9 +31,9 @@ public class DriftingModule
     public float currentDirection => m_CurrentDirection;
     public BoostingModule driftBoost => m_DriftBoost;
 
-    public void Start()
+    public void Awake()
     {
-        m_DriftBoost.Start();
+        m_DriftBoost.Awake();
     }
 
     public void FixedUpdate(Vector3 velocity, Vector3 heading)

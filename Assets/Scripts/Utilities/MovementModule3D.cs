@@ -51,13 +51,14 @@ public class MovementModule3D : MonoBehaviour
     public GroundingModule groundingModule => m_GroundingModule;
     public Vector3 heading => _heading;
 
-    private void Start()
+    private void Awake()
     {
         m_GroundingModule = GetComponent<GroundingModule>();
         _heading = Vector3.forward;
 
-        m_BoostingModule.Start();
-        m_DriftingModule.Start();
+        m_BoostingModule.Awake();
+        m_DriftingModule.Awake();
+        m_BoostResources.Awake();
     }
 
     private void FixedUpdate()

@@ -50,7 +50,7 @@ public class BoostingModule
     public float currentBoostInterpolator => currentBoostTime / m_BoostDuration;
     public float boostSpeed => m_TopSpeed + (m_BoostCurve.Evaluate(currentBoostInterpolator) * m_BoostSpeed);
 
-    public void Start()
+    public void Awake()
     {
         // Set so that we do not think we are boosting at the start of the game
         m_BoostBeginTime = -m_BoostDuration - 1f;

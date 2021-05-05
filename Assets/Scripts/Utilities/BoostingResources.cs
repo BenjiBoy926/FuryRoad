@@ -6,6 +6,9 @@ using UnityEngine;
 public class BoostingResources
 {
     [SerializeField]
+    [Tooltip("Script used to manage player UI")]
+    private PlayerUIManager ui;
+    [SerializeField]
     [Tooltip("Number of boosts available to the vehicle")]
     private int m_BoostsAvailable = 3;
     [SerializeField]
@@ -21,12 +24,20 @@ public class BoostingResources
     [Tooltip("Seconds it takes for boost power built up to fall back down to zero")]
     private float m_BoostPowerGravity = 3f;
 
+    // Set to the initial value
+    private int maxBoosts;
     // Current boost power of the resources. When the power reaches 1,
     // increase boost resources by 1 and set the power back to 0
     private float boostPower;
 
     public int boostsAvailable => m_BoostsAvailable;
     public bool canBoost => boostsAvailable > 0;
+
+    public void Awake()
+    {
+        // Set max boosts at the start
+        maxBoosts = m_BoostsAvailable;
+    }
 
     public void FixedUpdate(bool isDrifting, bool isDrafting, bool isAirborne)
     {
@@ -45,7 +56,7 @@ public class BoostingResources
             // If boost power exceeds 1, then increase available boosts
             if(boostPower >= 1f)
             {
-                m_BoostsAvailable++;
+                m_BoostsAvailable = Mathf.Min(maxBoosts, m_BoostsAvailable + 1);
                 boostPower = 0f;
             }
         }
@@ -54,6 +65,9 @@ public class BoostingResources
         {
             boostPower = Mathf.Max(0f, boostPower - (Time.fixedDeltaTime / m_BoostPowerGravity));
         }
+
+        // Update the UI continuously
+        ui.UpdateBoostResourceUI(boostPower, m_BoostsAvailable);
     }
 
     public void ConsumeBoostResource()
