@@ -20,6 +20,9 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("The maximum number of players allowed in a room")]
     private byte maxPlayersPerRoom = 4;
+    [SerializeField]
+    [Tooltip("If true, connect as soon as the scene loads")]
+    private bool connectOnAwake;
 
     private bool isConnecting;
 
@@ -29,6 +32,8 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         EnablePlayControls(true);
+
+        if (connectOnAwake) Connect();
     }
 
     public void Connect()
