@@ -5,6 +5,9 @@ using UnityEngine;
 public class CameraSetupModule : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Parent transform that should have all of the important components attached")]
+    private Transform root;
+    [SerializeField]
     [Tooltip("Speed at which the camera moves to follow the player")]
     private float translateSpeed = 20f;
     [SerializeField]
@@ -24,29 +27,23 @@ public class CameraSetupModule : MonoBehaviour
     private MovementModule3D target;
     private bool boostUpdating = false;
 
+    private void Awake()
+    {
+        Setup(root);
+    }
+
     public void Setup(Transform parent)
     {
-        Camera existingCamera = parent.GetComponentInChildren<Camera>();
+        target = parent.GetComponent<MovementModule3D>();
 
-        // If no camera exists on the parent object yet, setup this camera for it
-        if(existingCamera == null)
-        {
-            target = parent.GetComponent<MovementModule3D>();
-
-            // Subscribe to boosting events on the movement module
-            MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
+        // Subscribe to boosting events on the movement module
+        MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
             
-            movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
-            movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
+        movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
+        movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
 
-            movementModule.driftingModule.driftBoost.onBoostUpdate.AddListener(OnBoostUpdate);
-            movementModule.driftingModule.driftBoost.onBoostEnd.AddListener(OnBoostEnd);
-        }
-        // If a camera already exists for the parent object, destroy this camera
-        else
-        {
-            Destroy(gameObject);
-        }
+        movementModule.driftingModule.driftBoost.onBoostUpdate.AddListener(OnBoostUpdate);
+        movementModule.driftingModule.driftBoost.onBoostEnd.AddListener(OnBoostEnd);
     }
 
     private void FixedUpdate()
