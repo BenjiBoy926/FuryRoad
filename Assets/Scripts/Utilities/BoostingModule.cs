@@ -16,8 +16,8 @@ public class BoostingModule
     [Tooltip("Curve used to determine the boosting speed of the car.")]
     private AnimationCurve m_BoostCurve;
     [SerializeField]
-    [Tooltip("Reference to the game object that displays the jetstream particle when the player boosts")]
-    private ParticleSystem m_JetstreamParticle;
+    [Tooltip("References to the particle systems that activate during the boost")]
+    private List<ParticleSystem> m_JetstreamParticles;
 
     [SerializeField]
     [Tooltip("Event invoked when the boost begins")]
@@ -98,7 +98,7 @@ public class BoostingModule
         // Invoke the boost begin event and play the particles
         onBoostBegin.Invoke();
         m_BoostHasStopped = false;
-        m_JetstreamParticle.Play();
+        SetParticlesActive(true);
     }
 
     public void StopBoosting()
@@ -106,7 +106,16 @@ public class BoostingModule
         // Invoke the boost end event and stop the particles
         onBoostEnd.Invoke();
         m_BoostHasStopped = true;
-        m_JetstreamParticle.Stop();
+        SetParticlesActive(false);
+    }
+
+    private void SetParticlesActive(bool active)
+    {
+        foreach(ParticleSystem system in m_JetstreamParticles)
+        {
+            if (active) system.Play();
+            else system.Stop();
+        }
     }
 
     [System.Serializable]

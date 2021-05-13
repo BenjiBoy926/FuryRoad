@@ -195,7 +195,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_JetstreamParticle: {fileID: 8560225732230961994}
+    m_JetstreamParticles:
+    - {fileID: 8560225732230961994}
     m_OnBoostBegin:
       m_PersistentCalls:
         m_Calls: []
@@ -236,7 +237,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_JetstreamParticle: {fileID: 1538946382639724364}
+      m_JetstreamParticles:
+      - {fileID: 1538946382639724364}
       m_OnBoostBegin:
         m_PersistentCalls:
           m_Calls: []
@@ -6302,7 +6304,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8547705018594139088
 Rigidbody:
