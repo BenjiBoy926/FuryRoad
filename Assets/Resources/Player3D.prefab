@@ -171,8 +171,7 @@ MonoBehaviour:
     m_AirTimeRechargeRate: 1
     m_BoostPowerGravity: 3
   m_BoostingModule:
-    m_BoostStrength: 90
-    m_TopSpeedModifier: 1.5
+    m_MaxTopSpeedModifier: 1.5
     m_BoostDuration: 2
     m_BoostCurve:
       serializedVersion: 2
@@ -214,8 +213,7 @@ MonoBehaviour:
     steeringModifier: 0.8
     cancelThreshold: 20
     m_DriftBoost:
-      m_BoostStrength: 90
-      m_TopSpeedModifier: 1.2
+      m_MaxTopSpeedModifier: 1.2
       m_BoostDuration: 1
       m_BoostCurve:
         serializedVersion: 2

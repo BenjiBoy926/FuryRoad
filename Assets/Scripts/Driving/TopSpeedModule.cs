@@ -16,22 +16,26 @@ public class TopSpeedModule
 
     public float currentTopSpeed
     {
-        get
-        {
-            float speed = m_BaseTopSpeed;
-
-            // Multiply the modifiers of all applied modifiers
-            foreach(ITopSpeedModifier modifier in topSpeedModifiers)
-            {
-                if(modifier.applyModifier) speed *= modifier.modifier;
-            }
-            return speed;
-        }
+        get; private set;
     }
 
     // Setup all objects that can modify the top speed
     public void Setup(params ITopSpeedModifier[] modifiers)
     {
         topSpeedModifiers.AddRange(modifiers);
+    }
+
+    public void FixedUpdate()
+    {
+        float speed = m_BaseTopSpeed;
+
+        // Multiply the modifiers of all applied modifiers
+        foreach (ITopSpeedModifier modifier in topSpeedModifiers)
+        {
+            if (modifier.applyModifier) speed *= modifier.modifier;
+        }
+        
+        // Set current top speed
+        currentTopSpeed = speed;
     }
 }

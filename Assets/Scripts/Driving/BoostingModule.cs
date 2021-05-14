@@ -7,11 +7,8 @@ using UnityEngine.Events;
 public class BoostingModule : ITopSpeedModifier
 {
     [SerializeField]
-    [Tooltip("Strength of the force that pushes the player during a boost")]
-    private float m_BoostStrength = 90f;
-    [SerializeField]
-    [Tooltip("Modification of the top speed while boost is active")]
-    private float m_TopSpeedModifier = 1.5f;
+    [Tooltip("Modification of the top speed while boost is at the peak speed")]
+    private float m_MaxTopSpeedModifier = 1.5f;
     [SerializeField]
     [Tooltip("Duration of the boost")]
     private float m_BoostDuration = 2f;
@@ -47,10 +44,12 @@ public class BoostingModule : ITopSpeedModifier
     // Amount of time that the module has been boosting
     public float currentBoostTime => Time.time - m_BoostBeginTime;
     public float currentBoostInterpolator => currentBoostTime / m_BoostDuration;
-    public float boostStrength => m_BoostCurve.Evaluate(currentBoostInterpolator) * m_BoostStrength;
+    // Current modification of the vehicle's top speed, 
+    // changes based on the current time in the boost
+    public float topSpeedModifier => Mathf.LerpUnclamped(1f, m_MaxTopSpeedModifier, m_BoostCurve.Evaluate(currentBoostInterpolator));
 
     // Implement the interface "ITopSpeedModifier"
-    public float modifier => m_TopSpeedModifier;
+    public float modifier => topSpeedModifier;
     public bool applyModifier => boostActive;
 
     public void Awake()
@@ -59,12 +58,12 @@ public class BoostingModule : ITopSpeedModifier
         m_BoostBeginTime = -m_BoostDuration - 1f;
     }
 
-    public void FixedUpdate(Rigidbody rb, Vector3 heading)
+    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading)
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
-            rb.AddForce(heading * boostStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            rb.velocity = heading * topSpeed;
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost

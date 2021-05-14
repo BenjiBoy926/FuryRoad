@@ -87,9 +87,10 @@ public class MovementModule3D : MonoBehaviour
         m_Rigidbody.AddForce(m_GroundingModule.groundNormal * gravity, ForceMode.Acceleration);
 
         // Update all submodules
+        m_TopSpeedModule.FixedUpdate();
         m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
-        m_BoostingModule.FixedUpdate(m_Rigidbody, heading);
-        m_DriftingModule.FixedUpdate(m_Rigidbody, heading);
+        m_BoostingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
+        m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
         //m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
 
         // Clamp the velocity magnitude within the top speed
