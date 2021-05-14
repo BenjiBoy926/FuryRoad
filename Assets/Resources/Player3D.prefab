@@ -157,10 +157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 8547705018594139088}
+  ui: {fileID: 3469209134563892082}
   gravity: -50
   m_Thrust: 150
   m_Turn: 90
-  m_TopSpeed: 90
+  m_TopSpeedModule:
+    m_BaseTopSpeed: 90
   m_BoostResources:
     ui: {fileID: 3469209134563892082}
     m_BoostsAvailable: 3
@@ -169,7 +171,8 @@ MonoBehaviour:
     m_AirTimeRechargeRate: 1
     m_BoostPowerGravity: 3
   m_BoostingModule:
-    m_BoostSpeed: 90
+    m_BoostStrength: 90
+    m_TopSpeedModifier: 1.5
     m_BoostDuration: 2
     m_BoostCurve:
       serializedVersion: 2
@@ -211,7 +214,8 @@ MonoBehaviour:
     steeringModifier: 0.8
     cancelThreshold: 20
     m_DriftBoost:
-      m_BoostSpeed: 10
+      m_BoostStrength: 90
+      m_TopSpeedModifier: 1.2
       m_BoostDuration: 1
       m_BoostCurve:
         serializedVersion: 2
@@ -5525,6 +5529,7 @@ GameObject:
   - component: {fileID: 2855061681800814099}
   - component: {fileID: 4798400182438389168}
   - component: {fileID: 2715682943359360557}
+  - component: {fileID: 7970785198117265385}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -5626,6 +5631,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &7970785198117265385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866614350991930737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c42f8e4ddc07f4b8c8b541caecc712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DraftVolumeTag: DraftingVolume
+  m_DraftStrength: 30
+  m_TopSpeedModifier: 1.2
 --- !u!1 &2866667820764252061
 GameObject:
   m_ObjectHideFlags: 0
@@ -11199,11 +11219,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3538404133034917913, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
-        type: 3}
-      propertyPath: view
-      value: 
-      objectReference: {fileID: 8874272026387517876}
     - target: {fileID: 7164300640611255237, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
       propertyPath: m_Name

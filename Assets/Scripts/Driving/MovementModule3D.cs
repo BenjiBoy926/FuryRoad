@@ -12,6 +12,9 @@ public class MovementModule3D : MonoBehaviour
     [Tooltip("Referene to the sphere rigidbody that moves the car around")]
     private Rigidbody m_Rigidbody;
     [SerializeField]
+    [Tooltip("Reference to the script that manages player UI")]
+    private PlayerUIManager ui;
+    [SerializeField]
     [Tooltip("Strength of gravity's pull on the movement module")]
     private float gravity = -9.81f;
     [SerializeField]
@@ -21,8 +24,8 @@ public class MovementModule3D : MonoBehaviour
     [Tooltip("Tightness of the racer's turn")]
     private float m_Turn = 10f;
     [SerializeField]
-    [Tooltip("Maximum speed of the racer")]
-    private float m_TopSpeed = 30f;
+    [Tooltip("Manage the top speed of the racer")]
+    private TopSpeedModule m_TopSpeedModule;
 
     [Header("Boosting")]
 
@@ -38,6 +41,12 @@ public class MovementModule3D : MonoBehaviour
     [SerializeField]
     [Tooltip("Module with the information on how to drift")]
     private DriftingModule m_DriftingModule;
+
+    //[Header("Drafting")]
+
+    //[SerializeField]
+    //[Tooltip("Reference to the script that handles the drafting of the car")]
+    //private DraftingModule m_DraftingModule;
 
     // Components required
     private GroundingModule m_GroundingModule;
@@ -56,6 +65,7 @@ public class MovementModule3D : MonoBehaviour
         m_GroundingModule = GetComponent<GroundingModule>();
         _heading = Vector3.forward;
 
+        m_TopSpeedModule.Setup(m_BoostingModule, m_DriftingModule.driftBoost);
         m_BoostingModule.Awake();
         m_DriftingModule.Awake();
         m_BoostResources.Awake();
@@ -71,18 +81,20 @@ public class MovementModule3D : MonoBehaviour
             _heading = Vector3.ProjectOnPlane(_heading, groundNormal).normalized;
         }
 
-        //if(m_Rigidbody.velocity.magnitude >= m_TopSpeed - 0.001f)
-        //{
-        //    Debug.Log("Top speed reached!");
-        //}
-
         // Gravity pulls against the ground normal, it will not pull directly down!
         // This is the only way the sphere can naturally drive on an inclined surface,
         // otherwise it cannot fight its own weight to work up the incline
         m_Rigidbody.AddForce(m_GroundingModule.groundNormal * gravity, ForceMode.Acceleration);
 
-        // Update the boost resources so that it knows when to increase boost
+        // Update all submodules
         m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
+        m_BoostingModule.FixedUpdate(m_Rigidbody, heading);
+        m_DriftingModule.FixedUpdate(m_Rigidbody, heading);
+        //m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
+
+        // Clamp the velocity magnitude within the top speed
+        m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
+        ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
     }
 
     public void Turn(float horizontal)
@@ -102,9 +114,6 @@ public class MovementModule3D : MonoBehaviour
             m_Rigidbody.angularVelocity = rotation * m_Rigidbody.angularVelocity;
             _heading = rotation * _heading;
         }
-
-        // Update the drift
-        m_DriftingModule.FixedUpdate(m_Rigidbody.velocity, heading);
     }
 
     public void Thrust(float vertical)
@@ -113,11 +122,7 @@ public class MovementModule3D : MonoBehaviour
         if(m_GroundingModule.grounded && !m_BoostingModule.boostActive)
         {
             m_Rigidbody.AddForce(_heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeed);
         }
-
-        // Update the boosting module
-        m_BoostingModule.FixedUpdate(heading);
     }
 
     // Delegates for the boosting module
@@ -127,7 +132,7 @@ public class MovementModule3D : MonoBehaviour
         if (m_BoostResources.canBoost)
         {
             // Try to start boosting and store the result of the attempt
-            bool result = m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeed, _heading);
+            bool result = m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeedModule.currentTopSpeed, _heading);
 
             // If we started boosting, then consume a boost resource
             if (result) m_BoostResources.ConsumeBoostResource();
@@ -148,6 +153,6 @@ public class MovementModule3D : MonoBehaviour
     }
     public void FinishDrifting()
     {
-        m_DriftingModule.FinishDrifting(m_Rigidbody, m_TopSpeed, heading);
+        m_DriftingModule.FinishDrifting(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - FinishLine
   - Checkpoint
   - GlobalUI
+  - DraftingVolume
   layers:
   - Default
   - TransparentFX
