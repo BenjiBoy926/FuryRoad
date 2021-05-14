@@ -28,6 +28,7 @@ public class DraftingModule : MonoBehaviour, ITopSpeedModifier
     {
         if(draftActive)
         {
+            Debug.Log("Caught in a draft!");
             rb.AddForce(heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
