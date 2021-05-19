@@ -42,11 +42,17 @@ public class MovementModule3D : MonoBehaviour
     [Tooltip("Module with the information on how to drift")]
     private DriftingModule m_DriftingModule;
 
-    //[Header("Drafting")]
+    [Header("Drafting")]
 
-    //[SerializeField]
-    //[Tooltip("Reference to the script that handles the drafting of the car")]
-    //private DraftingModule m_DraftingModule;
+    [SerializeField]
+    [Tooltip("Reference to the script that handles the drafting of the car")]
+    private DraftingModule m_DraftingModule;
+
+    [Header("Terrain")]
+
+    [SerializeField]
+    [Tooltip("Reference to the module that modifies the car's speed over different terrain types")]
+    private TerrainModule m_TerrainModule;
 
     // Components required
     private GroundingModule m_GroundingModule;
@@ -65,7 +71,7 @@ public class MovementModule3D : MonoBehaviour
         m_GroundingModule = GetComponent<GroundingModule>();
         _heading = Vector3.forward;
 
-        m_TopSpeedModule.Setup(m_BoostingModule, m_DriftingModule.driftBoost);
+        m_TopSpeedModule.Setup(m_BoostingModule, m_DriftingModule.driftBoost, m_DraftingModule, m_TerrainModule);
         m_BoostingModule.Awake();
         m_DriftingModule.Awake();
         m_BoostResources.Awake();
@@ -91,7 +97,8 @@ public class MovementModule3D : MonoBehaviour
         m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
         m_BoostingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
         m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
-        //m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
+        m_DraftingModule.ModuleUpdate(m_Rigidbody, heading);
+        m_TerrainModule.FixedUpdate(m_GroundingModule);
 
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);

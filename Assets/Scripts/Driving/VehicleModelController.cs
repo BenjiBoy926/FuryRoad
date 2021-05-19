@@ -6,6 +6,9 @@ using Photon.Pun;
 public class VehicleModelController : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Reference to the rigidbody on the model controller")]
+    private Rigidbody rb;
+    [SerializeField]
     [Tooltip("Amount that the vehicle model rotates away from the movement heading when drifting")]
     private float driftOffset;
     [SerializeField]
@@ -25,23 +28,23 @@ public class VehicleModelController : MonoBehaviour
     void FixedUpdate()
     {
         // Copy the position of the movement module's rigidbody
-        transform.position = movementModule.rigidbody.position;
+        rb.position = movementModule.rigidbody.position;
 
         DriftingModule drifting = movementModule.driftingModule;
-        Vector3 headingTarget;
+        Quaternion targetRotation;
 
         // If the drift is active, then 
         if (drifting.driftActive)
         {
             Quaternion rotation = Quaternion.Euler(0f, driftOffset * drifting.currentDirection, 0f);
-            headingTarget = rotation * movementModule.heading;
+            targetRotation = rotation * Quaternion.LookRotation(movementModule.heading);
         }
         else
         {
-            headingTarget = movementModule.heading;
+            targetRotation = Quaternion.LookRotation(movementModule.heading);
         }
 
         // Rotate the forward vector towards the heading target
-        transform.forward = Vector3.Lerp(transform.forward, headingTarget, rotateSpeed * Time.fixedDeltaTime);
+        rb.rotation = Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
     }
 }

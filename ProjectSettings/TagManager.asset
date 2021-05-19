@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - GlobalUI
   - DraftingVolume
+  - Offroad
   layers:
   - Default
   - TransparentFX

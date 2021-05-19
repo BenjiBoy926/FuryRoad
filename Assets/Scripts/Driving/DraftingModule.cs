@@ -28,12 +28,11 @@ public class DraftingModule : MonoBehaviour, ITopSpeedModifier
     {
         if(draftActive)
         {
-            Debug.Log("Caught in a draft!");
             rb.AddForce(heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag(m_DraftVolumeTag) && !draftingVolumes.Contains(other))
         {

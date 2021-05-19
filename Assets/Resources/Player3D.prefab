@@ -250,6 +250,10 @@ MonoBehaviour:
       m_OnBoostEnd:
         m_PersistentCalls:
           m_Calls: []
+  m_DraftingModule: {fileID: 9174403003348125219}
+  m_TerrainModule:
+    offroadTag: Offroad
+    offroadModifier: 0.3
 --- !u!82 &6304079693476585694
 AudioSource:
   m_ObjectHideFlags: 0
@@ -465,6 +469,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -3692705661225982009}
   - {fileID: 2715682943359360557}
+  - {fileID: 3697065393977256375}
   - {fileID: 8547705018594139089}
   - {fileID: 8547705018594139095}
   viewIdField: 0
@@ -5527,8 +5532,8 @@ GameObject:
   - component: {fileID: 2855061681800814099}
   - component: {fileID: 4798400182438389168}
   - component: {fileID: 2715682943359360557}
-  - component: {fileID: 7970785198117265385}
-  - component: {fileID: 421353891492804612}
+  - component: {fileID: 407984124132589295}
+  - component: {fileID: 3697065393977256375}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -5613,6 +5618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e51f3f7581c7f245b074f9b472b9c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 407984124132589295}
   driftOffset: 30
   rotateSpeed: 10
 --- !u!114 &2715682943359360557
@@ -5630,8 +5636,24 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
---- !u!114 &7970785198117265385
+  m_UseLocal: 1
+--- !u!54 &407984124132589295
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866614350991930737}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3697065393977256375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5640,25 +5662,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2866614350991930737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c42f8e4ddc07f4b8c8b541caecc712, type: 3}
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DraftVolumeTag: DraftingVolume
-  m_DraftStrength: 30
-  m_TopSpeedModifier: 1.2
---- !u!65 &421353891492804612
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2866614350991930737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.807909, y: 1.7313814, z: 4.4756374}
-  m_Center: {x: -0.000000059604645, y: 0, z: 0}
+  m_SynchronizeVelocity: 0
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &2866667820764252061
 GameObject:
   m_ObjectHideFlags: 0
@@ -6305,6 +6315,7 @@ GameObject:
   - component: {fileID: 8547705018594139089}
   - component: {fileID: 8547705018594139095}
   - component: {fileID: 2156562998321543141}
+  - component: {fileID: 9174403003348125219}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -6369,7 +6380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 0
+  m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &8547705018594139095
 MonoBehaviour:
@@ -6386,7 +6397,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!114 &2156562998321543141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6401,6 +6412,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closestCheckPoint: {x: 0, y: 0, z: 0}
   collisionCount: 0
+--- !u!114 &9174403003348125219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8547705018594139085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c42f8e4ddc07f4b8c8b541caecc712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DraftVolumeTag: DraftingVolume
+  m_DraftStrength: 30
+  m_TopSpeedModifier: 1.2
 --- !u!1 &8560225732230961988
 GameObject:
   m_ObjectHideFlags: 0
