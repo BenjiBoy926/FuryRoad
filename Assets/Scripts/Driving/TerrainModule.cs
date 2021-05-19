@@ -21,6 +21,9 @@ public class TerrainModule : ITopSpeedModifier
 
     public void FixedUpdate(GroundingModule groundingModule)
     {
-        isOffroad = groundingModule.hit.collider.CompareTag(offroadTag);
+        if(groundingModule.hit.collider != null)
+        {
+            isOffroad = groundingModule.hit.collider.CompareTag(offroadTag);
+        }
     }
 }

@@ -97,7 +97,7 @@ public class MovementModule3D : MonoBehaviour
         m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
         m_BoostingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
         m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
-        m_DraftingModule.ModuleUpdate(m_Rigidbody, heading);
+        m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
         m_TerrainModule.FixedUpdate(m_GroundingModule);
 
         // Clamp the velocity magnitude within the top speed

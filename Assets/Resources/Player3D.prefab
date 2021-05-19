@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 354376311694280139}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SubMeshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 7817368549828297127}
   - component: {fileID: 8874272026387517876}
   - component: {fileID: -3692705661225982009}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player3D
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -250,7 +250,14 @@ MonoBehaviour:
       m_OnBoostEnd:
         m_PersistentCalls:
           m_Calls: []
-  m_DraftingModule: {fileID: 9174403003348125219}
+  m_DraftingModule:
+    m_PlayerTag: Player
+    m_PlayerLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    m_DraftStrength: 30
+    m_DraftDistance: 100
+    m_TopSpeedModifier: 1.2
   m_TerrainModule:
     offroadTag: Offroad
     offroadModifier: 0.3
@@ -504,7 +511,7 @@ GameObject:
   - component: {fileID: 3688413723290964075}
   - component: {fileID: 5872426957605148761}
   - component: {fileID: 7610395370441222181}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +625,7 @@ GameObject:
   - component: {fileID: 1538946382639724365}
   - component: {fileID: 1538946382639724364}
   - component: {fileID: 1538946382639724355}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DriftBoostParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5372,7 +5379,7 @@ GameObject:
   - component: {fileID: 2865270972822636577}
   - component: {fileID: 2861102719434277411}
   - component: {fileID: 2853356235268959597}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gas_balloon_v1 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5451,7 +5458,7 @@ GameObject:
   - component: {fileID: 2872425202560185615}
   - component: {fileID: 2862519273533014977}
   - component: {fileID: 2853124935584962313}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Winch_v1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5534,9 +5541,10 @@ GameObject:
   - component: {fileID: 2715682943359360557}
   - component: {fileID: 407984124132589295}
   - component: {fileID: 3697065393977256375}
-  m_Layer: 0
+  - component: {fileID: 3380336584985209984}
+  m_Layer: 9
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5555,7 +5563,6 @@ Transform:
   - {fileID: 354376311694280139}
   - {fileID: 8560225732230961995}
   - {fileID: 1538946382639724365}
-  - {fileID: 8920641350552840911}
   m_Father: {fileID: 465788081436932930}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5669,6 +5676,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &3380336584985209984
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866614350991930737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.807909, y: 1.7313814, z: 4.4756374}
+  m_Center: {x: -0.000000059604645, y: 0, z: 0}
 --- !u!1 &2866667820764252061
 GameObject:
   m_ObjectHideFlags: 0
@@ -5680,7 +5700,7 @@ GameObject:
   - component: {fileID: 2872538356382251089}
   - component: {fileID: 2862621746754090671}
   - component: {fileID: 2854814278034863173}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tire_v4_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5759,7 +5779,7 @@ GameObject:
   - component: {fileID: 2872260532419980537}
   - component: {fileID: 2861094632999174951}
   - component: {fileID: 2854725426997475283}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tire_v4_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5838,7 +5858,7 @@ GameObject:
   - component: {fileID: 2872525718780223841}
   - component: {fileID: 2862368273571058875}
   - component: {fileID: 2854872179834945583}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tire_v5_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5917,7 +5937,7 @@ GameObject:
   - component: {fileID: 2865339716675970335}
   - component: {fileID: 2863060846132492327}
   - component: {fileID: 2853282901381737313}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Weapon_v1_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5996,7 +6016,7 @@ GameObject:
   - component: {fileID: 2872444687841512055}
   - component: {fileID: 2863001361665474429}
   - component: {fileID: 2854953315957015233}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Headlight_v1_15 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6075,7 +6095,7 @@ GameObject:
   - component: {fileID: 2872550476538487759}
   - component: {fileID: 2863055520047846453}
   - component: {fileID: 2854629912219360129}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Headlight_v1_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6154,7 +6174,7 @@ GameObject:
   - component: {fileID: 2872232499370398951}
   - component: {fileID: 2861024637945137797}
   - component: {fileID: 2854935082360151339}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Headlight_v1_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6233,7 +6253,7 @@ GameObject:
   - component: {fileID: 2872513183579059645}
   - component: {fileID: 2862767915583084087}
   - component: {fileID: 2854957843040048999}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tire_v5_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6315,10 +6335,9 @@ GameObject:
   - component: {fileID: 8547705018594139089}
   - component: {fileID: 8547705018594139095}
   - component: {fileID: 2156562998321543141}
-  - component: {fileID: 9174403003348125219}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6412,21 +6431,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closestCheckPoint: {x: 0, y: 0, z: 0}
   collisionCount: 0
---- !u!114 &9174403003348125219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547705018594139085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c42f8e4ddc07f4b8c8b541caecc712, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DraftVolumeTag: DraftingVolume
-  m_DraftStrength: 30
-  m_TopSpeedModifier: 1.2
 --- !u!1 &8560225732230961988
 GameObject:
   m_ObjectHideFlags: 0
@@ -6438,7 +6442,7 @@ GameObject:
   - component: {fileID: 8560225732230961995}
   - component: {fileID: 8560225732230961994}
   - component: {fileID: 8560225732230961989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MainBoostParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11181,50 +11185,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1 &9004157885918222602
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8920641350552840911}
-  - component: {fileID: 3798259887835648814}
-  m_Layer: 0
-  m_Name: Drafting Volume
-  m_TagString: DraftingVolume
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8920641350552840911
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9004157885918222602}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: -18}
-  m_LocalScale: {x: 3.5, y: 1, z: 30}
-  m_Children: []
-  m_Father: {fileID: 2872214380104496721}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3798259887835648814
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9004157885918222602}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &90059468563979115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11242,6 +11202,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 589718367366777495, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939445391230026999, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1991479997193477985, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11272,6 +11242,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2162651199288484992, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2504791409872694183, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11301,11 +11276,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548350058194609915, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571366724918999955, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867521314927659334, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580137912134722358, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5825190396719366932, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121064145781168493, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7164300640611255237, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
       propertyPath: m_Name
       value: PlayerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7164300640611255237, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7164300640611255241, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
@@ -11412,6 +11422,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7496920257357364868, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7511280867808118254, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11441,6 +11456,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7556182816366259443, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733629865416513288, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948683994757944283, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432121284380157157, guid: 6c3511f2d02d6ac4792d427e2b7676ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3511f2d02d6ac4792d427e2b7676ee, type: 3}
