@@ -8,24 +8,13 @@ using Photon.Realtime;
 
 public class NetworkLobby : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    [Tooltip("Prefab of the player to instantiate")]
-    private GameObject playerPrefab;
-    [SerializeField]
-    [Tooltip("Name of the scene where the racers race")]
-    private string raceSceneName = "Race";
-
-    private void Start()
-    {
-        NetworkHelper.localPlayerManager.transform.position = Vector3.up * 5f;
-    }
-
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        // If the room has reached max capacity and this is the master client, prepare to load the race scene
         if(PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Maximum players in lobby reached");
-            LoadRace();
+            Invoke(nameof(LoadRace), 3f);
         }
     }
 
@@ -34,9 +23,10 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Launcher");
     }
 
+    // Load the racing scene
     private void LoadRace()
     {
         Debug.Log("Loading the racing level");
-        PhotonNetwork.LoadLevel(raceSceneName);
+        NetworkManager.settings.raceScene.Load();
     }
 }

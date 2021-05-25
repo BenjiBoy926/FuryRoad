@@ -15,12 +15,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     [Tooltip("Parent object for the controls that show the player network connection progress")]
     private GameObject loadingControls;
     [SerializeField]
-    [Tooltip("Name of the scene in the build settings where the player goes to wait for other players to connect")]
-    private string lobbyName;
-    [SerializeField]
-    [Tooltip("The maximum number of players allowed in a room")]
-    private byte maxPlayersPerRoom = 4;
-    [SerializeField]
     [Tooltip("If true, connect as soon as the scene loads")]
     private bool connectOnAwake;
 
@@ -78,12 +72,12 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Network launcher failed to join a random room, so we will create one");
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom, PlayerTtl = 0 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = NetworkManager.settings.maxPlayersPerRace, PlayerTtl = 0 });
     }
     public override void OnJoinedRoom()
     {
-       Debug.Log("Network launcher successfully loaded a room");
-       PhotonNetwork.LoadLevel(lobbyName);
+        Debug.Log("Network launcher successfully loaded a room");
+        NetworkManager.settings.lobbyScene.Load();
     }
     
 }

@@ -31,14 +31,9 @@ public class DraftingModule : ITopSpeedModifier
     public void FixedUpdate(Rigidbody rb, Vector3 heading)
     {
         Ray ray = new Ray(rb.position, heading);
-        
-        // Cast a ray forward and see if we hit anyone
-        RaycastHit hit;
-        bool gotHit;
-        gotHit = Physics.Raycast(ray, out hit, m_DraftDistance, m_PlayerLayer, QueryTriggerInteraction.Collide);
 
-        // Draw the ray
-        Debug.DrawRay(rb.position, heading * m_DraftDistance);
+        // Cast a ray forward and see if we hit anyone
+        bool gotHit = Physics.Raycast(ray, out RaycastHit hit, m_DraftDistance, m_PlayerLayer, QueryTriggerInteraction.Collide);
 
         // Check if the draft is active by checking if the raycast got a hit on an object with the correct tag
         draftActive = gotHit && hit.collider.CompareTag(m_PlayerTag);

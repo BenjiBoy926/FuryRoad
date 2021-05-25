@@ -16,7 +16,6 @@ public class TerrainModule : ITopSpeedModifier
     private bool isOffroad;
 
     public float modifier => offroadModifier;
-    // Apply the modifier if the grounding module hit is an offroad collider
     public bool applyModifier => isOffroad;
 
     public void FixedUpdate(GroundingModule groundingModule)

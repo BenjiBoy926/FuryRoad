@@ -51,7 +51,7 @@ public class RaceResultWidget : MonoBehaviour
     {
         Color newColor;
 
-        if(NetworkHelper.localPlayerManager.localActorNumber == actorNumber)
+        if(PlayerManagementModule.local.playerIndex == actorNumber)
         {
             newColor = myColor;
         }

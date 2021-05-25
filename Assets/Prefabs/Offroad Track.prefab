@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 3100677800984020980}
   m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 3100677801135333305}
   m_Layer: 8
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 3100677801633295724}
   m_Layer: 8
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -614,7 +614,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3100677801812579685}
-  - component: {fileID: 3100677801812579690}
   m_Layer: 0
   m_Name: Offroad Track
   m_TagString: Untagged
@@ -640,26 +639,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3100677801812579690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100677801812579684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e498c5d3c4182ce4a881f392cd4db274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitingParent: {fileID: 3100677800556759333}
-  startPositions:
-  - {fileID: 3100677800984020986}
-  - {fileID: 3100677801633295698}
-  - {fileID: 3100677801135333311}
-  onRaceReady:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4792498820518968710
 GameObject:
   m_ObjectHideFlags: 0

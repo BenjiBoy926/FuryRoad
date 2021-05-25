@@ -35,11 +35,11 @@ public class FinishLine : MonoBehaviourPunCallbacks
         // If this object has a racer on it,
         // and the racer has not already crossed the finish line,
         // add the racer to the ranking and raise the event
-        if(racer != null && !ranking.Contains(racer.localActorNumber))
+        if(racer != null && !ranking.Contains(racer.playerIndex))
         {
             time2.Finished();
-            AddRacer(racer.localActorNumber);
-            photonView.RPC("AddRacer", RpcTarget.Others, racer.localActorNumber);
+            AddRacer(racer.playerIndex);
+            photonView.RPC("AddRacer", RpcTarget.Others, racer.playerIndex);
         }
     }
 
@@ -51,11 +51,11 @@ public class FinishLine : MonoBehaviourPunCallbacks
 
     public int GetLocalPlayerRanking()
     {
-        return GetPlayerRanking(NetworkHelper.localPlayerManager);
+        return GetPlayerRanking(PlayerManagementModule.local);
     }
     public int GetPlayerRanking(PlayerManagementModule player)
     {
-        return GetPlayerRanking(player.localActorNumber);
+        return GetPlayerRanking(player.playerIndex);
     }
     public int GetPlayerRanking(int actorNumber)
     {

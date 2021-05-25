@@ -58,13 +58,13 @@ public class RaceSetup: MonoBehaviourPunCallbacks
 
         if (localActor < startPositions.Count)
         {
-            NetworkHelper.localPlayerManager.transform.forward = startPositions[localActor].forward;
-            NetworkHelper.localPlayerManager.transform.position = startPositions[localActor].position;
+            PlayerManagementModule.local.transform.forward = startPositions[localActor].forward;
+            PlayerManagementModule.local.transform.position = startPositions[localActor].position;
         }
         else
         {
             Debug.LogError("Actor #" + localActor + " has no spawn position assigned!");
-            NetworkHelper.localPlayerManager.transform.position = Vector3.up * 5f;
+            PlayerManagementModule.local.transform.position = Vector3.up * 5f;
         }   
     }
 
