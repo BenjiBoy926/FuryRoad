@@ -43,11 +43,15 @@ public class NetworkScene
         this.playerPrefab = playerPrefab;
         SceneManager.sceneLoaded += CheckInstantiatePlayer;
     }
-    // Load the scene specified
-    public void Load()
+    // Load the scene for all photon clients in the same room
+    public void NetworkLoad()
     {
-        // Load the level on the photon network
         PhotonNetwork.LoadLevel(name);
+    }
+    // Load the scene only for the local photon client
+    public void LocalLoad()
+    {
+        SceneManager.LoadScene(name);
     }
 
     // Check if this scene should have a player.  If it should, instantiate the player

@@ -77,7 +77,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Network launcher successfully loaded a room");
-        NetworkManager.settings.lobbyScene.Load();
+        NetworkManager.settings.lobbyScene.NetworkLoad();
     }
-    
 }
