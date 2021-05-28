@@ -36,7 +36,7 @@ public class DriftingModule
         m_DriftBoost.Awake();
     }
 
-    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading)
+    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading, Vector3 normal)
     {
         // If the velocity magnitude falls below the threshold, cancel the drift
         if(rb.velocity.sqrMagnitude <= (cancelThreshold * cancelThreshold))
@@ -44,7 +44,7 @@ public class DriftingModule
             StopDrifting();
         }
         // Always update the drift boost
-        m_DriftBoost.FixedUpdate(rb, topSpeed, heading);
+        m_DriftBoost.FixedUpdate(rb, topSpeed, heading, normal);
     }
 
     // Get the steering of the drifting module.

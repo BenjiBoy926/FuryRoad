@@ -10,7 +10,4 @@ SPACE: boost
 LEFT CTRL or LEFT MOUSE: drift
 
 Known bugs:
-Networking doesn't work much at all.  It's not currently possible to "race" such that all racers start at the same time and have a single declared winner.  Photon is extremely laggy when we test it too.
-
-Questions:
-Nothing really, just chugging ahead
+No bugs per se but plenty of missing features.  It is still impossible to actually race, feel free to drive around with friends but you won't be competing for first place just yet!  Those features are still to come

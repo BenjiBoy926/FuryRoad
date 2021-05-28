@@ -58,12 +58,14 @@ public class BoostingModule : ITopSpeedModifier
         m_BoostBeginTime = -m_BoostDuration - 1f;
     }
 
-    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading)
+    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading, Vector3 normal)
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
-            rb.velocity = heading * topSpeed;
+            // Separate the speed into component perpendicular to motion
+            // and speed in the plane of motion (planes change based on normal vector)
+            rb.velocity = heading * topSpeed + Vector3.Project(rb.velocity, normal);
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
