@@ -60,12 +60,6 @@ MonoBehaviour:
       name: LatestTrack
       hasPlayer: 1
       spawnPointTag: Respawn
-  m_PlayerInstantiate:
-    playerPrefab: {fileID: 465788081436932958, guid: 1b8b00d731ad28f43a5b569f87793e57,
-      type: 3}
-    scenesWithPlayer:
-    - Lobby
-    - LatestTrack
 --- !u!114 &3914638805264454942
 MonoBehaviour:
   m_ObjectHideFlags: 0
