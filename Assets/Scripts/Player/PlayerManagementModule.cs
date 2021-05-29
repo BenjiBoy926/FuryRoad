@@ -6,7 +6,15 @@ using Photon.Realtime;
 
 public class PlayerManagementModule : MonoBehaviour, IPunInstantiateMagicCallback
 {
-    private PlayerMovementDriver3D movementDriver;
+    [SerializeField]
+    [Tooltip("Reference to the script that drives player movement")]
+    private PlayerMovementDriver3D m_MovementDriver;
+    [SerializeField]
+    [Tooltip("Reference to the rigidbody of the car")]
+    private Rigidbody m_Rb;
+
+    public PlayerMovementDriver3D movementDriver => m_MovementDriver;
+    public Rigidbody rb => m_Rb;
 
     // Get the index of this player in the list of network players
     public int playerIndex
@@ -33,14 +41,9 @@ public class PlayerManagementModule : MonoBehaviour, IPunInstantiateMagicCallbac
         return (PlayerManagementModule)player.TagObject;
     }
 
-    private void Awake()
-    {
-        movementDriver = GetComponent<PlayerMovementDriver3D>();
-    }
-
     public void EnableControl(bool active)
     {
-        movementDriver.enabled = active;
+        m_MovementDriver.enabled = active;
     }
 
     // When the object is instantiated, we need to set the tag object on the player for this client

@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photonView: {fileID: 8874272026387517876}
+  m_MovementModule: {fileID: 5154369334994704290}
   drivingAudio: {fileID: 7817368549828297127}
   drivingAudioClip: {fileID: 8300000, guid: e85724e165ce04dd58dd81fc692123af, type: 3}
   idleAudioClip: {fileID: 8300000, guid: fac2bfaa8791d403787797ec4611f928, type: 3}
@@ -112,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cccfe28b7dbdac44198b38441e410c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MovementDriver: {fileID: 5468550772916309675}
+  m_Rb: {fileID: 8547705018594139088}
 --- !u!114 &367920207273372310
 MonoBehaviour:
   m_ObjectHideFlags: 0

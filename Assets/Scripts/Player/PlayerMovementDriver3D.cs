@@ -9,6 +9,8 @@ public class PlayerMovementDriver3D : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the photon view that is attached to the player movement sphere")]
     private PhotonView photonView;
+    [SerializeField]
+    [Tooltip("Reference to the movement module that this script drives")]
     private MovementModule3D m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
@@ -19,9 +21,10 @@ public class PlayerMovementDriver3D : MonoBehaviour
     private float audioPitch;
     public Rigidbody racerRigidBody;
 
+    public MovementModule3D movementModule => m_MovementModule;
+
     private void Start()
     {
-        m_MovementModule = GetComponent<MovementModule3D>();
         //audioPitch = drivingAudio.pitch;
     }
 

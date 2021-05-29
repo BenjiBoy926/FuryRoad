@@ -104,7 +104,6 @@ public class MovementModule3D : MonoBehaviour
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
         ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
     }
-
     public void Turn(float horizontal)
     {
         // Car can only turn while moving and grounded
@@ -162,5 +161,11 @@ public class MovementModule3D : MonoBehaviour
     public void FinishDrifting()
     {
         m_DriftingModule.FinishDrifting(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
+    }
+
+    public void SetHeading(Vector3 heading)
+    {
+        _heading = heading;
+        rigidbody.transform.forward = heading;
     }
 }

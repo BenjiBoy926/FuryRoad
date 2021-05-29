@@ -24,6 +24,9 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     private void Awake()
     {
         leaveButton.onClick.AddListener(Leave);
+
+        // Open the lobby
+        SetLobbyOpen(true);
         
         // Initialize the text that displays players entered
         playerText.enabled = true;
@@ -44,12 +47,19 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             Debug.Log("Maximum players in lobby reached");
-            leaveButton.interactable = false;
-            playerText.enabled = false;
+
+            // Close the lobby
+            SetLobbyOpen(false);
 
             // Start the countdown routine on the submodule
             StartCoroutine(countdown.CountdownRoutine());
         }
+    }
+    private void SetLobbyOpen(bool open)
+    {
+        leaveButton.interactable = open;
+        playerText.enabled = open;
+        PhotonNetwork.CurrentRoom.IsOpen = open;
     }
     // Have the player leave the current room
     public void Leave()
