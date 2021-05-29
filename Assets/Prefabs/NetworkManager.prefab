@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Settings:
     playerPrefab: {fileID: 465788081436932958, guid: 1b8b00d731ad28f43a5b569f87793e57,
       type: 3}
-    maxPlayersPerRace: 2
+    maxPlayersPerRace: 3
     launcherScene:
       name: Launcher
       hasPlayer: 0
