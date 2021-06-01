@@ -54,6 +54,10 @@ public class MovementModule3D : MonoBehaviour
     [Tooltip("Reference to the module that modifies the car's speed over different terrain types")]
     private TerrainModule m_TerrainModule;
 
+    [SerializeField]
+    [Tooltip("Reference to the script that handles the finish line")]
+    private FinishLine finishLine;
+
     // Components required
     private GroundingModule m_GroundingModule;
     // Current heading of the movement module
@@ -103,6 +107,7 @@ public class MovementModule3D : MonoBehaviour
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
         ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
+        ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
     }
     public void Turn(float horizontal)
     {

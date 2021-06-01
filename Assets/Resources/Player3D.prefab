@@ -300,6 +300,7 @@ MonoBehaviour:
   m_TerrainModule:
     offroadTag: Offroad
     offroadModifier: 0.3
+  finishLine: {fileID: 0}
 --- !u!82 &6304079693476585694
 AudioSource:
   m_ObjectHideFlags: 0

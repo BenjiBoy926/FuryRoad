@@ -12,6 +12,10 @@ public class PlayerUIManager : MonoBehaviour
     [Tooltip("Reference to the script used to manage boost resources ui")]
     private BoostResourceUIManager boostResourceUI;
 
+    [SerializeField]
+    [Tooltip("Reference to the script used to manage placement of racers ui")]
+    private PlacementUIManager placementUI;
+
     // Reference to the photon view of the car
     private PhotonView view;
 
@@ -35,6 +39,14 @@ public class PlayerUIManager : MonoBehaviour
         if(view.IsMine)
         {
             speedUI.UpdateUI(Mathf.Round(speed));
+        }
+    }
+
+    public void UpdatePlacementUI(int placement)
+    {
+        if(view.IsMine)
+        {
+            placementUI.UpdateUI(placement);
         }
     }
 }
