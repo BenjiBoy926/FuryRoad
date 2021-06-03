@@ -107,7 +107,9 @@ public class MovementModule3D : MonoBehaviour
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
         ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
-        ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
+
+        // A temporary fix, since we are getting null references
+        if(finishLine != null) ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
     }
     public void Turn(float horizontal)
     {
