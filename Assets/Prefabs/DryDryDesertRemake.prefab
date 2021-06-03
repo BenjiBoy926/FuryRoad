@@ -182,7 +182,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2545024540375509742}
-  - component: {fileID: 3257636186759823022}
   m_Layer: 0
   m_Name: DryDryDesertRemake
   m_TagString: Untagged
@@ -206,20 +205,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3257636186759823022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2545024540375509741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a2d5a9b6500f2418aeaa635ce3fed0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  raceManagerPrefab: {fileID: 5141791323645734166, guid: 59bda215db6209a4186d639db0641391,
-    type: 3}
 --- !u!1 &2545024540902727871
 GameObject:
   m_ObjectHideFlags: 0
