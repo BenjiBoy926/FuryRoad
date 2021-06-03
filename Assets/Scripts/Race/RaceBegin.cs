@@ -39,7 +39,7 @@ public class RaceBegin : MonoBehaviour
     private IEnumerator RaceBeginCoroutine()
     {
         // Disable player control and display the countdown
-        PlayerManagementModule.local.EnableControl(false);
+        PlayerManager.local.EnableControl(false);
         SetCountdownGUIActive(true);
 
         // Advance the first countdown GUI
@@ -52,7 +52,7 @@ public class RaceBegin : MonoBehaviour
         }
 
         // Enable player control and invoke the race begin event
-        PlayerManagementModule.local.EnableControl(true);
+        PlayerManager.local.EnableControl(true);
         raceBegunEvent.Invoke();
 
         // Wait a few seconds, then disable the countdown gui

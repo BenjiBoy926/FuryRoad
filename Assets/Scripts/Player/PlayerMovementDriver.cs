@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(MovementModule3D))]
-public class PlayerMovementDriver3D : MonoBehaviour
+[RequireComponent(typeof(MovementManager))]
+public class PlayerMovementDriver : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Reference to the photon view that is attached to the player movement sphere")]
     private PhotonView photonView;
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
-    private MovementModule3D m_MovementModule;
+    private MovementManager m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
     private bool m_Boost;
@@ -21,7 +21,7 @@ public class PlayerMovementDriver3D : MonoBehaviour
     private float audioPitch;
     public Rigidbody racerRigidBody;
 
-    public MovementModule3D movementModule => m_MovementModule;
+    public MovementManager movementModule => m_MovementModule;
 
     private void Start()
     {

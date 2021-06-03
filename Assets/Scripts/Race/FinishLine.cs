@@ -30,7 +30,7 @@ public class FinishLine : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerManagementModule racer = other.GetComponent<PlayerManagementModule>();
+        PlayerManager racer = other.GetComponent<PlayerManager>();
         
         // If this object has a racer on it,
         // and the racer has not already crossed the finish line,
@@ -51,9 +51,9 @@ public class FinishLine : MonoBehaviourPunCallbacks
 
     public int GetLocalPlayerRanking()
     {
-        return GetPlayerRanking(PlayerManagementModule.local);
+        return GetPlayerRanking(PlayerManager.local);
     }
-    public int GetPlayerRanking(PlayerManagementModule player)
+    public int GetPlayerRanking(PlayerManager player)
     {
         return GetPlayerRanking(player.playerIndex);
     }

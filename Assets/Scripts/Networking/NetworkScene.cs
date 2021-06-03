@@ -74,7 +74,7 @@ public class NetworkScene
         // Instantiate the player
         GameObject clone = PhotonNetwork.Instantiate(playerPrefab.name, mySpawn.transform.position, mySpawn.transform.rotation);
         // Assign the player manager to the tag object of the local player
-        PlayerManagementModule manager = clone.GetComponent<PlayerManagementModule>();
+        PlayerManager manager = clone.GetComponent<PlayerManager>();
 
         // Ensure correct rotation
         manager.movementDriver.movementModule.SetHeading(mySpawn.transform.forward);

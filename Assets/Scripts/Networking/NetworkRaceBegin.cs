@@ -56,7 +56,7 @@ public class NetworkRaceBegin
 
     public void StartCountdown()
     {
-        PlayerManagementModule.local.EnableControl(false);
+        PlayerManager.local.EnableControl(false);
         ui.StartCountdown();
     }
 
@@ -65,7 +65,7 @@ public class NetworkRaceBegin
         // If this is the final count, then enable control for the player
         if (count >= (numCounts - 1))
         {
-            PlayerManagementModule.local.EnableControl(true);
+            PlayerManager.local.EnableControl(true);
         }
         ui.UpdateCountdown(count);
     }

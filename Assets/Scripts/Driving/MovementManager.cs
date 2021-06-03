@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(GroundingModule))]
-public class MovementModule3D : MonoBehaviour
+public class MovementManager : MonoBehaviour
 {
     [Header("Driving")]
 
@@ -98,7 +98,7 @@ public class MovementModule3D : MonoBehaviour
 
         // Update all submodules
         m_TopSpeedModule.FixedUpdate();
-        m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, false, !groundingModule.grounded);
+        m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, m_DraftingModule.draftActive, !groundingModule.grounded);
         m_BoostingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading, groundingModule.groundNormal);
         m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading, groundingModule.groundNormal);
         m_DraftingModule.FixedUpdate(m_Rigidbody, heading);

@@ -16,12 +16,12 @@ public class VehicleModelController : MonoBehaviour
     private float rotateSpeed;
 
     // Movement module on the parent
-    private MovementModule3D movementModule;
+    private MovementManager movementModule;
 
     // Start is called before the first frame update
     void Start()
     {
-        movementModule = GetComponentInParent<MovementModule3D>();
+        movementModule = GetComponentInParent<MovementManager>();
     }
 
     // Update is called once per frame

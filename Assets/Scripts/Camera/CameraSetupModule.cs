@@ -24,7 +24,7 @@ public class CameraSetupModule : MonoBehaviour
     private float lift;
 
     // The target movement module
-    private MovementModule3D target;
+    private MovementManager target;
     private bool boostUpdating = false;
 
     private void Awake()
@@ -34,10 +34,10 @@ public class CameraSetupModule : MonoBehaviour
 
     public void Setup(Transform parent)
     {
-        target = parent.GetComponent<MovementModule3D>();
+        target = parent.GetComponent<MovementManager>();
 
         // Subscribe to boosting events on the movement module
-        MovementModule3D movementModule = parent.GetComponent<MovementModule3D>();
+        MovementManager movementModule = parent.GetComponent<MovementManager>();
             
         movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
         movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
