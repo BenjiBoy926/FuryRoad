@@ -14,6 +14,8 @@ public class NetworkScene
     [TagSelector]
     [Tooltip("Tag of the objects that the players will spawn at")]
     public string spawnPointTag = "Respawn";
+    [Tooltip("Extra objects to instantiate on the network when the scene loads")]
+    public List<GameObject> additionalObjects;
 
     // Reference to the player prefab instantiated if the scene has a player
     private GameObject playerPrefab;
@@ -41,7 +43,7 @@ public class NetworkScene
     public void Awake(GameObject playerPrefab)
     {
         this.playerPrefab = playerPrefab;
-        SceneManager.sceneLoaded += CheckInstantiatePlayer;
+        SceneManager.sceneLoaded += CheckInstantiateSceneObjects;
     }
     // Load the scene for all photon clients in the same room
     public void NetworkLoad()
@@ -55,11 +57,13 @@ public class NetworkScene
     }
 
     // Check if this scene should have a player.  If it should, instantiate the player
-    private void CheckInstantiatePlayer(Scene arg0, LoadSceneMode arg1)
+    private void CheckInstantiateSceneObjects(Scene arg0, LoadSceneMode arg1)
     {
-        if (hasPlayer && arg0.name == name)
+        if(arg0.name == name)
         {
-            InstantiatePlayer();
+            InstantiateAdditionalObjects();
+
+            if (hasPlayer) InstantiatePlayer();
         }
     }
 
@@ -77,5 +81,13 @@ public class NetworkScene
 
         // Set the tab object on the local player
         PhotonNetwork.LocalPlayer.TagObject = manager;
+    }
+
+    private void InstantiateAdditionalObjects()
+    {
+        foreach(GameObject go in additionalObjects)
+        {
+            PhotonNetwork.Instantiate(go.name, Vector3.zero, Quaternion.identity);
+        }
     }
 }

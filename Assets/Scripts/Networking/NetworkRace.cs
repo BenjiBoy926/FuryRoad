@@ -12,9 +12,6 @@ public class NetworkRace : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // Initialize submodules
-        begin.Start();
-
         // As soon as the scene starts, begin the countdown
         // But only for the master client, because it uses RPC to sync across all clients
         if(PhotonNetwork.IsMasterClient)

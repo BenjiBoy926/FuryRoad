@@ -26,16 +26,8 @@ public class NetworkRaceBegin
     [Header("GUI")]
 
     [SerializeField]
-    [TagSelector]
-    [Tooltip("Tag on the object that handles global GUI")]
-    private string globalUITag = "GlobalUI";
-
+    [Tooltip("Used to manage the begin GUI")]
     private NetworkRaceBeginGUI ui;
-
-    public void Start()
-    {
-        ui = GameObject.FindGameObjectWithTag(globalUITag).GetComponentInChildren<NetworkRaceBeginGUI>();
-    }
 
     public IEnumerator CountdownRoutine(PhotonView view, string startRPC, string updateRPC, string finishRPC)
     {
@@ -70,8 +62,6 @@ public class NetworkRaceBegin
 
     public void UpdateCountdown(int count)
     {
-        Debug.Log(count);
-
         // If this is the final count, then enable control for the player
         if (count >= (numCounts - 1))
         {

@@ -10,7 +10,6 @@ public class PlacementUIManager : MonoBehaviour
     [Tooltip("Text that displays the placement of racer")]
     private Text text;
 
-    
     public void UpdateUI(int placement)
     {
         text.text = placement.ToString();

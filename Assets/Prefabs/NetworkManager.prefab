@@ -47,19 +47,23 @@ MonoBehaviour:
   m_Settings:
     playerPrefab: {fileID: 465788081436932958, guid: 1b8b00d731ad28f43a5b569f87793e57,
       type: 3}
-    maxPlayersPerRace: 3
+    maxPlayersPerRace: 2
     launcherScene:
       name: Launcher
       hasPlayer: 0
       spawnPointTag: Respawn
+      additionalObjects: []
     lobbyScene:
       name: Lobby
       hasPlayer: 1
       spawnPointTag: Respawn
+      additionalObjects: []
     raceScene:
       name: LatestTrack
       hasPlayer: 1
       spawnPointTag: Respawn
+      additionalObjects:
+      - {fileID: 5141791323645734166, guid: 59bda215db6209a4186d639db0641391, type: 3}
 --- !u!114 &3914638805264454942
 MonoBehaviour:
   m_ObjectHideFlags: 0

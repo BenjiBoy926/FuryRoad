@@ -11,7 +11,6 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the script used to manage boost resources ui")]
     private BoostResourceUIManager boostResourceUI;
-
     [SerializeField]
     [Tooltip("Reference to the script used to manage placement of racers ui")]
     private PlacementUIManager placementUI;

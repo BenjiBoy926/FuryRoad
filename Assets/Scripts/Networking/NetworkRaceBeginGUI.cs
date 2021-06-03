@@ -4,7 +4,8 @@ using UnityEngine;
 
 using TMPro;
 
-public class NetworkRaceBeginGUI : MonoBehaviour
+[System.Serializable]
+public class NetworkRaceBeginGUI
 {
     [SerializeField]
     [Tooltip("Root object for all countdown gui")]
@@ -16,7 +17,7 @@ public class NetworkRaceBeginGUI : MonoBehaviour
     [Tooltip("Text displayed while the race is about to begin")]
     private string beginningText = "The race is about to begin!";
     [SerializeField]
-    [Tooltip("List of objects to reveal as we countdown")]
+    [Tooltip("List of text to display as we countdown")]
     private List<NetworkRaceCount> counts = new List<NetworkRaceCount>()
     {
         new NetworkRaceCount(null, "Ready..."),

@@ -33,7 +33,12 @@ public class NetworkSceneDrawer : PropertyDrawer
             if(hasPlayer.boolValue)
             {
                 EditorGUI.PropertyField(position, property.FindPropertyRelative("spawnPointTag"));
+                position.y += position.height;
             }
+
+            // Edit the additional objects property
+            SerializedProperty additionalObjects = property.FindPropertyRelative("additionalObjects");
+            EditorGUI.PropertyField(position, additionalObjects, true);
 
             EditorGUI.indentLevel--;
         }
@@ -44,10 +49,11 @@ public class NetworkSceneDrawer : PropertyDrawer
         SerializedProperty hasPlayer = property.FindPropertyRelative("hasPlayer");
         float height = LayoutUtilities.standardControlHeight;
 
-        // If property is expanded, add space for two more controls
+        // If property is expanded, add space for name, hasPlayer bool, and list of objects
         if(property.isExpanded)
         {
             height += (2f * LayoutUtilities.standardControlHeight);
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("additionalObjects"));
 
             // If scene has player, add space for a third control
             if(hasPlayer.boolValue)
