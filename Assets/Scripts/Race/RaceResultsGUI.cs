@@ -14,6 +14,7 @@ public class RaceResultsGUI : MonoBehaviour
     // List of the widgets that are currently active
     private List<RaceResultWidget> widgets = new List<RaceResultWidget>();
 
+    // DEPRECATED
     public void Setup(FinishLine finish)
     {
         gameObject.SetActive(true);
@@ -24,11 +25,11 @@ public class RaceResultsGUI : MonoBehaviour
             Destroy(widget);
         }
 
-        for(int i = finish.ranking.Count - 1; i >= 0; i--)
-        {
-            int rank = finish.ranking[i];
-            InstantiateWidget(finish.GetPlayerRanking(rank), rank);
-        }
+        //for(int i = finish.ranking.Count - 1; i >= 0; i--)
+        //{
+        //    int rank = finish.ranking[i];
+        //    InstantiateWidget(finish.GetPlayerRanking(rank), rank);
+        //}
     }
 
     private void InstantiateWidget(int actor, int rank)

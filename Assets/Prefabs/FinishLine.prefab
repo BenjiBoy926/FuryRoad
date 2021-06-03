@@ -384,10 +384,9 @@ GameObject:
   - component: {fileID: 5031308179075827386}
   - component: {fileID: 5031308179075827387}
   - component: {fileID: 1161307361944974486}
-  - component: {fileID: 7878719706149115186}
   m_Layer: 0
   m_Name: FinishLine
-  m_TagString: FinishLine
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,29 +485,6 @@ MonoBehaviour:
   onRacerFinished:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7878719706149115186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031308179075827385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 1161307361944974486}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5031308180125848882
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +496,7 @@ GameObject:
   - component: {fileID: 5031308180125848885}
   m_Layer: 0
   m_Name: FinishLine
-  m_TagString: Untagged
+  m_TagString: FinishLine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -534,7 +510,7 @@ Transform:
   m_GameObject: {fileID: 5031308180125848882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2379.19, y: 21.204607, z: 183.71274}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.03333333, y: 1, z: 0.03333333}
   m_Children:
   - {fileID: 5031308179075827384}
   - {fileID: 5031308178394328326}

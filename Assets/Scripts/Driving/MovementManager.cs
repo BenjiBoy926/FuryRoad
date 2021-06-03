@@ -54,10 +54,6 @@ public class MovementManager : MonoBehaviour
     [Tooltip("Reference to the module that modifies the car's speed over different terrain types")]
     private TerrainModule m_TerrainModule;
 
-    [SerializeField]
-    [Tooltip("Reference to the script that handles the finish line")]
-    private FinishLine finishLine;
-
     // Components required
     private GroundingModule m_GroundingModule;
     // Current heading of the movement module
@@ -108,8 +104,8 @@ public class MovementManager : MonoBehaviour
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
         ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
 
-        // A temporary fix, since we are getting null references
-        if(finishLine != null) ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
+        // We need a different way to update placement UI that measures the player distance from the finish line
+        //if(finishLine != null) ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
     }
     public void Turn(float horizontal)
     {

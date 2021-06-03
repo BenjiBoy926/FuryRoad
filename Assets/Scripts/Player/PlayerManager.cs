@@ -17,12 +17,12 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     public Rigidbody rb => m_Rb;
 
     // Get the index of this player in the list of network players
-    public int playerIndex
+    public int index
     {
         get
         {
             List<Player> players = new List<Player>(PhotonNetwork.PlayerList);
-            return players.FindIndex(x => GetModule(x) == this);
+            return players.FindIndex(x => Get(x) == this);
         }
     }
 
@@ -31,21 +31,24 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     {
         get
         {
-            return GetModule(PhotonNetwork.LocalPlayer);
+            return Get(PhotonNetwork.LocalPlayer);
         }
     }
 
     // Get the tag object of the player cast to a player management module
-    public static PlayerManager GetModule(Player player)
+    public static PlayerManager Get(int index)
+    {
+        return Get(PhotonNetwork.PlayerList[index]);
+    }
+    public static PlayerManager Get(Player player)
     {
         return (PlayerManager)player.TagObject;
     }
-
+    // Enable/Disable control of the car
     public void EnableControl(bool active)
     {
         m_MovementDriver.enabled = active;
     }
-
     // When the object is instantiated, we need to set the tag object on the player for this client
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {

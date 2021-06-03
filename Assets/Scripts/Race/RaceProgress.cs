@@ -23,10 +23,11 @@ public class RaceProgress : MonoBehaviourPunCallbacks
         get; private set;
     }
 
+    // DEPRECATED
     private void Start()
     {
         finishLine = GetComponentInChildren<FinishLine>();
-        finishLine.onRacerFinished.AddListener(CheckRacerFinished);
+        //finishLine.onRacerFinished.AddListener(CheckRacerFinished);
 
         rankText = rankParent.GetComponentInChildren<Text>();
         rankParent.SetActive(false);
@@ -39,13 +40,14 @@ public class RaceProgress : MonoBehaviourPunCallbacks
         rankParent.SetActive(false);
     }
 
+    // DEPRECATED
     public void CheckRacerFinished(int playerFinished)
     {
         if(playerFinished == PhotonNetwork.LocalPlayer.ActorNumber && raceInProgress)
         {
             rankParent.SetActive(true);
 
-            int rank = finishLine.GetLocalPlayerRanking();
+            int rank = 0;
             rankText.text = RaceHelper.OrdinalString(rank);
 
             if(rank <= 3)
@@ -72,12 +74,13 @@ public class RaceProgress : MonoBehaviourPunCallbacks
     }
 
     //[PunRPC]
+    // DEPRECATED
     public void CheckAllRacersFinished()
     {
-        if(finishLine.allRacersFinished)
-        {
-            AllRacersFinished();
-        }
+        //if(finishLine.allRacersFinished)
+        //{
+        //    AllRacersFinished();
+        //}
     }
 
     private void AllRacersFinished()

@@ -49,8 +49,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 465788081436932930}
+  - component: {fileID: 6976342707496527660}
   - component: {fileID: 5468550772916309675}
-  - component: {fileID: 646261398758859159}
   - component: {fileID: 367920207273372310}
   - component: {fileID: 6466564291743541587}
   - component: {fileID: 5154369334994704290}
@@ -83,6 +83,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6976342707496527660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465788081436932958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63b0770a0d776641b63c14b8bc219a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MovementDriver: {fileID: 5468550772916309675}
+  m_Rb: {fileID: 8547705018594139088}
 --- !u!114 &5468550772916309675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,20 +115,6 @@ MonoBehaviour:
   drivingAudioClip: {fileID: 8300000, guid: e85724e165ce04dd58dd81fc692123af, type: 3}
   idleAudioClip: {fileID: 8300000, guid: fac2bfaa8791d403787797ec4611f928, type: 3}
   racerRigidBody: {fileID: 8547705018594139088}
---- !u!114 &646261398758859159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 465788081436932958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cccfe28b7dbdac44198b38441e410c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovementDriver: {fileID: 5468550772916309675}
-  m_Rb: {fileID: 8547705018594139088}
 --- !u!114 &367920207273372310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,14 +156,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 465788081436932958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c00e094dc78114aa25ca9e694a0cb6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bb82812e6f11d942b059b4e280ea683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 8547705018594139088}
   ui: {fileID: 3469209134563892082}
   gravity: -50
-  m_Thrust: 150
-  m_Turn: 90
+  m_Thrust: 120
+  m_Turn: 60
   m_TopSpeedModule:
     m_BaseTopSpeed: 90
   m_BoostResources:
@@ -180,40 +180,40 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.007628124
-        value: -0.0021857023
-        inSlope: 0.07438429
-        outSlope: 0.07438429
+        time: -0.004166667
+        value: 0.0083682
+        inSlope: -3.3777099
+        outSlope: -3.3777099
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.21259767
+        outWeight: 0.6111028
       - serializedVersion: 3
-        time: 0.076933265
-        value: -0.16658017
-        inSlope: 3.3778524
-        outSlope: 3.3778524
-        tangentMode: 0
+        time: 0.070834346
+        value: -0.07948834
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.07555662
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.20290077
-        value: 1.003366
-        inSlope: 2.6295872
-        outSlope: 2.6295872
-        tangentMode: 0
+        time: 0.27499694
+        value: 1.0125523
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.47870818
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.0125
-        value: -0.012552301
-        inSlope: -0.22345261
-        outSlope: -0.22345261
+        time: 1
+        value: 0.008368201
+        inSlope: -4.6192446
+        outSlope: -4.6192446
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.37801224
+        inWeight: 0.06250003
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -231,8 +231,8 @@ MonoBehaviour:
         m_Calls: []
   m_DriftingModule:
     driftBoostChargeTime: 2
-    steeringModifier: 0.8
-    cancelThreshold: 20
+    steeringModifier: 1
+    cancelThreshold: 5
     m_DriftBoost:
       m_MaxTopSpeedModifier: 1.2
       m_BoostDuration: 1
@@ -240,41 +240,32 @@ MonoBehaviour:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0
-          value: -0.009773254
-          inSlope: 0.11914027
-          outSlope: 0.11914027
+          time: -0.008333334
+          value: -0.0041841003
+          inSlope: 7.7465625
+          outSlope: 7.7465625
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
-          outWeight: 0.2379051
+          inWeight: 0.33333334
+          outWeight: 0.17948718
         - serializedVersion: 3
-          time: 0.08242199
-          value: -0.063030444
-          inSlope: 0.71186036
-          outSlope: 0.71186036
-          tangentMode: 0
+          time: 0.15416667
+          value: 1.0041841
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 136
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.25374836
-          value: 1.0032231
-          inSlope: 0.16864955
-          outSlope: 0.16864955
+          time: 1.0083333
+          value: 0.0041841003
+          inSlope: -3.6515772
+          outSlope: -3.6515772
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.37038988
-        - serializedVersion: 3
-          time: 1.0333252
-          value: -0.03347397
-          inSlope: -3.5868936
-          outSlope: -3.5868936
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.05644416
-          outWeight: 0
+          inWeight: 0.053658556
+          outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -300,7 +291,6 @@ MonoBehaviour:
   m_TerrainModule:
     offroadTag: Offroad
     offroadModifier: 0.3
-  finishLine: {fileID: 0}
 --- !u!82 &6304079693476585694
 AudioSource:
   m_ObjectHideFlags: 0
