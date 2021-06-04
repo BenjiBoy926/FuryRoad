@@ -21,6 +21,8 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
 
+    Coroutine countdownRoutine;
+
     private void Awake()
     {
         leaveButton.onClick.AddListener(Leave);
@@ -29,7 +31,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         SetLobbyOpen(true);
         
         // Initialize the text that displays players entered
-        playerText.enabled = true;
         UpdatePlayerText();
 
         countdown.Awake();
@@ -39,6 +40,14 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     {
         UpdatePlayerText();
         CheckLoadRace();
+    }
+    // When a player leaves the room, we need to make sure the lobby is open and player text is displayed
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        // Stop the countdown if it is currently running
+        countdown.StopCountdown(this);
+        SetLobbyOpen(true);
+        UpdatePlayerText();
     }
     // Check if the room is full, and if it is, then load the race
     private void CheckLoadRace()
@@ -52,7 +61,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
             SetLobbyOpen(false);
 
             // Start the countdown routine on the submodule
-            StartCoroutine(countdown.CountdownRoutine());
+            countdown.StartCountdown(this);
         }
     }
     private void SetLobbyOpen(bool open)
@@ -69,6 +78,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
 
     private void UpdatePlayerText()
     {
+        playerText.enabled = true;
         playerText.text = "Waiting for players to join: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 }

@@ -15,8 +15,23 @@ public class NetworkLobbyCountdown
     [Tooltip("Text that displays the countdown")]
     private TextMeshProUGUI numberText;
 
+    Coroutine countdownRoutine;
+
     public void Awake()
     {
+        guiParent.SetActive(false);
+    }
+
+    public void StartCountdown(MonoBehaviour behaviour)
+    {
+        countdownRoutine = behaviour.StartCoroutine(CountdownRoutine());
+    }
+    public void StopCountdown(MonoBehaviour behaviour)
+    {
+        if(countdownRoutine != null)
+        {
+            behaviour.StopCoroutine(countdownRoutine);
+        }
         guiParent.SetActive(false);
     }
 
