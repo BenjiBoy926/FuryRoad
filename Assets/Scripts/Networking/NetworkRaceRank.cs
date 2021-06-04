@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 using Photon.Pun;
 
 [System.Serializable]
-public class NetworkRaceRanker
+public class NetworkRaceRank
 {
     [SerializeField]
     [TagSelector]
@@ -14,6 +15,8 @@ public class NetworkRaceRanker
     [SerializeField]
     [Tooltip("Data used to manage the ui")]
     private NetworkRaceRankUI ui;
+    [Tooltip("Event invoked when all racers have finished the race")]
+    public UnityEvent allRacersFinished;
 
     // Reference to the script that raises an event anytime a player passes the finish line
     private FinishLine finishLine;
@@ -65,7 +68,7 @@ public class NetworkRaceRanker
             // Check if all racers have finished
             if (ranking.Count >= PhotonNetwork.CurrentRoom.PlayerCount)
             {
-                // End the race!
+                allRacersFinished.Invoke();
             }
         }
     }

@@ -20,6 +20,8 @@ public class NetworkSettings
     public NetworkScene lobbyScene = NetworkScene.PlayerScene("Lobby");
     [Tooltip("Name of the scene loaded for the race")]
     public NetworkScene raceScene = NetworkScene.PlayerScene("LatestTrack");
+    [Tooltip("Name of the scene loaded to display the results for a race")]
+    public NetworkScene resultsScene = NetworkScene.NonPlayerScene("Results");
 
     //public static int localPlayerIndex
     // Return a list with the names of all the scenes that have player objects in them
@@ -32,6 +34,7 @@ public class NetworkSettings
             if (launcherScene.hasPlayer) scenes.Add(launcherScene);
             if (lobbyScene.hasPlayer) scenes.Add(lobbyScene);
             if (raceScene.hasPlayer) scenes.Add(raceScene);
+            if (resultsScene.hasPlayer) scenes.Add(resultsScene);
 
             return scenes;
         }
@@ -50,5 +53,6 @@ public class NetworkSettings
         launcherScene.Awake(playerPrefab);
         lobbyScene.Awake(playerPrefab);
         raceScene.Awake(playerPrefab);
+        resultsScene.Awake(playerPrefab);
     }
 }

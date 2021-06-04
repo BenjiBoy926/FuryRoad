@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [System.Serializable]
-public class NetworkRaceBegin
+public class NetworkRaceStart
 {
     [SerializeField]
     [Tooltip("Identify the number of counts in the countdown")]
@@ -27,7 +27,7 @@ public class NetworkRaceBegin
 
     [SerializeField]
     [Tooltip("Used to manage the begin GUI")]
-    private NetworkRaceBeginGUI ui;
+    private NetworkRaceStartGUI ui;
 
     public IEnumerator CountdownRoutine(PhotonView view, string startRPC, string updateRPC, string finishRPC)
     {

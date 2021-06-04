@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 
 [System.Serializable]
-public class NetworkRaceBeginGUI
+public class NetworkRaceStartGUI
 {
     [SerializeField]
     [Tooltip("Root object for all countdown gui")]

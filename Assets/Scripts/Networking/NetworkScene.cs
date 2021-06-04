@@ -62,7 +62,6 @@ public class NetworkScene
         if(arg0.name == name)
         {
             InstantiateAdditionalObjects();
-
             if (hasPlayer) InstantiatePlayer();
         }
     }
@@ -79,7 +78,7 @@ public class NetworkScene
         // Ensure correct rotation
         manager.movementDriver.movementModule.SetHeading(mySpawn.transform.forward);
 
-        // Set the tab object on the local player
+        // Set the tag object on the local player
         PhotonNetwork.LocalPlayer.TagObject = manager;
     }
 
