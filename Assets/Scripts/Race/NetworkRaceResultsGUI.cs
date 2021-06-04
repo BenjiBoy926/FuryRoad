@@ -16,10 +16,19 @@ public class NetworkRaceResultsGUI
 
     public void Start()
     {
+        // Cache ranking list for efficient use
         List<Player> ranking = NetworkRaceRank.ranking;
+
         for (int i = 0; i < ranking.Count; i++)
         {
-            InstantiateWidget(ranking[i].ActorNumber, i + 1);
+            int number;
+
+            // Check to make sure that the player exists.
+            // They might not exist if they left before the results screen loaded
+            if (ranking[i] != null) number = ranking[i].ActorNumber;
+            else number = -1;
+
+            InstantiateWidget(number, i + 1);
         }
     }
 
