@@ -20,7 +20,18 @@ public class NetworkScene
     // Reference to the player prefab instantiated if the scene has a player
     private GameObject playerPrefab;
 
-    public GameObject[] spawnPoints => GameObject.FindGameObjectsWithTag(spawnPointTag);
+    // Get the spawn points
+    // Sort the spawn points so that they are in the same order for each client
+    public List<GameObject> spawnPoints
+    {
+        get
+        {
+            GameObject[] points = GameObject.FindGameObjectsWithTag(spawnPointTag);
+            List<GameObject> pointsList = new List<GameObject>(points);
+            pointsList.Sort((x, y) => x.GetInstanceID() - y.GetInstanceID());
+            return pointsList;
+        }
+    }
 
     // Private constructor hides some data from the client for consistency
     private NetworkScene(string name, bool hasPlayer, string spawnPointTag = "Respawn")
@@ -69,7 +80,7 @@ public class NetworkScene
     private void InstantiatePlayer()
     {
         // Get the spawn point at the same index as the local player in the list
-        GameObject mySpawn = spawnPoints[NetworkSettings.localPlayerIndex % spawnPoints.Length];
+        GameObject mySpawn = spawnPoints[NetworkSettings.localPlayerIndex % spawnPoints.Count];        
         // Instantiate the player
         GameObject clone = PhotonNetwork.Instantiate(playerPrefab.name, mySpawn.transform.position, mySpawn.transform.rotation);
         // Assign the player manager to the tag object of the local player

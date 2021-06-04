@@ -27,7 +27,7 @@ public class NetworkRace : MonoBehaviourPunCallbacks
 
         // As soon as the scene starts, begin the countdown
         // But only for the master client, because it uses RPC to sync across all clients
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(start.CountdownRoutine(photonView, nameof(StartCountdown), nameof(UpdateCountdown), nameof(FinishCountdown)));
         }
@@ -56,7 +56,6 @@ public class NetworkRace : MonoBehaviourPunCallbacks
     {
         ranker.OnRacerFinished(playerIndex);   
     }
-
     private void FinishRace()
     {
         StartCoroutine(finish.RaceFinishRoutine());
