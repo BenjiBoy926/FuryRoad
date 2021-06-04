@@ -66,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 685d67e397f4d427c988d3fb207ad3ef, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 685d67e397f4d427c988d3fb207ad3ef, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -317,3 +317,4 @@ MonoBehaviour:
   otherColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
   rankText: {fileID: 5760796210803831408}
   idText: {fileID: 1607328816070497269}
+  border: {fileID: 6608213552377438705}

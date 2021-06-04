@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using Photon.Pun;
+using Photon.Realtime;
 
 [System.Serializable]
 public class NetworkRaceRank
@@ -27,7 +28,7 @@ public class NetworkRaceRank
 
     // Ranking of the players in the previous race
     // Holds the index of the player in PhotonNetwork.PlayerList
-    public static List<PlayerManager> ranking;
+    public static List<Player> ranking;
 
     public void Start(PhotonView targetView, string rpcCallback)
     {
@@ -35,7 +36,7 @@ public class NetworkRaceRank
         ui.Start();
 
         // Create a new list
-        ranking = new List<PlayerManager>();
+        ranking = new List<Player>();
 
         // Assign local variables
         this.targetView = targetView;
@@ -56,7 +57,7 @@ public class NetworkRaceRank
     // We can't pass the PlayerManager directly because Photon cannot properly serialize it for the RPC
     public void OnRacerFinished(int playerIndex)
     {
-        PlayerManager player = PlayerManager.Get(playerIndex);
+        Player player = PhotonNetwork.PlayerList[playerIndex];
 
         if (!ranking.Contains(player))
         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Photon.Pun;
+
 // Describe a widget that displays the result for a single racer
 public class RaceResultWidget : MonoBehaviour
 {
@@ -19,23 +21,19 @@ public class RaceResultWidget : MonoBehaviour
     [SerializeField]
     [Tooltip("Text to display the racer's ID")]
     private Text idText;
+    [SerializeField]
+    [Tooltip("Image that displays the border around the widget")]
+    private Image border;
 
     // Actor number for the current racer
     private int actorNumber;
     // Rank number for the current racer
     private int rank;
-    // Reference to the image that displays the border
-    private Image border;
 
     public void Setup(int actorNumber, int rank)
     {
         this.actorNumber = actorNumber;
         this.rank = rank;
-
-        if(border == null)
-        {
-            border = GetComponent<Image>();
-        }
 
         SetText();
         SetColor();
@@ -51,7 +49,7 @@ public class RaceResultWidget : MonoBehaviour
     {
         Color newColor;
 
-        if(PlayerManager.local.index == actorNumber)
+        if(PhotonNetwork.LocalPlayer.ActorNumber == actorNumber)
         {
             newColor = myColor;
         }

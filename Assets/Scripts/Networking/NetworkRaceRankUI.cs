@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Photon.Pun;
+using Photon.Realtime;
 
 using TMPro;
 
@@ -21,10 +22,10 @@ public class NetworkRaceRankUI
         root.SetActive(false);
     }
 
-    public void OnRacerFinished(PlayerManager racerWhoFinished, int rank)
+    public void OnRacerFinished(Player racerWhoFinished, int rank)
     {
         // We should check if the local client is the one who finished the race
-        if(racerWhoFinished == PlayerManager.local)
+        if(racerWhoFinished == PhotonNetwork.LocalPlayer)
         {
             root.SetActive(true);
             text.text = RaceHelper.OrdinalString(rank + 1) + " place!";

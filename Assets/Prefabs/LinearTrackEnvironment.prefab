@@ -1659,7 +1659,7 @@ GameObject:
   - component: {fileID: 1999871290022239402}
   - component: {fileID: 3699475838237841072}
   m_Layer: 5
-  m_Name: Results Panel
+  m_Name: RaceResultsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,9 +1698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1d532946f9ca047a70ee94663561af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  widgetPrefab: {fileID: 5586777375963947982, guid: e5368d37316a796438c9dba954e5c0c3,
-    type: 3}
-  widgetParent: {fileID: 2675770747198468933}
 --- !u!65 &2577915867276170562
 BoxCollider:
   m_ObjectHideFlags: 0
