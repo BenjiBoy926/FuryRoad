@@ -25,7 +25,6 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
             return players.FindIndex(x => Get(x) == this);
         }
     }
-
     // Get the player management module attached to the local player
     public static PlayerManager local
     {
@@ -35,7 +34,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
         }
     }
 
-    // Get the tag object of the player cast to a player management module
+    // Get the tag object of the player cast to a player manager
     public static PlayerManager Get(int index)
     {
         return Get(PhotonNetwork.PlayerList[index]);

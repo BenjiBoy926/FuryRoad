@@ -13,15 +13,8 @@ public class NetworkRace : MonoBehaviourPunCallbacks
     [Tooltip("Information used to setup the way that the racer ranking updates")]
     private NetworkRaceRanker ranker;
 
-    // List of the ranking for the most recent race
-    // The list contains the indices of the player in the list of Photon players
-    public static List<int> ranking;
-
     private void Start()
     {
-        // When a new race begins, you must clear the ranking for this client
-        ranking = new List<int>();
-
         // Initialize submodules
         ranker.Start(photonView, nameof(OnRacerFinished));
 
@@ -50,19 +43,10 @@ public class NetworkRace : MonoBehaviourPunCallbacks
         begin.FinishCountdown();
     }
 
-    // RACE END RPC
+    // RACE RANK RPC
     [PunRPC]
     public void OnRacerFinished(int playerIndex)
     {
-        if (!ranking.Contains(playerIndex))
-        {
-            ranking.Add(playerIndex);
-
-            // Check if all racers have finished
-            if(ranking.Count >= PhotonNetwork.CurrentRoom.PlayerCount)
-            {
-                // End the race!
-            }
-        }
+        ranker.OnRacerFinished(playerIndex);   
     }
 }
