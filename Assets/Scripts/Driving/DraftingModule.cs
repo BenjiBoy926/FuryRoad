@@ -21,6 +21,9 @@ public class DraftingModule : ITopSpeedModifier
     [SerializeField]
     [Tooltip("Modifies the top speed of the car while drafting behind another car")]
     private float m_TopSpeedModifier = 1.2f;
+    [SerializeField]
+    [Tooltip("Particles displayed while the vehicle is drafting")]
+    private ParticleSystem particles;
 
     public bool draftActive { get; private set; }
     public float modifier => m_TopSpeedModifier;
@@ -38,9 +41,13 @@ public class DraftingModule : ITopSpeedModifier
         // Check if the draft is active by checking if the raycast got a hit on an object with the correct tag
         draftActive = gotHit && hit.collider.CompareTag(m_PlayerTag);
 
-        if(draftActive)
+        // If draft is active, force the rigidbody and enable particles
+        if (draftActive)
         {
             rb.AddForce(heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            if (!particles.isPlaying) particles.Play();
         }
+        // If not drafting and particles are still playing, stop them
+        else if (particles.isPlaying) particles.Stop();
     }
 }
