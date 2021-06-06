@@ -13,7 +13,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     [Tooltip("Button used to make the player leave the lobby")]
-    private Button leaveButton;
+    private NetworkLeaveRoomButton leaveButton;
     [SerializeField]
     [Tooltip("Reference to the text that displays the number of players who have entered")]
     private TextMeshProUGUI playerText;
@@ -21,12 +21,8 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
 
-    Coroutine countdownRoutine;
-
     private void Awake()
     {
-        leaveButton.onClick.AddListener(Leave);
-
         // Open the lobby
         SetLobbyOpen(true);
         
@@ -70,12 +66,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         playerText.enabled = open;
         PhotonNetwork.CurrentRoom.IsOpen = open;
     }
-    // Have the player leave the current room
-    public void Leave()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
     private void UpdatePlayerText()
     {
         playerText.enabled = true;
