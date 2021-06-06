@@ -29,7 +29,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
 
         if (connectOnAwake) Connect();
     }
-
     public void Connect()
     {
         EnablePlayControls(false);
@@ -44,30 +43,17 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = gameVersion;
         }
     }
-
-    private void EnablePlayControls(bool enable)
-    {
-        playControls.SetActive(enable);
-        loadingControls.SetActive(!enable);
-    }
-
     // PUN callbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Network launcher connected to master");
 
         // Check to make sure we are trying to connect to a room
-        if(isConnecting)
+        if (isConnecting)
         {
             PhotonNetwork.JoinRandomRoom();
             isConnecting = false;
         }
-    }
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        Debug.LogWarningFormat("Network launcher disconnected with reason: {0}", cause);
-        EnablePlayControls(true);
-        isConnecting = false;
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -78,5 +64,17 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Network launcher successfully loaded a room");
         NetworkManager.settings.lobbyScene.NetworkLoad();
+    }
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.LogWarningFormat("Network launcher disconnected with reason: {0}", cause);
+        EnablePlayControls(true);
+        isConnecting = false;
+    }
+
+    private void EnablePlayControls(bool enable)
+    {
+        playControls.SetActive(enable);
+        loadingControls.SetActive(!enable);
     }
 }

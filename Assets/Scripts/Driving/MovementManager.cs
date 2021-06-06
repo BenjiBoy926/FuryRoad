@@ -169,6 +169,5 @@ public class MovementManager : MonoBehaviour
     public void SetHeading(Vector3 heading)
     {
         _heading = heading;
-        rigidbody.transform.forward = heading;
     }
 }
