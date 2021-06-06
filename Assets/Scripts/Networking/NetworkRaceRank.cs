@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,6 +30,16 @@ public class NetworkRaceRank
     // Ranking of the players in the previous race
     // Holds the index of the player in PhotonNetwork.PlayerList
     public static List<Player> ranking;
+
+    // Count the number of players that have finished
+    // We only count non-null because players who leave after passing the finish line have their references invalidated
+    public static int playersFinished
+    {
+        get
+        {
+            return ranking.FindAll(x => x != null).Count;
+        }
+    }
 
     public void Start(PhotonView targetView, string rpcCallback)
     {
@@ -67,7 +78,7 @@ public class NetworkRaceRank
             ui.OnRacerFinished(player, ranking.Count - 1);
 
             // Check if all racers have finished
-            if (ranking.Count >= PhotonNetwork.CurrentRoom.PlayerCount)
+            if (playersFinished >= PhotonNetwork.CurrentRoom.PlayerCount)
             {
                 allRacersFinished.Invoke();
             }

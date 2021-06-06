@@ -26,6 +26,9 @@ public class NetworkRaceStart
     [Header("GUI")]
 
     [SerializeField]
+    [Tooltip("Reference to the button that lets the player leave the race")]
+    private NetworkLeaveRoomButton leaveButton;
+    [SerializeField]
     [Tooltip("Used to manage the begin GUI")]
     private NetworkRaceStartGUI ui;
 
@@ -58,6 +61,7 @@ public class NetworkRaceStart
     {
         PlayerManager.local.EnableControl(false);
         ui.StartCountdown();
+        leaveButton.interactable = false;
     }
 
     public void UpdateCountdown(int count)
@@ -73,5 +77,6 @@ public class NetworkRaceStart
     public void FinishCountdown()
     {
         ui.FinishCountdown();
+        leaveButton.interactable = true;
     }
 }
