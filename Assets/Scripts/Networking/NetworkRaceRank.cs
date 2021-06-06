@@ -71,13 +71,13 @@ public class NetworkRaceRank
             CheckAllRacersFinished();
         }
     }
-
+    // When a player leaves, remove it from the ranking
     public void OnPlayerLeftRoom(Player player)
     {
         ranking.Remove(player);
         CheckAllRacersFinished();
     }
-
+    // Check if all the racers have finished
     private void CheckAllRacersFinished()
     {
         // Check if all racers have finished

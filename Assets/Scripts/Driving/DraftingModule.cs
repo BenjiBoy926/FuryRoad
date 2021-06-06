@@ -43,17 +43,4 @@ public class DraftingModule : ITopSpeedModifier
             rb.AddForce(heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.CompareTag(m_DraftVolumeTag) && !draftingVolumes.Contains(other))
-    //    {
-    //        draftingVolumes.Add(other);
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    draftingVolumes.Remove(other);
-    //}
 }
