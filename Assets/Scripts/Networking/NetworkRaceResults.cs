@@ -16,13 +16,23 @@ public class NetworkRaceResults : MonoBehaviour
     private TextMeshProUGUI countdownText;
 
     [SerializeField]
+    [Tooltip("Reference to the button that leaves the room")]
+    private NetworkLeaveRoomButton leaveButton;
+    [SerializeField]
     [Tooltip("GUI used to display race results")]
     private NetworkRaceResultsGUI gui;
+
+    Coroutine countdownRoutine;
 
     private void Start()
     {
         gui.Start();
-        StartCoroutine(NextRaceCountdownRoutine());
+
+        // When we leave the room, stop the countdown
+        leaveButton.onLeave.AddListener(() => StopCoroutine(countdownRoutine));
+
+        // Start the countdown now
+        countdownRoutine = StartCoroutine(NextRaceCountdownRoutine());
     }
 
     private IEnumerator NextRaceCountdownRoutine()

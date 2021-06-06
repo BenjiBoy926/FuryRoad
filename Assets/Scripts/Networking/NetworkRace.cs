@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Photon.Pun;
+using Photon.Realtime;
 
 public class NetworkRace : MonoBehaviourPunCallbacks
 {
@@ -31,6 +32,11 @@ public class NetworkRace : MonoBehaviourPunCallbacks
         {
             StartCoroutine(start.CountdownRoutine(photonView, nameof(StartCountdown), nameof(UpdateCountdown), nameof(FinishCountdown)));
         }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        ranker.OnPlayerLeftRoom(otherPlayer);
     }
 
     // RACE BEGIN RPC

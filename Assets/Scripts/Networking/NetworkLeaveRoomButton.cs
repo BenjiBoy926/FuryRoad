@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using Photon.Pun;
 
@@ -37,6 +38,9 @@ public class NetworkLeaveRoomButton : MonoBehaviour
     [Tooltip("Base object for the confirmation panel")]
     private GameObject confirmPanelParent;
 
+    // Event invoked when the player leaves the room
+    public UnityEvent onLeave;
+
     // If we set the button to not be interactable, we have to make sure the panel is no longer visible
     public bool interactable
     {
@@ -60,6 +64,7 @@ public class NetworkLeaveRoomButton : MonoBehaviour
     private void Leave()
     {
         PhotonNetwork.LeaveRoom();
+        onLeave.Invoke();
     }
 
     private void ToggleConfirmPanel()

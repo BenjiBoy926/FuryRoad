@@ -31,16 +31,6 @@ public class NetworkRaceRank
     // Holds the index of the player in PhotonNetwork.PlayerList
     public static List<Player> ranking;
 
-    // Count the number of players that have finished
-    // We only count non-null because players who leave after passing the finish line have their references invalidated
-    public static int playersFinished
-    {
-        get
-        {
-            return ranking.FindAll(x => x != null).Count;
-        }
-    }
-
     public void Start(PhotonView targetView, string rpcCallback)
     {
         // Initialize ui
@@ -76,12 +66,24 @@ public class NetworkRaceRank
 
             // Callback on the ui
             ui.OnRacerFinished(player, ranking.Count - 1);
+            
+            // Check if all of the racers have finished
+            CheckAllRacersFinished();
+        }
+    }
 
-            // Check if all racers have finished
-            if (playersFinished >= PhotonNetwork.CurrentRoom.PlayerCount)
-            {
-                allRacersFinished.Invoke();
-            }
+    public void OnPlayerLeftRoom(Player player)
+    {
+        ranking.Remove(player);
+        CheckAllRacersFinished();
+    }
+
+    private void CheckAllRacersFinished()
+    {
+        // Check if all racers have finished
+        if (ranking.Count >= PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            allRacersFinished.Invoke();
         }
     }
 }

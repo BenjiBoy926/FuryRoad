@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsUntilNextRace: 10
   countdownText: {fileID: 4525240757532148552}
+  leaveButton: {fileID: 5610794731784975437}
   gui:
     widgetPrefab: {fileID: 5586777375963947982, guid: e5368d37316a796438c9dba954e5c0c3,
       type: 3}
@@ -1022,3 +1023,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5541393429236798634}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5610794731784975437 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 88796430511825127, guid: 514543fc727fed646a0401d2c0228ea9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5541393429236798634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6d3cd07d1d85f4d9475b3473f1603d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

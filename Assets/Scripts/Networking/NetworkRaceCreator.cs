@@ -11,6 +11,9 @@ public class NetworkRaceCreator : MonoBehaviour
 
     private void Awake()
     {
-        PhotonNetwork.Instantiate(raceManagerPrefab.name, Vector3.zero, Quaternion.identity);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(raceManagerPrefab.name, Vector3.zero, Quaternion.identity);
+        }
     }
 }
