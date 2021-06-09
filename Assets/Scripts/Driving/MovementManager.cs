@@ -71,7 +71,7 @@ public class MovementManager : MonoBehaviour
     public DriftingModule driftingModule => m_DriftingModule;
     public GroundingModule groundingModule => m_GroundingModule;
     public Vector3 heading => _heading;
-    // Speed that the car is driving at (excludes fall speed, etc)
+    // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
     public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
 
     private void Awake()

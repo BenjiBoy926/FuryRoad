@@ -19,6 +19,14 @@ public class BoostingModule : ITopSpeedModifier
     [Tooltip("References to the particle systems that activate during the boost")]
     private List<ParticleSystem> m_JetstreamParticles;
 
+    [Header("Audio")]
+
+    [SerializeField]
+    [Tooltip("Manages the audio for the boost")]
+    private BoostAudio audio;
+
+    [Header("Events")]
+
     [SerializeField]
     [Tooltip("Event invoked when the boost begins")]
     private UnityEvent m_OnBoostBegin;
@@ -56,6 +64,11 @@ public class BoostingModule : ITopSpeedModifier
     {
         // Set so that we do not think we are boosting at the start of the game
         m_BoostBeginTime = -m_BoostDuration - 1f;
+
+        // Add audio updates to the events
+        m_OnBoostBegin.AddListener(audio.StartAudio);
+        m_OnBoostUpdate.AddListener(audio.FixedUpdate);
+        m_OnBoostEnd.AddListener(audio.StopAudio);
     }
 
     public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading, Vector3 normal)
