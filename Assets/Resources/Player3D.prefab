@@ -291,7 +291,7 @@ MonoBehaviour:
     particles: {fileID: 5577609608372044080}
   m_TerrainModule:
     offroadTag: Offroad
-    offroadModifier: 0.3
+    offroadModifier: 0.5
 --- !u!82 &6304079693476585694
 AudioSource:
   m_ObjectHideFlags: 0

@@ -102,10 +102,7 @@ public class MovementManager : MonoBehaviour
 
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
-        ui.UpdateSpeedUI(m_Rigidbody.velocity.magnitude);
-
-        // We need a different way to update placement UI that measures the player distance from the finish line
-        //if(finishLine != null) ui.UpdatePlacementUI(finishLine.GetLocalPlayerRanking());
+        ui.UpdateSpeedUI(m_Rigidbody.velocity, m_GroundingModule.groundNormal);
     }
     public void Turn(float horizontal)
     {
@@ -116,10 +113,10 @@ public class MovementManager : MonoBehaviour
             horizontal = m_DriftingModule.GetSteer(horizontal);
 
             // Define a rotation around the y axis
+            // Should this be around the y-axis?  Shouldn't it actually be around the ground normal?
             Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
             
             // Rotate the rigidbody, the velocity, and the heading
-            m_Rigidbody.MoveRotation(m_Rigidbody.rotation * rotation);
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
             m_Rigidbody.angularVelocity = rotation * m_Rigidbody.angularVelocity;
             _heading = rotation * _heading;

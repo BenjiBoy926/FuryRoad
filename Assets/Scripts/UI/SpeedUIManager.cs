@@ -9,8 +9,10 @@ public class SpeedUIManager : MonoBehaviour
     [Tooltip("Text that displays the speed of the car")]
     private Text text;
 
-    public void UpdateUI(float speed)
+    public void UpdateUI(Vector3 velocity, Vector3 groundNormal)
     {
-        text.text = speed.ToString();
+        Vector3 drivingComponent = Vector3.ProjectOnPlane(velocity, groundNormal);
+        float speed = Mathf.Round(drivingComponent.magnitude);
+        text.text = speed.ToString() + " mps";
     }
 }
