@@ -14,6 +14,7 @@ public class TopSpeedModule
     // List of the all the objects that can modify the top speed
     private List<ITopSpeedModifier> topSpeedModifiers = new List<ITopSpeedModifier>();
 
+    public float baseTopSpeed => m_BaseTopSpeed;
     public float currentTopSpeed
     {
         get; private set;

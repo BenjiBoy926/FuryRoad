@@ -54,6 +54,12 @@ public class MovementManager : MonoBehaviour
     [Tooltip("Reference to the module that modifies the car's speed over different terrain types")]
     private TerrainModule m_TerrainModule;
 
+    [Header("Audio")]
+
+    [SerializeField]
+    [Tooltip("Configure the audio for the vehicle")]
+    private DrivingAudio m_DrivingAudio;
+
     // Components required
     private GroundingModule m_GroundingModule;
     // Current heading of the movement module
@@ -65,6 +71,8 @@ public class MovementManager : MonoBehaviour
     public DriftingModule driftingModule => m_DriftingModule;
     public GroundingModule groundingModule => m_GroundingModule;
     public Vector3 heading => _heading;
+    // Speed that the car is driving at (excludes fall speed, etc)
+    public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
 
     private void Awake()
     {
@@ -75,6 +83,7 @@ public class MovementManager : MonoBehaviour
         m_BoostingModule.Awake();
         m_DriftingModule.Awake();
         m_BoostResources.Awake();
+        m_DrivingAudio.Start(m_TopSpeedModule.baseTopSpeed);
     }
 
     private void FixedUpdate()
@@ -99,10 +108,11 @@ public class MovementManager : MonoBehaviour
         m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading, groundingModule.groundNormal);
         m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
         m_TerrainModule.FixedUpdate(m_GroundingModule);
+        m_DrivingAudio.FixedUpdate(drivingSpeed);
 
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
-        ui.UpdateSpeedUI(m_Rigidbody.velocity, m_GroundingModule.groundNormal);
+        ui.UpdateSpeedUI(drivingSpeed);
     }
     public void Turn(float horizontal)
     {

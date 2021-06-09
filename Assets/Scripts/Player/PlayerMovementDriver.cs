@@ -14,19 +14,8 @@ public class PlayerMovementDriver : MonoBehaviour
     private MovementManager m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
-    private bool m_Boost;
-    public AudioSource drivingAudio;
-    public AudioClip drivingAudioClip;
-    public AudioClip idleAudioClip;
-    private float audioPitch;
-    public Rigidbody racerRigidBody;
 
     public MovementManager movementModule => m_MovementModule;
-
-    private void Start()
-    {
-        //audioPitch = drivingAudio.pitch;
-    }
 
     private void Update()
     {
@@ -52,9 +41,6 @@ public class PlayerMovementDriver : MonoBehaviour
                 m_MovementModule.FinishDrifting();
             }
         }
-
-        EngineAudio();
-
     }
 
     private void FixedUpdate()
@@ -67,19 +53,4 @@ public class PlayerMovementDriver : MonoBehaviour
             m_MovementModule.Thrust(m_VerticalAxis);
         }
     }
-
-    private void EngineAudio(){
-        if(racerRigidBody.velocity.magnitude > 0)
-        {
-            // Player is moving
-            drivingAudio.clip = drivingAudioClip;
-            drivingAudio.Play();
-        }
-        /*else{
-            drivingAudio.clip = idleAudioClip;
-            drivingAudio.Play();
-        }*/
-    }
-
-    
 }

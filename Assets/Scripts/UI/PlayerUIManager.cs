@@ -33,11 +33,11 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateSpeedUI(Vector3 velocity, Vector3 groundNormal)
+    public void UpdateSpeedUI(float speed)
     {
         if(view.IsMine)
         {
-            speedUI.UpdateUI(velocity, groundNormal);
+            speedUI.UpdateUI(speed);
         }
     }
 
