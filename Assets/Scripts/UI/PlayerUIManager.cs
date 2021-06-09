@@ -45,7 +45,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         if(view.IsMine)
         {
-            placementUI.UpdateUI(placement);
+            placementUI.UpdateUI(placement, PhotonNetwork.LocalPlayer);
         }
     }
 }
