@@ -36,14 +36,11 @@ public class CameraSetupModule : MonoBehaviour
     {
         target = parent.GetComponent<MovementManager>();
 
-        // Subscribe to boosting events on the movement module
-        MovementManager movementModule = parent.GetComponent<MovementManager>();
-            
-        movementModule.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
-        movementModule.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
+        target.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
+        target.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
 
-        movementModule.driftingModule.driftBoost.onBoostUpdate.AddListener(OnBoostUpdate);
-        movementModule.driftingModule.driftBoost.onBoostEnd.AddListener(OnBoostEnd);
+        target.driftingModule.driftBoost.onBoostUpdate.AddListener(OnDriftBoostUpdate);
+        target.driftingModule.driftBoost.onBoostEnd.AddListener(OnDriftBoostEnd);
     }
 
     private void FixedUpdate()
@@ -70,6 +67,17 @@ public class CameraSetupModule : MonoBehaviour
     private void OnBoostEnd()
     {
         boostUpdating = false;
+    }
+
+    // Only update the position for a drift boost if the main boost is inactive
+    private void OnDriftBoostUpdate(float boostPower)
+    {
+        if (!target.boostingModule.boostActive) OnBoostUpdate(boostPower);
+    }
+    // Only end the boost if the main boost is not also active
+    private void OnDriftBoostEnd()
+    {
+        if (!target.boostingModule.boostActive) OnBoostEnd();
     }
 
     private Vector3 GetLocalPosition(float backDistance)
