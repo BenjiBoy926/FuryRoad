@@ -254,7 +254,7 @@ MonoBehaviour:
         _min: 1
         _max: 1.5
       minUnderscoreVolume: 0.1
-      fadeTime: 1
+      fadeTime: 0.1
     m_OnBoostBegin:
       m_PersistentCalls:
         m_Calls: []
@@ -313,7 +313,7 @@ MonoBehaviour:
           _min: 1
           _max: 1.5
         minUnderscoreVolume: 0.1
-        fadeTime: 1
+        fadeTime: 0.1
       m_OnBoostBegin:
         m_PersistentCalls:
           m_Calls: []
