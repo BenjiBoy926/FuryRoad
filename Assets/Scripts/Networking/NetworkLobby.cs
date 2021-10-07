@@ -15,12 +15,16 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [Tooltip("Button used to make the player leave the lobby")]
     private NetworkLeaveRoomButton leaveButton;
     [SerializeField]
+    [Tooltip("Button that forces the game to start")]
+    private Button forceStartButton;
+    [SerializeField]
     [Tooltip("Reference to the text that displays the number of players who have entered")]
     private TextMeshProUGUI playerText;
     [SerializeField]
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
 
+    #region Monobehaviour Messages
     private void Awake()
     {
         // Open the lobby
@@ -31,7 +35,13 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
 
         countdown.Awake();
         CheckLoadRace();
+
+        // When the force button is clicked then call the function that loads the race
+        forceStartButton.onClick.AddListener(LoadRace);
     }
+    #endregion
+
+    #region Photon Callbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdatePlayerText();
@@ -45,6 +55,9 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         SetLobbyOpen(true);
         UpdatePlayerText();
     }
+    #endregion
+
+    #region Private Methods
     // Check if the room is full, and if it is, then load the race
     private void CheckLoadRace()
     {
@@ -53,16 +66,21 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         {
             Debug.Log("Maximum players in lobby reached");
 
-            // Close the lobby
-            SetLobbyOpen(false);
-
-            // Start the countdown routine on the submodule
-            countdown.StartCountdown(this);
         }
+    }
+    private void LoadRace()
+    {
+        // Close the lobby
+        SetLobbyOpen(false);
+
+        // Start the countdown routine on the submodule
+        countdown.StartCountdown(this);
+
     }
     private void SetLobbyOpen(bool open)
     {
         leaveButton.interactable = open;
+        forceStartButton.interactable = open;
         playerText.enabled = open;
         PhotonNetwork.CurrentRoom.IsOpen = open;
     }
@@ -71,4 +89,5 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         playerText.enabled = true;
         playerText.text = "Waiting for players to join: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
+    #endregion
 }
