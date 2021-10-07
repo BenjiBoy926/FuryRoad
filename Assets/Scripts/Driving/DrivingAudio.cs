@@ -7,16 +7,16 @@ public class DrivingAudio
 {
     [SerializeField]
     [Tooltip("Audio source that plays the engine audio")]
-    private AudioSource audio;
+    private AudioSource engineAudioSource;
     [SerializeField]
     [Tooltip("Audio clip that plays while the car is idle")]
-    private AudioClip idleAudio;
+    private AudioClip engineIdleAudio;
     [SerializeField]
     [Tooltip("Audio clip that plays while the car is driving")]
-    private AudioClip drivingAudio;
+    private AudioClip engineDrivingAudio;
     [SerializeField]
     [Tooltip("Min-max pitch for the driving audio")]
-    private FloatRange pitchRange;
+    private FloatRange engineAudioPitchRange;
 
     // Top speed of the racer
     private float topSpeed;
@@ -28,30 +28,35 @@ public class DrivingAudio
 
     public void FixedUpdate(float speed)
     {
-        if(speed < 5f)
+        UpdateEngineAudio(speed);
+    }
+
+    private void UpdateEngineAudio(float speed)
+    {
+        if (speed < 5f)
         {
             // Check to swap the clips
-            if(audio.clip != idleAudio)
+            if (engineAudioSource.clip != engineIdleAudio)
             {
-                audio.clip = idleAudio;
-                audio.Play();
+                engineAudioSource.clip = engineIdleAudio;
+                engineAudioSource.Play();
             }
 
             // Pitch is min when idle
-            audio.pitch = pitchRange.min;
+            engineAudioSource.pitch = engineAudioPitchRange.min;
         }
         else
         {
             // Check to swap the clips
-            if(audio.clip != drivingAudio)
+            if (engineAudioSource.clip != engineDrivingAudio)
             {
-                audio.clip = drivingAudio;
-                audio.Play();
+                engineAudioSource.clip = engineDrivingAudio;
+                engineAudioSource.Play();
             }
 
             // Lerp the pitch of the audio source so that higher pitch as it goes faster
             float interpolator = speed / topSpeed;
-            audio.pitch = Mathf.LerpUnclamped(pitchRange.min, pitchRange.max, interpolator);
+            engineAudioSource.pitch = Mathf.LerpUnclamped(engineAudioPitchRange.min, engineAudioPitchRange.max, interpolator);
         }
     }
 }

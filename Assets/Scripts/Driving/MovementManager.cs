@@ -172,7 +172,6 @@ public class MovementManager : MonoBehaviour
     {
         m_DriftingModule.FinishDrifting(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading);
     }
-
     public void SetHeading(Vector3 heading)
     {
         _heading = heading;

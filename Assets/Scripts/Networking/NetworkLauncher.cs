@@ -1,64 +1,70 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 using Photon.Pun;
 using Photon.Realtime;
 
 public class NetworkLauncher : MonoBehaviourPunCallbacks
 {
+    #region Private Properties
+    private RoomOptions defaultRoomOptions => new RoomOptions { MaxPlayers = NetworkManager.settings.maxPlayersPerRace };
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Parent object that contains the controls the player used before starting play")]
     private GameObject playControls;
     [SerializeField]
+    [Tooltip("Reference to the button that joins a random room when pressed")]
+    private Button quickPlayButton;
+    [SerializeField]
+    [Tooltip("Reference to the button that joins the test room when pressed")]
+    private Button joinTestRoomButton;
+    [SerializeField]
     [Tooltip("Parent object for the controls that show the player network connection progress")]
     private GameObject loadingControls;
-    [SerializeField]
-    [Tooltip("If true, connect as soon as the scene loads")]
-    private bool connectOnAwake;
+    #endregion
 
-    private bool isConnecting;
-
+    #region Private Fields
     public const string gameVersion = "0";
+    public const string testRoomName = "Test";
+    #endregion
 
+    #region Monobehaviour Messages
     public void Awake()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        EnablePlayControls(true);
+        // Make the buttons join the correct rooms
+        quickPlayButton.onClick.AddListener(JoinRandomRoom);
+        joinTestRoomButton.onClick.AddListener(JoinTestRoom);
 
-        if (connectOnAwake) Connect();
-    }
-    public void Connect()
-    {
+        // Automatically sync the scene
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        // Disable play controls
         EnablePlayControls(false);
 
-        if(PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinRandomRoom();
-        }
-        else
-        {
-            isConnecting = PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
-        }
+        // Connect to server as soon as we enter the scene
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = gameVersion;
     }
-    // PUN callbacks
+    #endregion
+
+    #region Photon Callbacks
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Network launcher connected to master");
-
-        // Check to make sure we are trying to connect to a room
-        if (isConnecting)
-        {
-            PhotonNetwork.JoinRandomRoom();
-            isConnecting = false;
-        }
+        EnablePlayControls(true);
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Network launcher failed to join a random room, so we will create one");
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = NetworkManager.settings.maxPlayersPerRace, PlayerTtl = 0 });
+        Debug.Log("Network launcher failed to join a random room, so we will create a random room");
+        PhotonNetwork.CreateRoom(null, defaultRoomOptions);
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError("Joining room failed with error: " + message);
     }
     public override void OnJoinedRoom()
     {
@@ -69,12 +75,41 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         Debug.LogWarningFormat("Network launcher disconnected with reason: {0}", cause);
         EnablePlayControls(true);
-        isConnecting = false;
     }
+    #endregion
 
+    #region Public Methods
+    public void JoinRandomRoom()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            EnablePlayControls(false);
+            PhotonNetwork.JoinRandomRoom();
+        }
+        else
+        {
+            Debug.Log("Cannot join a random room because we are not connected to a server!");
+        }
+    }
+    public void JoinTestRoom()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            EnablePlayControls(false);
+            PhotonNetwork.JoinOrCreateRoom(testRoomName, defaultRoomOptions, TypedLobby.Default);
+        }
+        else
+        {
+            Debug.Log("Cannot join the test room because we are not connected to a server!");
+        }
+    }
+    #endregion
+
+    #region Private Methods
     private void EnablePlayControls(bool enable)
     {
         playControls.SetActive(enable);
         loadingControls.SetActive(!enable);
     }
+    #endregion
 }

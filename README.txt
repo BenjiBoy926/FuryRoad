@@ -8,6 +8,3 @@ WS or UP/DOWN: drive forward/backward
 AD or LEFT/RIGHT: steer
 SPACE: boost
 LEFT CTRL or LEFT MOUSE: drift
-
-Known bugs:
-No bugs per se but plenty of missing features.  It is still impossible to actually race, feel free to drive around with friends but you won't be competing for first place just yet!  Those features are still to come

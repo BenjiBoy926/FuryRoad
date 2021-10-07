@@ -16,9 +16,18 @@ public class DriftingModule
     [SerializeField]
     [Tooltip("If the speed of the rigidbody falls below this threshold, the drifting module cancels the drift without boosting")]
     private float cancelThreshold = 5f;
+
+    [Header("Drift Boost")]
+
     [SerializeField]
     [Tooltip("Boost that the rigidbody receives when the drift is finished")]
     private BoostingModule m_DriftBoost;
+
+    [Header("Drift Audio")]
+
+    [SerializeField]
+    [Tooltip("Handle the audio of the drift")]
+    private DriftingAudio audio;
 
     // Direction that the vehicle is drifting, either -1 for left or 1 for right
     private float m_CurrentDirection;
@@ -62,7 +71,7 @@ public class DriftingModule
 
     public bool TryStartDrifting(GroundingModule groundingModule, float h)
     {
-        if(!m_DriftActive && (h < -0.001 || h > 0.001) && groundingModule.grounded)
+        if(!m_DriftActive && (h < -0.1 || h > 0.1) && groundingModule.grounded)
         {
             StartDrifting(h);
             return true;
@@ -75,6 +84,9 @@ public class DriftingModule
         // Set drifting to be active
         m_DriftActive = true;
         m_DriftStartTime = Time.time;
+
+        // Play a skid sound
+        audio.PlaySkidSound();
 
         // Set drifting direction
         if (h < 0)
@@ -98,6 +110,7 @@ public class DriftingModule
     // Stop the drift, without trying to check the boost
     public void StopDrifting()
     {
+        if(m_DriftActive) audio.PlaySkidSound();
         m_DriftActive = false;
     }
 }

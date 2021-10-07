@@ -239,5 +239,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 6726385955350041982, guid: 0684b3e82a7adb147878acc6fbead370,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726385955350041982, guid: 0684b3e82a7adb147878acc6fbead370,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726385955350041982, guid: 0684b3e82a7adb147878acc6fbead370,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726385955350041982, guid: 0684b3e82a7adb147878acc6fbead370,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0684b3e82a7adb147878acc6fbead370, type: 3}
