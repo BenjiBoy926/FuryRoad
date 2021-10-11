@@ -5,33 +5,31 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
 {
+    #region Public Properties
+    public static NetworkSettings settings => Instance.m_Settings;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Global settings for network operations")]
     private NetworkSettings m_Settings;
+    #endregion
 
-    public static NetworkManager instance;
-    public static NetworkSettings settings => instance.m_Settings;
-
+    #region Monobehaviour Messages
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
-
         // Initiaize all submodules
         m_Settings.Awake();
-
-        // Once the network manager is all set up, load the launcher scene
-        settings.launcherScene.LocalLoad();
     }
+    #endregion
+
+    #region Photon Networking Messages
     // In any case, if the player left the room, they should go back to the launcher screen
     public override void OnLeftRoom()
     {
         settings.launcherScene.LocalLoad();
     }
+    #endregion
 }
