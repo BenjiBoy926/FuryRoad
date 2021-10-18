@@ -43,9 +43,22 @@ public class NetworkRaceRank
         this.targetView = targetView;
         this.rpcCallback = rpcCallback;
 
-        // Get the finish line and subscribe to the event raised when a racer finished
-        finishLine = GameObject.FindGameObjectWithTag(finishLineTag).GetComponentInChildren<FinishLine>();
-        finishLine.onRacerFinished.AddListener(BroadcastRacerFinished);
+        // Get the finish line object
+        GameObject finishLineObject = GameObject.FindGameObjectWithTag(finishLineTag);
+
+        // If finish line is found, then try to get the component
+        if(finishLineObject)
+        {
+            if(finishLineObject.TryGetComponent(out finishLine))
+            {
+                finishLine.onRacerFinished.AddListener(BroadcastRacerFinished);
+            }
+            else Debug.Log($"{nameof(NetworkRaceRank)}: finish line object '{finishLineObject}' " +
+                $"has no component of type '{nameof(FinishLine)}' attached to it or any of it's children");
+        }
+        // No finish line was found, so do a debug log
+        else Debug.Log($"{nameof(NetworkRaceRank)}: no object with the tag '{finishLineTag}' could be found in the scene, " +
+            $"so the racers will not be able to finish the race");
     }
 
     // When a racer crosses the finish line, broadcast to all clients that a racer has finished

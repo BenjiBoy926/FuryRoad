@@ -11,6 +11,7 @@ using Photon.Realtime;
 
 public class NetworkLobby : MonoBehaviourPunCallbacks
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Button used to make the player leave the lobby")]
     private NetworkLeaveRoomButton leaveButton;
@@ -23,6 +24,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
+    #endregion
 
     #region Monobehaviour Messages
     private void Awake()
@@ -37,7 +39,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         CheckLoadRace();
 
         // When the force button is clicked then call the function that loads the race
-        forceStartButton.onClick.AddListener(LoadRace);
+        forceStartButton.onClick.AddListener(() => photonView.RPC(nameof(LoadRace), RpcTarget.All));
     }
     #endregion
 
@@ -55,6 +57,19 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         SetLobbyOpen(true);
         UpdatePlayerText();
     }
+    [PunRPC]
+    public void LoadRace()
+    {
+        // Close the lobby
+        SetLobbyOpen(false);
+
+        // Start the countdown routine on the submodule
+        countdown.StartCountdown(this);
+    }
+    #endregion
+
+    #region Remote Procedural Calls
+
     #endregion
 
     #region Private Methods
@@ -67,15 +82,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
             Debug.Log("Maximum players in lobby reached");
 
         }
-    }
-    private void LoadRace()
-    {
-        // Close the lobby
-        SetLobbyOpen(false);
-
-        // Start the countdown routine on the submodule
-        countdown.StartCountdown(this);
-
     }
     private void SetLobbyOpen(bool open)
     {
