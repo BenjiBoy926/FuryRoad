@@ -57,6 +57,9 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         SetLobbyOpen(true);
         UpdatePlayerText();
     }
+    #endregion
+
+    #region Remote Procedural Calls
     [PunRPC]
     public void LoadRace()
     {
@@ -66,10 +69,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         // Start the countdown routine on the submodule
         countdown.StartCountdown(this);
     }
-    #endregion
-
-    #region Remote Procedural Calls
-
     #endregion
 
     #region Private Methods
