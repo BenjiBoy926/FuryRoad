@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     public Rigidbody rb => m_Rb;
 
     // Get the index of this player in the list of network players
-    public int index
+    public int networkIndex
     {
         get
         {
@@ -33,7 +33,6 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
             return Get(PhotonNetwork.LocalPlayer);
         }
     }
-
     // Get the tag object of the player cast to a player manager
     public static PlayerManager Get(int index)
     {

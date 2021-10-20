@@ -64,7 +64,7 @@ public class NetworkRaceRank
     // When a racer crosses the finish line, broadcast to all clients that a racer has finished
     private void BroadcastRacerFinished(PlayerManager player)
     {
-        targetView.RPC(rpcCallback, RpcTarget.All, player.index);
+        targetView.RPC(rpcCallback, RpcTarget.All, player.networkIndex);
     }
 
     // Invoked by the RPC of the parent

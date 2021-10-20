@@ -79,7 +79,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             Debug.Log("Maximum players in lobby reached");
-
+            photonView.RPC(nameof(LoadRace), RpcTarget.All);
         }
     }
     private void SetLobbyOpen(bool open)

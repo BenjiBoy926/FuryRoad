@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class PlayerUIManager : MonoBehaviour
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the script that displays the speed of the player")]
     private SpeedUIManager speedUI;
@@ -14,38 +15,22 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the script used to manage placement of racers ui")]
     private PlacementUIManager placementUI;
+    #endregion
 
-    // Reference to the photon view of the car
-    private PhotonView view;
-
-    private void Awake()
+    #region Public Methods
+    public virtual void UpdateBoostResourceUI(float boostPower, int boosts)
     {
-        // Get the view in the parent and disable gui if this is not my photon view
-        view = GetComponentInParent<PhotonView>();
-        gameObject.SetActive(view.IsMine);
+        boostResourceUI.UpdateUI(boostPower, boosts);
     }
 
-    public void UpdateBoostResourceUI(float boostPower, int boosts)
+    public virtual void UpdateSpeedUI(float speed)
     {
-        if(view.IsMine)
-        {
-            boostResourceUI.UpdateUI(boostPower, boosts);
-        }
+        speedUI.UpdateUI(speed);
     }
 
-    public void UpdateSpeedUI(float speed)
+    public virtual void UpdatePlacementUI(int placement)
     {
-        if(view.IsMine)
-        {
-            speedUI.UpdateUI(speed);
-        }
+        placementUI.UpdateUI(placement, PhotonNetwork.LocalPlayer);
     }
-
-    public void UpdatePlacementUI(int placement)
-    {
-        if(view.IsMine)
-        {
-            placementUI.UpdateUI(placement, PhotonNetwork.LocalPlayer);
-        }
-    }
+    #endregion
 }
