@@ -49,7 +49,10 @@ public class NetworkRaceRank
         // If finish line is found, then try to get the component
         if(finishLineObject)
         {
-            if(finishLineObject.TryGetComponent(out finishLine))
+            finishLine = finishLineObject.GetComponentInChildren<FinishLine>(true);
+
+            // If the finish line could be got, then add a listener to the racer finished event
+            if(finishLine)
             {
                 finishLine.onRacerFinished.AddListener(BroadcastRacerFinished);
             }
