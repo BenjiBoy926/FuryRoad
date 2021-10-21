@@ -28,7 +28,7 @@ public class NetworkRaceRankUI
         if(racerWhoFinished == PhotonNetwork.LocalPlayer)
         {
             root.SetActive(true);
-            text.text = RaceHelper.OrdinalString(rank + 1) + " place!";
+            text.text = StringUtilities.Ordinal(rank + 1) + " place!";
         }
     }
 }

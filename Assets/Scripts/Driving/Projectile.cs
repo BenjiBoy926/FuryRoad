@@ -17,21 +17,34 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     [Tooltip("Transform of the object that renders a trail")]
     private Transform trail;
+    [SerializeField]
+    [Tooltip("Total lifetime of the projectile")]
+    private float lifetime = 10f;
     #endregion
 
     #region Private Fields
     // Reference to the player who fired this projectile
     private PlayerManager owner;
+    // The time at which the projectile was created
+    private float timeOfCreation;
     #endregion
 
     #region Monobehaviour Messages
     private void Start()
     {
-        collisionEvents.CollisionEnter.AddListener(HandleCollisionEnter);   
+        collisionEvents.CollisionEnter.AddListener(HandleCollisionEnter);
+        collisionEvents.TriggerEnter.AddListener(HandleTriggerEnter);
+        timeOfCreation = Time.time;
     }
     private void Update()
     {
         trail.position = rb.position;
+
+        // Destoy myself if lifetime is up
+        if(Time.time - timeOfCreation > lifetime)
+        {
+            NetworkUtilities.DestroyLocalOrNetwork(gameObject);
+        }
     }
     #endregion
 
@@ -46,21 +59,26 @@ public class Projectile : MonoBehaviour
     #region Private Methods
     private void HandleCollisionEnter(Collision collision)
     {
-        // Try to get a player manager in the parent of the object hit
-        PlayerManager other = collision.gameObject.GetComponentInParent<PlayerManager>();
-
-        if (other)
+        HandlePlayerHit(collision.gameObject.GetComponentInParent<PlayerManager>());
+    }
+    private void HandleTriggerEnter(Collider other)
+    {
+        HandlePlayerHit(other.GetComponentInParent<PlayerManager>());
+    }
+    private void HandlePlayerHit(PlayerManager player)
+    {
+        if(player)
         {
-            if (other == owner)
+            if (player == owner)
             {
-                // Slow down the owner a little
+                // Slow the owner a little
             }
-            // If the other is not the owner, then make the owner boost
+            // If the other is not the owner then make the owner boost
             else owner.movementDriver.movementModule.StartBoost();
 
             // Destroy self when I hit a player
-            Destroy(root);
+            NetworkUtilities.DestroyLocalOrNetwork(root);
         }
-    }
+    } 
     #endregion
 }

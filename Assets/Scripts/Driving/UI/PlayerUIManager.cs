@@ -22,12 +22,10 @@ public class PlayerUIManager : MonoBehaviour
     {
         boostResourceUI.UpdateUI(boostPower, boosts);
     }
-
     public virtual void UpdateSpeedUI(float speed)
     {
         speedUI.UpdateUI(speed);
     }
-
     public virtual void UpdatePlacementUI(int placement)
     {
         placementUI.UpdateUI(placement, PhotonNetwork.LocalPlayer);

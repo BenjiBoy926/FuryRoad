@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Settings:
-    playerPrefab: {fileID: 465788081436932958, guid: 1b8b00d731ad28f43a5b569f87793e57,
+    playerPrefab: {fileID: 125792143897180039, guid: 063f1dcd0d8a1ef489f3b5dc1885fddd,
       type: 3}
     maxPlayersPerRace: 5
     launcherScene:
@@ -60,7 +60,7 @@ MonoBehaviour:
       additionalObjects:
       - {fileID: 8000442257093504142, guid: 0ec752da84d9c084e87b72cec4b213b0, type: 3}
     raceScene:
-      name: DryDryDesert
+      name: BabyPark
       hasPlayer: 1
       spawnPointTag: Respawn
       additionalObjects:

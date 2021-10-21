@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaceHelper
+public class StringUtilities
 {
-    public static string OrdinalString(int ordinal)
+    public static string Ordinal(int ordinal)
     {
         string ret = ordinal.ToString();
 

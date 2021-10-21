@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(CameraSetupModule))]
-public class CameraNetworkSetupDriver : MonoBehaviour
+public class NetworkCameraSetup : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Reference to the camera that this script sets up")]
+    private new Camera camera;
     [SerializeField]
     [Tooltip("Reference to the photon view of the camera's root")]
     private PhotonView view;
@@ -16,7 +18,7 @@ public class CameraNetworkSetupDriver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Camera>().enabled = view.IsMine;
+        camera.enabled = view.IsMine;
         listener.enabled = view.IsMine;
     }
 }

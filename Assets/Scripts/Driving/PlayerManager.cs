@@ -8,12 +8,12 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
 {
     [SerializeField]
     [Tooltip("Reference to the script that drives player movement")]
-    private PlayerMovementDriver m_MovementDriver;
+    private PlayerMovement m_MovementDriver;
     [SerializeField]
     [Tooltip("Reference to the rigidbody of the car")]
     private Rigidbody m_Rb;
 
-    public PlayerMovementDriver movementDriver => m_MovementDriver;
+    public PlayerMovement movementDriver => m_MovementDriver;
     public Rigidbody rb => m_Rb;
 
     // Get the index of this player in the list of network players

@@ -41,7 +41,7 @@ public class RaceResultWidget : MonoBehaviour
 
     private void SetText()
     {
-        rankText.text = RaceHelper.OrdinalString(rank);
+        rankText.text = StringUtilities.Ordinal(rank);
         idText.text = "Player #" + actorNumber;
     }
 

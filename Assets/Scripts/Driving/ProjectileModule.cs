@@ -17,22 +17,22 @@ public class ProjectileModule : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public virtual void Fire(PlayerManager owner, Vector3 center, Vector3 forward, float dir)
+    public virtual void Fire(PlayerManager owner, Vector3 origin, Vector3 forward, float dir)
     {
         // Compute projectile position
-        Vector3 position = ComputeProjectilePosition(center, forward, dir);
+        Vector3 position = ComputeProjectilePosition(origin, forward, dir);
         // Create the projectile
-        Projectile projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
+        Projectile projectile = NetworkUtilities.InstantiateLocalOrNetwork(projectilePrefab, position, Quaternion.identity);
         // Setup the projectile
         projectile.Setup(owner, ComputeProjectileVelocity(forward, dir));
     }
     #endregion
 
     #region Protected Methods
-    protected Vector3 ComputeProjectilePosition(Vector3 center, Vector3 forward, float dir)
+    protected Vector3 ComputeProjectilePosition(Vector3 origin, Vector3 forward, float dir)
     {
         dir = Mathf.Sign(dir);
-        return center + (forward * offset * dir);
+        return origin + (forward * offset * dir);
     }
     protected Vector3 ComputeProjectileVelocity(Vector3 forward, float dir)
     {

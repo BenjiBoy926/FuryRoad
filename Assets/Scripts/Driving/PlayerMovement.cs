@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(MovementManager))]
-public class PlayerMovementDriver : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
@@ -22,8 +22,11 @@ public class PlayerMovementDriver : MonoBehaviour
 
         if(Input.GetButtonDown("Jump"))
         {
-            if (Mathf.Abs(m_VerticalAxis) < 0.001f) m_MovementModule.TryFireProjectile(1f);
-            else m_MovementModule.TryFireProjectile(Mathf.Sign(m_VerticalAxis));
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                m_MovementModule.TryFireProjectile(-1f);
+            }
+            else m_MovementModule.TryFireProjectile(1f);
         }
 
         if(Input.GetButton("Fire1"))
