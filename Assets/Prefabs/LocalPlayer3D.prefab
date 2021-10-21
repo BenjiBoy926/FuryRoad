@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &852474902193588131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3762792078666538437}
+  m_Layer: 9
+  m_Name: Modules
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3762792078666538437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852474902193588131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1633185148335839017}
+  m_Father: {fileID: 2097658316149319141}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7145746151043472607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,6 +59,53 @@ MonoBehaviour:
   speedUI: {fileID: 508222802146462889}
   boostResourceUI: {fileID: 6102885091561660306}
   placementUI: {fileID: 6070301075024696523}
+--- !u!1 &5132224901512790676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1633185148335839017}
+  - component: {fileID: 2343196644209802353}
+  m_Layer: 9
+  m_Name: Projectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1633185148335839017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5132224901512790676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3762792078666538437}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2343196644209802353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5132224901512790676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5c0c9bd34580d44914762d3af503af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 605099110978547427, guid: f3ab7bc42e20e974ebff8e510a52c872,
+    type: 3}
+  speed: 100
+  offset: 5
 --- !u!1001 &1975583617020190375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172,6 +250,11 @@ PrefabInstance:
       objectReference: {fileID: 2172236239345090850}
     - target: {fileID: 5154369334994704290, guid: 1b8b00d731ad28f43a5b569f87793e57,
         type: 3}
+      propertyPath: m_ProjectileModule
+      value: 
+      objectReference: {fileID: 2343196644209802353}
+    - target: {fileID: 5154369334994704290, guid: 1b8b00d731ad28f43a5b569f87793e57,
+        type: 3}
       propertyPath: m_BoostResources.ui
       value: 
       objectReference: {fileID: 2172236239345090850}
@@ -239,6 +322,12 @@ PrefabInstance:
 --- !u!1 &2097658316149319161 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 465788081436932958, guid: 1b8b00d731ad28f43a5b569f87793e57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1975583617020190375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2097658316149319141 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 465788081436932930, guid: 1b8b00d731ad28f43a5b569f87793e57,
     type: 3}
   m_PrefabInstance: {fileID: 1975583617020190375}
   m_PrefabAsset: {fileID: 0}

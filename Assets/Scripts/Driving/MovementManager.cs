@@ -6,8 +6,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(GroundingModule))]
 public class MovementManager : MonoBehaviour
 {
-    [Header("Driving")]
-
     [SerializeField]
     [Tooltip("Referene to the sphere rigidbody that moves the car around")]
     private Rigidbody m_Rigidbody;
@@ -26,39 +24,27 @@ public class MovementManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Manage the top speed of the racer")]
     private TopSpeedModule m_TopSpeedModule;
-
-    [Header("Boosting")]
-
     [SerializeField]
     [Tooltip("Used to manage the boosting resources of the vehicle")]
     private BoostingResources m_BoostResources;
     [SerializeField]
     [Tooltip("Module with the information on how to boost")]
     private BoostingModule m_BoostingModule;
-
-    [Header("Drifting")]
-
     [SerializeField]
     [Tooltip("Module with the information on how to drift")]
     private DriftingModule m_DriftingModule;
-
-    [Header("Drafting")]
-
     [SerializeField]
     [Tooltip("Reference to the script that handles the drafting of the car")]
     private DraftingModule m_DraftingModule;
-
-    [Header("Terrain")]
-
     [SerializeField]
     [Tooltip("Reference to the module that modifies the car's speed over different terrain types")]
     private TerrainModule m_TerrainModule;
-
-    [Header("Audio")]
-
     [SerializeField]
     [Tooltip("Configure the audio for the vehicle")]
     private DrivingAudio m_DrivingAudio;
+    [SerializeField]
+    [Tooltip("Reference to the object used to fire projectiles")]
+    private ProjectileModule m_ProjectileModule;
 
     // Components required
     private GroundingModule m_GroundingModule;
@@ -142,6 +128,32 @@ public class MovementManager : MonoBehaviour
         }
     }
 
+    // Fire the projectile only if the boosting is not active
+    public bool TryFireProjectile(float dir)
+    {
+        if (!m_BoostingModule.boostActive && m_BoostResources.canBoost)
+        {
+            FireProjectile(dir);
+            return true;
+        }
+        else return false;
+    }
+
+    public void FireProjectile(float dir)
+    {
+        // Try to get the player manager on the movement manager
+        PlayerManager manager = GetComponentInParent<PlayerManager>();
+
+        if (manager)
+        {
+            m_ProjectileModule.Fire(manager, m_Rigidbody.position, heading, dir);
+            m_BoostResources.ConsumeBoostResource();
+        }
+        else Debug.Log($"{nameof(MovementManager)}: cannot fire a projectile " +
+            $"because no component of type {nameof(PlayerManager)} could be found " +
+            $"in this object or any of its parents");
+    }
+
     // Delegates for the boosting module
     public bool TryStartBoost()
     {
@@ -151,13 +163,18 @@ public class MovementManager : MonoBehaviour
             // Try to start boosting and store the result of the attempt
             bool result = m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeedModule.currentTopSpeed, _heading);
 
+            // NOTE: not for this test since we get consume resources with projectile
             // If we started boosting, then consume a boost resource
-            if (result) m_BoostResources.ConsumeBoostResource();
+            // if (result) m_BoostResources.ConsumeBoostResource();
 
             // Return true/false if we are now boosting or not
             return result;
         }
         else return false;
+    }
+    public void StartBoost()
+    {
+        m_BoostingModule.StartBoosting(rigidbody, m_TopSpeedModule.currentTopSpeed, _heading);
     }
     // Delegates for the drifting module
     public bool TryStartDrifting(float h)

@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour
     [Tooltip("Reference to the rigidbody of the projectile")]
     private Rigidbody rb;
     [SerializeField]
+    [Tooltip("Reference to the collision event hook on the physical part of the projectile")]
+    private CollisionEventHook collisionEvents;
+    [SerializeField]
     [Tooltip("Reference to the root object of the projectile")]
     private GameObject root;
     [SerializeField]
@@ -22,27 +25,13 @@ public class Projectile : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
+    private void Start()
+    {
+        collisionEvents.CollisionEnter.AddListener(HandleCollisionEnter);   
+    }
     private void Update()
     {
-        trail.position = transform.position;
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Try to get a player manager in the parent of the object hit
-        PlayerManager other = collision.gameObject.GetComponentInParent<PlayerManager>();
-
-        if(other)
-        {
-            if (other == owner)
-            {
-                // Slow down the owner a little
-            }
-            // If the other is not the owner, then make the owner boost
-            else owner.movementDriver.movementModule.TryStartBoost();
-
-            // Destroy self when I hit a player
-            Destroy(root);
-        }
+        trail.position = rb.position;
     }
     #endregion
 
@@ -51,6 +40,27 @@ public class Projectile : MonoBehaviour
     {
         this.owner = owner;
         rb.velocity = velocity;
+    }
+    #endregion
+
+    #region Private Methods
+    private void HandleCollisionEnter(Collision collision)
+    {
+        // Try to get a player manager in the parent of the object hit
+        PlayerManager other = collision.gameObject.GetComponentInParent<PlayerManager>();
+
+        if (other)
+        {
+            if (other == owner)
+            {
+                // Slow down the owner a little
+            }
+            // If the other is not the owner, then make the owner boost
+            else owner.movementDriver.movementModule.StartBoost();
+
+            // Destroy self when I hit a player
+            Destroy(root);
+        }
     }
     #endregion
 }

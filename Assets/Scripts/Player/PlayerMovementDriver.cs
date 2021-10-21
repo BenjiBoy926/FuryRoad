@@ -22,7 +22,8 @@ public class PlayerMovementDriver : MonoBehaviour
 
         if(Input.GetButtonDown("Jump"))
         {
-            m_MovementModule.TryStartBoost();
+            if (Mathf.Abs(m_VerticalAxis) < 0.001f) m_MovementModule.TryFireProjectile(1f);
+            else m_MovementModule.TryFireProjectile(Mathf.Sign(m_VerticalAxis));
         }
 
         if(Input.GetButton("Fire1"))

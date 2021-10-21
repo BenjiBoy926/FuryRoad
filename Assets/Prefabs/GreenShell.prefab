@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 468567373147343185}
+  - component: {fileID: 605099110978547427}
   m_Layer: 0
   m_Name: GreenShell
   m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468567373147343184}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -109.71, y: 2.1, z: -37.86}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 468567374735842969}
@@ -32,6 +33,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &605099110978547427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468567373147343184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4481334d245b4043ab692487097c9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 468567374735842965}
+  collisionEvents: {fileID: 5307958994332040959}
+  root: {fileID: 468567373147343184}
+  trail: {fileID: 468567373394451290}
 --- !u!1 &468567373394451293
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +190,7 @@ GameObject:
   - component: {fileID: 468567374735842967}
   - component: {fileID: 468567374735842966}
   - component: {fileID: 468567374735842965}
-  - component: {fileID: 468567374735842962}
+  - component: {fileID: 5307958994332040959}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -271,7 +288,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &468567374735842962
+--- !u!114 &5307958994332040959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,9 +297,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 468567374735842968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4481334d245b4043ab692487097c9d1, type: 3}
+  m_Script: {fileID: 11500000, guid: d4df799fbcbfd7b4695d59835db82804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 468567374735842965}
-  root: {fileID: 468567373147343184}
-  trail: {fileID: 468567373394451290}
