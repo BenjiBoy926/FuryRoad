@@ -1,13 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[System.Serializable]
-public class BoostingResources
+public class BoostingResources : DrivingModule
 {
+    #region Private Typedefs
+    [System.Serializable]
+    private class IntEvent : UnityEvent<int> { }
+    #endregion
+
+    #region Public Propertes
+    public int boostsAvailable => m_BoostsAvailable;
+    public bool canBoost => boostsAvailable > 0;
+    public float boostRecharge => m_BoostRecharge;
+    public UnityEvent<int> onAvailableBoostsChanged => m_OnAvailableBoostsChanged;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Script used to manage player UI")]
-    private PlayerUIManager ui;
+    private DrivingUI ui;
     [SerializeField]
     [Tooltip("Number of boosts available to the vehicle")]
     private int m_BoostsAvailable = 3;
@@ -23,24 +36,32 @@ public class BoostingResources
     [SerializeField]
     [Tooltip("Seconds it takes for boost power built up to fall back down to zero")]
     private float m_BoostPowerGravity = 3f;
+    [SerializeField]
+    [Tooltip("Event invoked when the number of boosts available changes")]
+    private IntEvent m_OnAvailableBoostsChanged;
+    #endregion
 
+    #region Private Fields
     // Set to the initial value
     private int maxBoosts;
     // Current boost power of the resources. When the power reaches 1,
     // increase boost resources by 1 and set the power back to 0
-    private float boostPower;
+    private float m_BoostRecharge;
+    #endregion
 
-    public int boostsAvailable => m_BoostsAvailable;
-    public bool canBoost => boostsAvailable > 0;
-
-    public void Awake()
+    #region Monobehaviour Messages
+    protected override void Start()
     {
-        // Set max boosts at the start
+        base.Start();
         maxBoosts = m_BoostsAvailable;
     }
-
-    public void FixedUpdate(bool isDrifting, bool isDrafting, bool isAirborne)
+    private void FixedUpdate()
     {
+        // Get some helpful bools
+        bool isDrifting = m_Manager.driftingModule.driftActive;
+        bool isDrafting = m_Manager.draftingModule.draftActive;
+        bool isAirborne = !m_Manager.groundingModule.grounded;
+
         if(isDrifting || isDrafting || isAirborne)
         {
             float rechargeRate = Mathf.Infinity;
@@ -51,27 +72,37 @@ public class BoostingResources
             if (isAirborne) rechargeRate = Mathf.Min(rechargeRate, m_AirTimeRechargeRate);
 
             // Increase boost power at the smallest rate
-            boostPower += Time.fixedDeltaTime / rechargeRate;
+            m_BoostRecharge += Time.fixedDeltaTime / rechargeRate;
 
             // If boost power exceeds 1, then increase available boosts
-            if(boostPower >= 1f)
+            if(m_BoostRecharge >= 1f)
             {
-                m_BoostsAvailable = Mathf.Min(maxBoosts, m_BoostsAvailable + 1);
-                boostPower = 0f;
+                SetBoostsAvailable(m_BoostsAvailable + 1);
+                m_BoostRecharge = 0f;
             }
         }
         // While no action is taken to increase boost power, it slowly reduces to zero
         else
         {
-            boostPower = Mathf.Max(0f, boostPower - (Time.fixedDeltaTime / m_BoostPowerGravity));
+            m_BoostRecharge = Mathf.Max(0f, m_BoostRecharge - (Time.fixedDeltaTime / m_BoostPowerGravity));
         }
-
-        // Update the UI continuously
-        ui.UpdateBoostResourceUI(boostPower, m_BoostsAvailable);
     }
+    #endregion
 
+    #region Public Methods
     public void ConsumeBoostResource()
     {
-        m_BoostsAvailable--;
+        SetBoostsAvailable(m_BoostsAvailable - 1);
     }
+    public void SetBoostsAvailable(int boosts)
+    {
+        // Store boosts before set
+        int prevBoosts = m_BoostsAvailable;
+        // Set boosts available, clampled within min/max
+        m_BoostsAvailable = Mathf.Clamp(boosts, 0, maxBoosts);
+
+        // If previous is different from now then invoke the changed event
+        if (prevBoosts != m_BoostsAvailable) m_OnAvailableBoostsChanged.Invoke(m_BoostsAvailable);
+    }
+    #endregion
 }

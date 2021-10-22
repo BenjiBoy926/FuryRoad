@@ -5,28 +5,25 @@ using UnityEngine;
 [RequireComponent(typeof(GroundingModule))]
 public class PlayerRespawnDriver : MonoBehaviour
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("If the car passes below this height, it respawns on the track")]
     private float m_PitLevel;
     [SerializeField]
     [Tooltip("Rigidbody to move when we respawn")]
     private Rigidbody m_Rigidbody;
-
-
+    [SerializeField]
+    [Tooltip("Reference to the module used to determine if we are on the ground")]
     private GroundingModule m_GroundingModule;
+    #endregion
 
-
+    #region Misc Fields
     public Vector3 closestCheckPoint;
-
     private Vector3 m_respawnLocation;
     bool falling;
+    #endregion
 
-    private void Start()
-    {
-        m_GroundingModule = GetComponent<GroundingModule>();
-        
-    }
-
+    #region Monobehaviour Messages
     private void FixedUpdate()
     {
         collisionDetection collisionScript = m_Rigidbody.GetComponent<collisionDetection>();
@@ -51,7 +48,9 @@ public class PlayerRespawnDriver : MonoBehaviour
             falling = false;
         }
     }
+    #endregion
 
+    #region Private Methods
     // Move the player back to the respawn location
     private void Respawn(Vector3 respawnLocation)
     {
@@ -84,5 +83,5 @@ public class PlayerRespawnDriver : MonoBehaviour
     {
         return Quaternion.LookRotation(transform.forward, Vector3.up);
     }
-
+    #endregion
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class NetworkPlayerMovement : PlayerMovement
+public class NetworkPlayerMovement : PlayerDriving
 {
     #region Private Editor Fields
     [SerializeField]

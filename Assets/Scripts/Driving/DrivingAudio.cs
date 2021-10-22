@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class DrivingAudio
+public class DrivingAudio : DrivingModule
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Audio source that plays the engine audio")]
     private AudioSource engineAudioSource;
@@ -17,23 +17,22 @@ public class DrivingAudio
     [SerializeField]
     [Tooltip("Min-max pitch for the driving audio")]
     private FloatRange engineAudioPitchRange;
+    #endregion
 
+    #region Private Fields
     // Top speed of the racer
     private float topSpeed;
+    #endregion
 
-    public void Start(float topSpeed)
+    #region Monobehaviour Messages
+    protected override void Start()
     {
-        this.topSpeed = topSpeed;
+        base.Start();
+        topSpeed = m_Manager.topSpeedModule.baseTopSpeed;
     }
-
-    public void FixedUpdate(float speed)
+    private void FixedUpdate()
     {
-        UpdateEngineAudio(speed);
-    }
-
-    private void UpdateEngineAudio(float speed)
-    {
-        if (speed < 5f)
+        if (m_Manager.drivingSpeed < 5f)
         {
             // Check to swap the clips
             if (engineAudioSource.clip != engineIdleAudio)
@@ -55,8 +54,9 @@ public class DrivingAudio
             }
 
             // Lerp the pitch of the audio source so that higher pitch as it goes faster
-            float interpolator = speed / topSpeed;
+            float interpolator = m_Manager.drivingSpeed / topSpeed;
             engineAudioSource.pitch = Mathf.LerpUnclamped(engineAudioPitchRange.min, engineAudioPitchRange.max, interpolator);
         }
     }
+    #endregion
 }

@@ -91,7 +91,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
         {
             // Separate the speed into component perpendicular to motion
             // and speed in the plane of motion (planes change based on normal vector)
-            manager.rigidbody.velocity = manager.heading * manager.topSpeedModule.currentTopSpeed + Vector3.Project(manager.rigidbody.velocity, manager.groundingModule.groundNormal);
+            m_Manager.rigidbody.velocity = m_Manager.heading * m_Manager.topSpeedModule.currentTopSpeed + Vector3.Project(m_Manager.rigidbody.velocity, m_Manager.groundingModule.groundNormal);
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -110,7 +110,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
     /// <returns></returns>
     public bool TryStartBoosting()
     {
-        if(!boostActive && manager.groundingModule.grounded)
+        if(!boostActive && m_Manager.groundingModule.grounded)
         {
             StartBoosting();
             return true;
@@ -121,7 +121,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
     public void StartBoosting()
     {
         // At the start of the boost, set the velocity to the top speed
-        manager.rigidbody.velocity = manager.heading * manager.topSpeedModule.currentTopSpeed;
+        m_Manager.rigidbody.velocity = m_Manager.heading * m_Manager.topSpeedModule.currentTopSpeed;
 
         // Set the time when the boost began
         m_BoostBeginTime = Time.time;

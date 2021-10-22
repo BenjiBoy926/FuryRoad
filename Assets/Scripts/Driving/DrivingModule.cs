@@ -9,16 +9,20 @@ using UnityEngine;
 /// </summary>
 public class DrivingModule : MonoBehaviour
 {
+    #region Public Properties
+    public DrivingManager manager => m_Manager;
+    #endregion
+
     #region Protected Fields
-    protected DrivingManager manager;
+    protected DrivingManager m_Manager;
     #endregion
 
     #region Monobehaviour Messages
     protected virtual void Start()
     {
-        manager = GetComponentInParent<DrivingManager>();
+        m_Manager = GetComponentInParent<DrivingManager>();
 
-        if (!manager) throw new MissingComponentException($"{GetType().Name}: " +
+        if (!m_Manager) throw new MissingComponentException($"{GetType().Name}: " +
              $"game object named '{name}' " +
              $"expected to find a component of type '{nameof(DrivingManager)}' " +
              $"attached to this game object or one of its parent game objects, " +

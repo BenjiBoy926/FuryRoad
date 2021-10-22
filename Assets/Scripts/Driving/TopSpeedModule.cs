@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 /// The vehicle's top speed is changed by many different variables,
 /// such as the type of terrain driving over 
 /// and the boosting module active on the vehicle
 /// </summary>
-[System.Serializable]
-public class TopSpeedModule
+public class TopSpeedModule : DrivingModule
 {
     #region Public Properties
     public float baseTopSpeed => m_BaseTopSpeed;
@@ -25,17 +25,18 @@ public class TopSpeedModule
 
     #region Private Fields
     // List of the all the objects that can modify the top speed
-    private List<ITopSpeedModifier> topSpeedModifiers = new List<ITopSpeedModifier>();
+    private ITopSpeedModifier[] topSpeedModifiers;
     #endregion
 
-    #region Public Methods
-    // Setup all objects that can modify the top speed
-    public void Setup(params ITopSpeedModifier[] modifiers)
+    #region Monobehaviour Messages
+    protected override void Start()
     {
-        topSpeedModifiers.AddRange(modifiers);
-        Debug.Log(string.Join("\n\t", topSpeedModifiers));
+        base.Start();
+
+        // Get all top speed modifiers that are children of the driving manager
+        topSpeedModifiers = m_Manager.gameObject.GetComponentsInChildren<ITopSpeedModifier>(true);
     }
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         float speed = m_BaseTopSpeed;
 
@@ -44,7 +45,7 @@ public class TopSpeedModule
         {
             if (modifier.applyModifier) speed *= modifier.modifier;
         }
-        
+
         // Set current top speed
         currentTopSpeed = speed;
     }

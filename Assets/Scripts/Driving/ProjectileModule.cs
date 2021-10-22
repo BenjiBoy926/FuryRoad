@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileModule : MonoBehaviour
+public class ProjectileModule : DrivingModule
 {
     #region Private Editor Fields
     [SerializeField]
@@ -16,28 +16,49 @@ public class ProjectileModule : MonoBehaviour
     private float offset = 5f;
     #endregion
 
+    #region Monobehaviour Messages
+    protected override void Start()
+    {
+        base.Start();
+    }
+    #endregion
+
     #region Public Methods
-    public virtual void Fire(PlayerManager owner, Vector3 origin, Vector3 forward, float dir)
+    /// <summary>
+    /// Fire a projectile only if the driving is not boosting,
+    /// and there are resources left
+    /// </summary>
+    /// <param name="dir"></param>
+    public void TryFire(float dir)
+    {
+        if(!manager.boostingModule.boostActive && manager.boostResources.canBoost)
+        {
+            Fire(dir);
+        }
+    }
+    public void Fire(float dir)
     {
         // Compute projectile position
-        Vector3 position = ComputeProjectilePosition(origin, forward, dir);
+        Vector3 position = ComputeProjectilePosition(dir);
         // Create the projectile
         Projectile projectile = NetworkUtilities.InstantiateLocalOrNetwork(projectilePrefab, position, Quaternion.identity);
         // Setup the projectile
-        projectile.Setup(owner, ComputeProjectileVelocity(forward, dir));
+        projectile.Setup(manager, ComputeProjectileVelocity(dir));
+        // Consume a boost resource once the projectile is fired
+        manager.boostResources.ConsumeBoostResource();
     }
     #endregion
 
     #region Protected Methods
-    protected Vector3 ComputeProjectilePosition(Vector3 origin, Vector3 forward, float dir)
+    protected Vector3 ComputeProjectilePosition(float dir)
     {
         dir = Mathf.Sign(dir);
-        return origin + (forward * offset * dir);
+        return m_Manager.rigidbody.position + (m_Manager.heading * offset * dir);
     }
-    protected Vector3 ComputeProjectileVelocity(Vector3 forward, float dir)
+    protected Vector3 ComputeProjectileVelocity(float dir)
     {
         dir = Mathf.Sign(dir);
-        return forward.normalized * dir * speed;
+        return m_Manager.heading * dir * speed;
     }
     #endregion
 }

@@ -3,40 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(DrivingManager))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerDriving : MonoBehaviour
 {
+    #region Public Properties
+    public DrivingManager drivingManager => m_DrivingManager;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
-    private DrivingManager m_MovementModule;
+    private DrivingManager m_DrivingManager;
+    #endregion
+
+    #region Private Fields
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
+    #endregion
 
-    public DrivingManager movementModule => m_MovementModule;
-
+    #region Monobehaviour Messages
     protected virtual void Update()
     {
         // Setup current input axes every frame
         m_HorizontalAxis = Input.GetAxis("Horizontal");
         m_VerticalAxis = Input.GetAxis("Vertical");
 
+        // Jump button fires projectiles
         if(Input.GetButtonDown("Jump"))
         {
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
-                m_MovementModule.TryFireProjectile(-1f);
+                m_DrivingManager.projectileModule.TryFire(-1f);
             }
-            else m_MovementModule.TryFireProjectile(1f);
+            else m_DrivingManager.projectileModule.TryFire(1f);
         }
 
         if(Input.GetButton("Fire1"))
         {
-            m_MovementModule.TryStartDrifting(m_HorizontalAxis);
+            m_DrivingManager.driftingModule.TryStartDrifting(m_HorizontalAxis);
         }
 
         if(Input.GetButtonUp("Fire1"))
         {
-            m_MovementModule.FinishDrifting();
+            m_DrivingManager.driftingModule.FinishDrifting();
         }
     }
 
@@ -44,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Use the movement module to move the car
         // (You can also move the car if the network is not connected for debugging purposes)
-        m_MovementModule.Turn(m_HorizontalAxis);
-        m_MovementModule.Thrust(m_VerticalAxis);
+        m_DrivingManager.Turn(m_HorizontalAxis);
+        m_DrivingManager.Thrust(m_VerticalAxis);
     }
+    #endregion
 }

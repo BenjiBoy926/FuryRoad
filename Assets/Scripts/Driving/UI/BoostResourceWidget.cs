@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BoostResourceWidget : MonoBehaviour, System.IComparable<BoostResourceWidget>
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the image that displays when we have a boost resource available")]
     private Image image;
@@ -14,16 +15,18 @@ public class BoostResourceWidget : MonoBehaviour, System.IComparable<BoostResour
     [SerializeField]
     [Tooltip("Color of the resource when not available")]
     private Color unavailable;
+    #endregion
 
+    #region Public Methods
     public void SetActive(bool active)
     {
         if (active) image.color = available;
         else image.color = unavailable;
     }
-
     // Sort from widget lowest to widget highest
     public int CompareTo(BoostResourceWidget other)
     {
         return (int)(transform.position.y - other.transform.position.y);
     }
+    #endregion
 }

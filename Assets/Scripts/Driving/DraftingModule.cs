@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DraftingModule : ITopSpeedModifier
+public class DraftingModule : DrivingModule, ITopSpeedModifier
 {
-    [SerializeField]
-    [TagSelector]
-    [Tooltip("Tag of the player object to check if we are behind to enable drafting")]
-    private string m_PlayerTag = "Player";
+    #region Public Properties
+    public bool draftActive { get; private set; }
+    public float modifier => m_TopSpeedModifier;
+    public bool applyModifier => draftActive;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Layer of the player objects")]
     private LayerMask m_PlayerLayer;
@@ -24,30 +27,26 @@ public class DraftingModule : ITopSpeedModifier
     [SerializeField]
     [Tooltip("Particles displayed while the vehicle is drafting")]
     private ParticleSystem particles;
+    #endregion
 
-    public bool draftActive { get; private set; }
-    public float modifier => m_TopSpeedModifier;
-    public bool applyModifier => draftActive;
-
+    #region Monobehaviour Messages
     // We had to rename this because of a script error,
     // otherwise we would name this "FixedUpdate"
-    public void FixedUpdate(Rigidbody rb, Vector3 heading)
+    private void FixedUpdate()
     {
-        Ray ray = new Ray(rb.position, heading);
+        Ray ray = new Ray(m_Manager.rigidbody.position, m_Manager.heading);
 
         // Cast a ray forward and see if we hit anyone
-        bool gotHit = Physics.Raycast(ray, out RaycastHit hit, m_DraftDistance, m_PlayerLayer, QueryTriggerInteraction.Collide);
-
-        // Check if the draft is active by checking if the raycast got a hit on an object with the correct tag
-        draftActive = gotHit && hit.collider.CompareTag(m_PlayerTag);
+        draftActive = Physics.Raycast(ray, m_DraftDistance, m_PlayerLayer, QueryTriggerInteraction.Collide);
 
         // If draft is active, force the rigidbody and enable particles
         if (draftActive)
         {
-            rb.AddForce(heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            m_Manager.rigidbody.AddForce(m_Manager.heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
             if (!particles.isPlaying) particles.Play();
         }
         // If not drafting and particles are still playing, stop them
         else if (particles.isPlaying) particles.Stop();
     }
+    #endregion
 }

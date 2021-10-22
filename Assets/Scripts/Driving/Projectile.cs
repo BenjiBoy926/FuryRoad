@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
 
     #region Private Fields
     // Reference to the player who fired this projectile
-    private PlayerManager owner;
+    private DrivingManager owningDriver;
     // The time at which the projectile was created
     private float timeOfCreation;
     #endregion
@@ -49,9 +49,9 @@ public class Projectile : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void Setup(PlayerManager owner, Vector3 velocity)
+    public void Setup(DrivingManager owningDriver, Vector3 velocity)
     {
-        this.owner = owner;
+        this.owningDriver = owningDriver;
         rb.velocity = velocity;
     }
     #endregion
@@ -59,22 +59,22 @@ public class Projectile : MonoBehaviour
     #region Private Methods
     private void HandleCollisionEnter(Collision collision)
     {
-        HandlePlayerHit(collision.gameObject.GetComponentInParent<PlayerManager>());
+        HandlePlayerHit(collision.gameObject.GetComponentInParent<DrivingManager>());
     }
     private void HandleTriggerEnter(Collider other)
     {
-        HandlePlayerHit(other.GetComponentInParent<PlayerManager>());
+        HandlePlayerHit(other.GetComponentInParent<DrivingManager>());
     }
-    private void HandlePlayerHit(PlayerManager player)
+    private void HandlePlayerHit(DrivingManager driver)
     {
-        if(player)
+        if(driver)
         {
-            if (player == owner)
+            if (driver == owningDriver)
             {
                 // Slow the owner a little
             }
             // If the other is not the owner then make the owner boost
-            else owner.movementDriver.movementModule.StartBoost();
+            else owningDriver.boostingModule.StartBoosting();
 
             // Destroy self when I hit a player
             NetworkUtilities.DestroyLocalOrNetwork(root);

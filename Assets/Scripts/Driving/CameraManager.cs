@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : DrivingModule
 {
     #region Private Editor Fields
-    [SerializeField]
-    [Tooltip("Reference to the movement manager used to determine the camera's position")]
-    private DrivingManager movementManager;
     [SerializeField]
     [Tooltip("Speed at which the camera moves to follow the player")]
     private float translateSpeed = 20f;
@@ -30,13 +27,15 @@ public class CameraManager : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
-    private void Awake()
+    protected override void Start()
     {
-        movementManager.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
-        movementManager.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
+        base.Start();
 
-        movementManager.driftingModule.driftBoost.onBoostUpdate.AddListener(OnDriftBoostUpdate);
-        movementManager.driftingModule.driftBoost.onBoostEnd.AddListener(OnDriftBoostEnd);
+        manager.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
+        manager.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
+
+        manager.driftingModule.driftBoost.onBoostUpdate.AddListener(OnDriftBoostUpdate);
+        manager.driftingModule.driftBoost.onBoostEnd.AddListener(OnDriftBoostEnd);
     }
 
     private void FixedUpdate()
@@ -48,7 +47,7 @@ public class CameraManager : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
         }
         // Lerp towards the target rotation
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementManager.heading), rotateSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(manager.heading), rotateSpeed * Time.fixedDeltaTime);
     }
     #endregion
 
@@ -70,21 +69,21 @@ public class CameraManager : MonoBehaviour
     // Only update the position for a drift boost if the main boost is inactive
     private void OnDriftBoostUpdate(float boostPower)
     {
-        if (!movementManager.boostingModule.boostActive) OnBoostUpdate(boostPower);
+        if (!manager.boostingModule.boostActive) OnBoostUpdate(boostPower);
     }
     // Only end the boost if the main boost is not also active
     private void OnDriftBoostEnd()
     {
-        if (!movementManager.boostingModule.boostActive) OnBoostEnd();
+        if (!manager.boostingModule.boostActive) OnBoostEnd();
     }
 
     private Vector3 GetLocalPosition(float backDistance)
     {
-        return (-movementManager.heading * backDistance) + (movementManager.groundingModule.groundNormal * lift);
+        return (-manager.heading * backDistance) + (manager.groundingModule.groundNormal * lift);
     }
     private Vector3 GetGlobalPosition(float backDistance)
     {
-        return movementManager.rigidbody.position + GetLocalPosition(backDistance);
+        return manager.rigidbody.position + GetLocalPosition(backDistance);
     }
     #endregion
 }
