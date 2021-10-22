@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(MovementManager))]
+[RequireComponent(typeof(DrivingManager))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
-    private MovementManager m_MovementModule;
+    private DrivingManager m_MovementModule;
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
 
-    public MovementManager movementModule => m_MovementModule;
+    public DrivingManager movementModule => m_MovementModule;
 
     protected virtual void Update()
     {

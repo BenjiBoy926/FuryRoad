@@ -4,44 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class BoostingModule : ITopSpeedModifier
+public class BoostingModule : DrivingModule, ITopSpeedModifier
 {
-    [SerializeField]
-    [Tooltip("Modification of the top speed while boost is at the peak speed")]
-    private float m_MaxTopSpeedModifier = 1.5f;
-    [SerializeField]
-    [Tooltip("Duration of the boost")]
-    private float m_BoostDuration = 2f;
-    [SerializeField]
-    [Tooltip("Curve used to determine the boosting speed of the car.")]
-    private AnimationCurve m_BoostCurve;
-    [SerializeField]
-    [Tooltip("References to the particle systems that activate during the boost")]
-    private List<ParticleSystem> m_JetstreamParticles;
+    #region Private Typedefs
+    [System.Serializable]
+    private class FloatEvent : UnityEvent<float> { }
+    #endregion
 
-    [Header("Audio")]
-
-    [SerializeField]
-    [Tooltip("Manages the audio for the boost")]
-    private BoostAudio audio;
-
-    [Header("Events")]
-
-    [SerializeField]
-    [Tooltip("Event invoked when the boost begins")]
-    private UnityEvent m_OnBoostBegin;
-    [SerializeField]
-    [Tooltip("Event invoked each time the boost module updates")]
-    private FloatEvent m_OnBoostUpdate;
-    [SerializeField]
-    [Tooltip("Event invoked when the boost ends")]
-    private UnityEvent m_OnBoostEnd;
-
-    // The time when the boost began
-    private float m_BoostBeginTime = 0f;
-    // True if the boost has stopped
-    private bool m_BoostHasStopped = true;
-
+    #region Public Properties
     // Public getters for the events
     public UnityEvent onBoostBegin => m_OnBoostBegin;
     public UnityEvent<float> onBoostUpdate => m_OnBoostUpdate;
@@ -59,26 +29,69 @@ public class BoostingModule : ITopSpeedModifier
     // Implement the interface "ITopSpeedModifier"
     public float modifier => topSpeedModifier;
     public bool applyModifier => boostActive;
+    #endregion
 
-    public void Awake()
+    #region Private Editor Fields
+    [SerializeField]
+    [Tooltip("Modification of the top speed while boost is at the peak speed")]
+    private float m_MaxTopSpeedModifier = 1.5f;
+    [SerializeField]
+    [Tooltip("Duration of the boost")]
+    private float m_BoostDuration = 2f;
+    [SerializeField]
+    [Tooltip("Curve used to determine the boosting speed of the car.")]
+    private AnimationCurve m_BoostCurve;
+    [SerializeField]
+    [Tooltip("References to the particle systems that activate during the boost")]
+    private List<ParticleSystem> m_JetstreamParticles;
+
+    [Header("Audio")]
+
+    [SerializeField]
+    [Tooltip("Manages the audio for the boost")]
+    private new BoostAudio audio;
+
+    [Header("Events")]
+
+    [SerializeField]
+    [Tooltip("Event invoked when the boost begins")]
+    private UnityEvent m_OnBoostBegin;
+    [SerializeField]
+    [Tooltip("Event invoked each time the boost module updates")]
+    private FloatEvent m_OnBoostUpdate;
+    [SerializeField]
+    [Tooltip("Event invoked when the boost ends")]
+    private UnityEvent m_OnBoostEnd;
+    #endregion
+
+    #region Private Fields
+    // The time when the boost began
+    private float m_BoostBeginTime = 0f;
+    // True if the boost has stopped
+    private bool m_BoostHasStopped = true;
+    #endregion
+
+    #region Monobehaviour Messages
+    protected override void Start()
     {
+        base.Start();
+
         // Set so that we do not think we are boosting at the start of the game
         m_BoostBeginTime = -m_BoostDuration - 1f;
 
         // Add audio updates to the events
         m_OnBoostBegin.AddListener(audio.StartAudio);
-        m_OnBoostUpdate.AddListener(audio.FixedUpdate);
+        m_OnBoostUpdate.AddListener(audio.UpdatePitch);
         m_OnBoostEnd.AddListener(audio.StopAudio);
     }
-
-    public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading, Vector3 normal)
+    private void FixedUpdate()
     {
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
             // Separate the speed into component perpendicular to motion
             // and speed in the plane of motion (planes change based on normal vector)
-            rb.velocity = heading * topSpeed + Vector3.Project(rb.velocity, normal);
+            manager.rigidbody.velocity = manager.heading * manager.topSpeedModule.currentTopSpeed + Vector3.Project(manager.rigidbody.velocity, manager.groundingModule.groundNormal);
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -88,21 +101,27 @@ public class BoostingModule : ITopSpeedModifier
             StopBoosting();
         }
     }
+    #endregion
 
-    public bool TryStartBoosting(GroundingModule groundingModule, Rigidbody rb, float startSpeed, Vector3 heading)
+    #region Public Methods
+    /// <summary>
+    /// Boost only if we are not currently boosting and we are on the ground
+    /// </summary>
+    /// <returns></returns>
+    public bool TryStartBoosting()
     {
-        if(!boostActive && groundingModule.grounded)
+        if(!boostActive && manager.groundingModule.grounded)
         {
-            StartBoosting(rb, startSpeed, heading);
+            StartBoosting();
             return true;
         }
         return false;
     }
 
-    public void StartBoosting(Rigidbody rb, float startSpeed, Vector3 heading)
+    public void StartBoosting()
     {
         // At the start of the boost, set the velocity to the top speed
-        rb.velocity = heading * startSpeed;
+        manager.rigidbody.velocity = manager.heading * manager.topSpeedModule.currentTopSpeed;
 
         // Set the time when the boost began
         m_BoostBeginTime = Time.time;
@@ -120,7 +139,9 @@ public class BoostingModule : ITopSpeedModifier
         m_BoostHasStopped = true;
         SetParticlesActive(false);
     }
+    #endregion
 
+    #region Private Methods
     private void SetParticlesActive(bool active)
     {
         foreach(ParticleSystem system in m_JetstreamParticles)
@@ -129,7 +150,5 @@ public class BoostingModule : ITopSpeedModifier
             else system.Stop();
         }
     }
-
-    [System.Serializable]
-    private class FloatEvent : UnityEvent<float> { }
+    #endregion
 }

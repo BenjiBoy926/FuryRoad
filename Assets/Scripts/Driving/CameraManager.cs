@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the movement manager used to determine the camera's position")]
-    private MovementManager movementManager;
+    private DrivingManager movementManager;
     [SerializeField]
     [Tooltip("Speed at which the camera moves to follow the player")]
     private float translateSpeed = 20f;

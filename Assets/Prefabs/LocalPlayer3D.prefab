@@ -948,6 +948,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2313236658512369018}
+  - {fileID: 6860147089287800895}
   - {fileID: 1596020492845466608}
   m_Father: {fileID: 2557459325734712563}
   m_RootOrder: 0
@@ -1296,6 +1298,134 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1643026833216002554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8082045182155468590}
+  - component: {fileID: 2813666089659713822}
+  m_Layer: 9
+  m_Name: DriftBoost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8082045182155468590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643026833216002554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6860147089287800895}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2813666089659713822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643026833216002554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195bdb0ff789da14eaac4c002bfa41e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxTopSpeedModifier: 1.2
+  m_BoostDuration: 1
+  m_BoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.004166667
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.81250304
+      value: 0.8828448
+      inSlope: -0.4628353
+      outSlope: -0.4628353
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0083333
+      value: -0.020920502
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_JetstreamParticles:
+  - {fileID: 3481365984426146045}
+  audio:
+    audio: {fileID: 4239266452316172489}
+    clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
+    pitchRange:
+      _min: 1
+      _max: 1.5
+    fadeIn: 0.2
+    fadeOut: 1
+  m_OnBoostBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBoostUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBoostEnd:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1706626556713780631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6860147089287800895}
+  m_Layer: 9
+  m_Name: Drifting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6860147089287800895
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706626556713780631}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8082045182155468590}
+  m_Father: {fileID: 210878546111107929}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769921196615183470
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,6 +1681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 6022623401752220769}
+  m_GroundingModule: {fileID: 0}
   ui: {fileID: 2325229541354704948}
   gravity: -50
   m_Thrust: 120
@@ -1564,129 +1695,12 @@ MonoBehaviour:
     m_DraftRechargeRate: 1
     m_AirTimeRechargeRate: 1
     m_BoostPowerGravity: 3
-  m_BoostingModule:
-    m_MaxTopSpeedModifier: 1.5
-    m_BoostDuration: 2
-    m_BoostCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.004166667
-        value: 0.0083682
-        inSlope: -3.3777099
-        outSlope: -3.3777099
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.6111028
-      - serializedVersion: 3
-        time: 0.070834346
-        value: -0.07948834
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.27499694
-        value: 1.0125523
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.008368201
-        inSlope: -4.6192446
-        outSlope: -4.6192446
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.06250003
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_JetstreamParticles:
-    - {fileID: 6036832914775020795}
-    audio:
-      audio: {fileID: 7282523214234107454}
-      clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
-      pitchRange:
-        _min: 1
-        _max: 1.5
-      fadeIn: 0.2
-      fadeOut: 1
-    m_OnBoostBegin:
-      m_PersistentCalls:
-        m_Calls: []
-    m_OnBoostUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-    m_OnBoostEnd:
-      m_PersistentCalls:
-        m_Calls: []
+  m_BoostingModule: {fileID: 3643526296515383204}
   m_DriftingModule:
     driftBoostChargeTime: 2
     steeringModifier: 1
     cancelThreshold: 5
-    m_DriftBoost:
-      m_MaxTopSpeedModifier: 1.2
-      m_BoostDuration: 1
-      m_BoostCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: -0.008333334
-          value: -0.0041841003
-          inSlope: 7.7465625
-          outSlope: 7.7465625
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.17948718
-        - serializedVersion: 3
-          time: 0.15416667
-          value: 1.0041841
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1.0083333
-          value: 0.0041841003
-          inSlope: -3.6515772
-          outSlope: -3.6515772
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.053658556
-          outWeight: 0.33333334
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_JetstreamParticles:
-      - {fileID: 3481365984426146045}
-      audio:
-        audio: {fileID: 4239266452316172489}
-        clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
-        pitchRange:
-          _min: 1
-          _max: 1.5
-        fadeIn: 0.2
-        fadeOut: 1
-      m_OnBoostBegin:
-        m_PersistentCalls:
-          m_Calls: []
-      m_OnBoostUpdate:
-        m_PersistentCalls:
-          m_Calls: []
-      m_OnBoostEnd:
-        m_PersistentCalls:
-          m_Calls: []
+    m_DriftBoost: {fileID: 2813666089659713822}
     audio:
       skidSource: {fileID: 8862228342308956321}
       skidSounds:
@@ -2282,6 +2296,121 @@ MonoBehaviour:
   image: {fileID: 92013296613606333}
   available: {r: 0.70980394, g: 1, b: 0, a: 1}
   unavailable: {r: 0.70980394, g: 1, b: 0, a: 0.09803922}
+--- !u!1 &3328718424380773461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2313236658512369018}
+  - component: {fileID: 3643526296515383204}
+  m_Layer: 9
+  m_Name: MainBoost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2313236658512369018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328718424380773461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 210878546111107929}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3643526296515383204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328718424380773461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195bdb0ff789da14eaac4c002bfa41e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxTopSpeedModifier: 1.5
+  m_BoostDuration: 2
+  m_BoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.004166667
+      value: 0.0041841003
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.045833334
+      value: -0.066945605
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.17916666
+      value: 1.0543933
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.825
+      value: 0.95815897
+      inSlope: -0.464246
+      outSlope: -0.464246
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0083333
+      value: -0.012552301
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_JetstreamParticles:
+  - {fileID: 6036832914775020795}
+  audio:
+    audio: {fileID: 7282523214234107454}
+    clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
+    pitchRange:
+      _min: 1
+      _max: 1.5
+    fadeIn: 0.2
+    fadeOut: 1
+  m_OnBoostBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBoostUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBoostEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3481365984426146035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7284,9 +7413,9 @@ Canvas:
   m_GameObject: {fileID: 5140970692389607199}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 3165222375483301168}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -7415,7 +7544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 210878546111107929}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2377211861322896346
 MonoBehaviour:

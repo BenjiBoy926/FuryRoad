@@ -7,6 +7,7 @@ using DG.Tweening;
 [System.Serializable]
 public class BoostAudio
 {
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Audio source that plays audio during the full boost")]
     private AudioSource audio;
@@ -23,7 +24,9 @@ public class BoostAudio
     [SerializeField]
     [Tooltip("Time it takes for the audio to fade out when finsihed")]
     private float fadeOut = 1f;
+    #endregion
 
+    #region Public Methods
     public void StartAudio()
     {
         // Complete any tweens (in case the fade-out is still running)
@@ -37,13 +40,11 @@ public class BoostAudio
         audio.clip = clip;
         audio.Play();
     }
-
-    public void FixedUpdate(float boostLevel)
+    public void UpdatePitch(float boostLevel)
     {
         // Change pitch based on current boost level
         audio.pitch = Mathf.LerpUnclamped(pitchRange.min, pitchRange.max, boostLevel);
     }
-
     public void StopAudio()
     {
         // Complete any tweens (in case the fade-in is still running)
@@ -53,4 +54,5 @@ public class BoostAudio
         audio.volume = 1f;
         audio.DOFade(0f, fadeOut).OnComplete(() => audio.Stop());
     }
+    #endregion
 }

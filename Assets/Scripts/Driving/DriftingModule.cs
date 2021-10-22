@@ -5,6 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class DriftingModule
 {
+    #region Public Properties
+    public bool driftActive => m_DriftActive;
+    public float currentDirection => m_CurrentDirection;
+    public BoostingModule driftBoost => m_DriftBoost;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Time that the module must be drifting for in order to receive a drift boost at the end")]
     private float driftBoostChargeTime;
@@ -28,23 +35,18 @@ public class DriftingModule
     [SerializeField]
     [Tooltip("Handle the audio of the drift")]
     private DriftingAudio audio;
+    #endregion
 
+    #region Private Fields
     // Direction that the vehicle is drifting, either -1 for left or 1 for right
     private float m_CurrentDirection;
     // True if the drifting module is actively drifting
     private bool m_DriftActive;
     // Time when the drifting started
     private float m_DriftStartTime;
+    #endregion
 
-    public bool driftActive => m_DriftActive;
-    public float currentDirection => m_CurrentDirection;
-    public BoostingModule driftBoost => m_DriftBoost;
-
-    public void Awake()
-    {
-        m_DriftBoost.Awake();
-    }
-
+    #region Public Methods
     public void FixedUpdate(Rigidbody rb, float topSpeed, Vector3 heading, Vector3 normal)
     {
         // If the velocity magnitude falls below the threshold, cancel the drift
@@ -52,8 +54,6 @@ public class DriftingModule
         {
             StopDrifting();
         }
-        // Always update the drift boost
-        m_DriftBoost.FixedUpdate(rb, topSpeed, heading, normal);
     }
 
     // Get the steering of the drifting module.
@@ -102,7 +102,7 @@ public class DriftingModule
         // If we have been drifting long enough to charge the drift boost, then boost!
         if (m_DriftActive && Time.time - m_DriftStartTime > driftBoostChargeTime)
         {
-            m_DriftBoost.StartBoosting(rb, topSpeed, heading);
+            m_DriftBoost.StartBoosting();
         }
         StopDrifting();
     }
@@ -113,4 +113,5 @@ public class DriftingModule
         if(m_DriftActive) audio.PlaySkidSound();
         m_DriftActive = false;
     }
+    #endregion
 }

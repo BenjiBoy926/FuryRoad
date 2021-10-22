@@ -3,12 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(GroundingModule))]
-public class MovementManager : MonoBehaviour
+public class DrivingManager : MonoBehaviour
 {
+    #region Public Properties
+    // Public getters
+    public new Rigidbody rigidbody => m_Rigidbody;
+    public GroundingModule groundingModule => m_GroundingModule;
+    public TopSpeedModule topSpeedModule => m_TopSpeedModule;
+    public BoostingModule boostingModule => m_BoostingModule;
+    public DriftingModule driftingModule => m_DriftingModule;
+    public Vector3 heading => _heading;
+    // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
+    public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
+    #endregion
+
+    #region Private Editor Fields
     [SerializeField]
     [Tooltip("Referene to the sphere rigidbody that moves the car around")]
     private Rigidbody m_Rigidbody;
+    [SerializeField]
+    [Tooltip("Reference to the module used to determine if this object is on the ground")]
+    private GroundingModule m_GroundingModule;
     [SerializeField]
     [Tooltip("Reference to the script that manages player UI")]
     private PlayerUIManager ui;
@@ -45,20 +60,12 @@ public class MovementManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the object used to fire projectiles")]
     private ProjectileModule m_ProjectileModule;
+    #endregion
 
-    // Components required
-    private GroundingModule m_GroundingModule;
+    #region Private Fields
     // Current heading of the movement module
     private Vector3 _heading;
-
-    // Public getters
-    public new Rigidbody rigidbody => m_Rigidbody;
-    public BoostingModule boostingModule => m_BoostingModule;
-    public DriftingModule driftingModule => m_DriftingModule;
-    public GroundingModule groundingModule => m_GroundingModule;
-    public Vector3 heading => _heading;
-    // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
-    public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
+    #endregion
 
     private void Awake()
     {
@@ -66,8 +73,6 @@ public class MovementManager : MonoBehaviour
         _heading = Vector3.forward;
 
         m_TopSpeedModule.Setup(m_BoostingModule, m_DriftingModule.driftBoost, m_DraftingModule, m_TerrainModule);
-        m_BoostingModule.Awake();
-        m_DriftingModule.Awake();
         m_BoostResources.Awake();
         m_DrivingAudio.Start(m_TopSpeedModule.baseTopSpeed);
     }
@@ -90,7 +95,6 @@ public class MovementManager : MonoBehaviour
         // Update all submodules
         m_TopSpeedModule.FixedUpdate();
         m_BoostResources.FixedUpdate(m_DriftingModule.driftActive, m_DraftingModule.draftActive, !groundingModule.grounded);
-        m_BoostingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading, groundingModule.groundNormal);
         m_DriftingModule.FixedUpdate(m_Rigidbody, m_TopSpeedModule.currentTopSpeed, heading, groundingModule.groundNormal);
         m_DraftingModule.FixedUpdate(m_Rigidbody, heading);
         m_TerrainModule.FixedUpdate(m_GroundingModule);
@@ -149,7 +153,7 @@ public class MovementManager : MonoBehaviour
             m_ProjectileModule.Fire(manager, m_Rigidbody.position, heading, dir);
             m_BoostResources.ConsumeBoostResource();
         }
-        else Debug.Log($"{nameof(MovementManager)}: cannot fire a projectile " +
+        else Debug.Log($"{nameof(DrivingManager)}: cannot fire a projectile " +
             $"because no component of type {nameof(PlayerManager)} could be found " +
             $"in this object or any of its parents");
     }
@@ -161,7 +165,7 @@ public class MovementManager : MonoBehaviour
         if (m_BoostResources.canBoost)
         {
             // Try to start boosting and store the result of the attempt
-            bool result = m_BoostingModule.TryStartBoosting(m_GroundingModule, m_Rigidbody, m_TopSpeedModule.currentTopSpeed, _heading);
+            bool result = m_BoostingModule.TryStartBoosting();
 
             // NOTE: not for this test since we get consume resources with projectile
             // If we started boosting, then consume a boost resource
@@ -174,7 +178,7 @@ public class MovementManager : MonoBehaviour
     }
     public void StartBoost()
     {
-        m_BoostingModule.StartBoosting(rigidbody, m_TopSpeedModule.currentTopSpeed, _heading);
+        m_BoostingModule.StartBoosting();
     }
     // Delegates for the drifting module
     public bool TryStartDrifting(float h)
