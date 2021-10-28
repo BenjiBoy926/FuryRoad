@@ -31,5 +31,10 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
     {
         settings.launcherScene.LocalLoad();
     }
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log($"Disconnected with cause: {cause}");
+        settings.launcherScene.LocalLoad();
+    }
     #endregion
 }
