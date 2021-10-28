@@ -37,7 +37,7 @@ public class NetworkSceneDrawer : PropertyDrawer
             }
 
             // Edit the additional objects property
-            SerializedProperty additionalObjects = property.FindPropertyRelative("additionalObjects");
+            SerializedProperty additionalObjects = property.FindPropertyRelative("managementObjects");
             EditorGUI.PropertyField(position, additionalObjects, true);
 
             EditorGUI.indentLevel--;
@@ -53,7 +53,7 @@ public class NetworkSceneDrawer : PropertyDrawer
         if(property.isExpanded)
         {
             height += (2f * LayoutUtilities.standardControlHeight);
-            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("additionalObjects"));
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("managementObjects"));
 
             // If scene has player, add space for a third control
             if(hasPlayer.boolValue)

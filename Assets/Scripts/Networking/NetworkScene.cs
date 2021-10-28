@@ -7,19 +7,7 @@ using Photon.Pun;
 [System.Serializable]
 public class NetworkScene
 {
-    [Tooltip("Name of the scene in the build settings")]
-    public string name;
-    [Tooltip("True if this scene has a player object and false if not")]
-    public bool hasPlayer;
-    [TagSelector]
-    [Tooltip("Tag of the objects that the players will spawn at")]
-    public string spawnPointTag = "Respawn";
-    [Tooltip("Extra objects to instantiate on the network when the scene loads")]
-    public List<GameObject> additionalObjects;
-
-    // Reference to the player prefab instantiated if the scene has a player
-    private GameObject playerPrefab;
-
+    #region Public Properties
     // Get the spawn points
     // Sort the spawn points so that they are in the same order for each client
     public List<GameObject> spawnPoints
@@ -32,7 +20,26 @@ public class NetworkScene
             return pointsList;
         }
     }
+    #endregion
 
+    #region Public Editor Fields
+    [Tooltip("Name of the scene in the build settings")]
+    public string name;
+    [Tooltip("True if this scene has a player object and false if not")]
+    public bool hasPlayer;
+    [TagSelector]
+    [Tooltip("Tag of the objects that the players will spawn at")]
+    public string spawnPointTag = "Respawn";
+    [Tooltip("Managing objects to instantiate on the network when the scene loads")]
+    public List<GameObject> managementObjects;
+    #endregion
+
+    #region Private Fields
+    // Reference to the player prefab instantiated if the scene has a player
+    private GameObject playerPrefab;
+    #endregion
+
+    #region Constructors
     // Private constructor hides some data from the client for consistency
     private NetworkScene(string name, bool hasPlayer, string spawnPointTag = "Respawn")
     {
@@ -49,6 +56,9 @@ public class NetworkScene
     {
         return new NetworkScene(name, true, spawnPointTag);
     }
+    #endregion
+
+    #region Public Methods 
     // On awake, setup the player prefab reference
     // and subscribe to the scene manager loaded event
     public void Awake(GameObject playerPrefab)
@@ -66,7 +76,9 @@ public class NetworkScene
     {
         SceneManager.LoadScene(name);
     }
+    #endregion
 
+    #region Private Fields
     // Check if this scene should have a player.  If it should, instantiate the player
     private void CheckInstantiateSceneObjects(Scene arg0, LoadSceneMode arg1)
     {
@@ -92,12 +104,18 @@ public class NetworkScene
         // Set the tag object on the local player
         PhotonNetwork.LocalPlayer.TagObject = manager;
     }
-
+    // Instantiate additional objects, but only if we are the master client
+    // We are assuming that any additional objects are manager type objects
+    // that everyone needs only one of
     private void InstantiateAdditionalObjects()
     {
-        foreach(GameObject go in additionalObjects)
+        if(PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate(go.name, Vector3.zero, Quaternion.identity);
+            foreach (GameObject go in managementObjects)
+            {
+                PhotonNetwork.Instantiate(go.name, Vector3.zero, Quaternion.identity);
+            }
         }
     }
+    #endregion
 }
