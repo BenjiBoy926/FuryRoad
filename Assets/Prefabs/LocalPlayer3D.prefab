@@ -1337,13 +1337,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxTopSpeedModifier: 1.2
-  m_BoostDuration: 0.5
+  m_BoostDuration: 1
   m_BoostCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.004166667
-      value: 1
+      time: 0.004270779
+      value: -0.0038316492
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26836675
+      value: 0.99572754
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -1353,8 +1362,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.81250304
       value: 0.8828448
-      inSlope: -0.4628353
-      outSlope: -0.4628353
+      inSlope: -0.6102045
+      outSlope: -0.6102045
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1626,7 +1635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 6022623401752220769}
   gravity: -50
-  m_Thrust: 20
+  m_Thrust: 40
   m_Turn: 60
   m_GroundingModule: {fileID: 493142911493066043}
   m_TopSpeedModule: {fileID: 701939521791292234}
@@ -2205,13 +2214,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxTopSpeedModifier: 1.5
-  m_BoostDuration: 0.8
+  m_BoostDuration: 1.5
   m_BoostCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.013300076
-      value: 1.0121646
+      time: -0.004786487
+      value: 0.00031023272
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -2219,10 +2228,19 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5953694
-      value: 0.89594114
-      inSlope: -0.45504954
-      outSlope: -0.45504954
+      time: 0.26608455
+      value: 0.99933577
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7768933
+      value: 0.8279125
+      inSlope: -0.9238049
+      outSlope: -0.9238049
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -7396,7 +7414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 605099110978547427, guid: f3ab7bc42e20e974ebff8e510a52c872,
     type: 3}
-  speed: 60
+  speed: 125
   offset: 10
 --- !u!1 &5494032704533457502
 GameObject:
@@ -12920,7 +12938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6095c731fcfa942478e5b0a57c3cefab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BaseTopSpeed: 30
+  m_BaseTopSpeed: 50
 --- !u!1 &8422834316590372814
 GameObject:
   m_ObjectHideFlags: 0
