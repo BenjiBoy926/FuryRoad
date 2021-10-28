@@ -25,11 +25,12 @@ public class PlayerDriving : MonoBehaviour
     {
         // Setup current input axes every frame
         m_HorizontalAxis = Input.GetAxis("Horizontal");
-        m_VerticalAxis = Input.GetAxis("Vertical");
+        m_VerticalAxis = Input.GetAxis("Drive");
 
         // Jump button fires projectiles
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Action"))
         {
+            // TODO: 
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
                 m_DrivingManager.projectileModule.TryFire(-1f);
