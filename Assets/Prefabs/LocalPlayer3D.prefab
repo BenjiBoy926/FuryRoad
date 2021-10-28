@@ -964,12 +964,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e44e0cc610c5bb4ab61026c18cbe397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 0}
   m_BoostsAvailable: 3
   m_DriftRechargeRate: 1
   m_DraftRechargeRate: 1
   m_AirTimeRechargeRate: 1
-  m_BoostPowerGravity: 3
+  m_BoostPowerGravity: 0.5
   m_OnAvailableBoostsChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1338,7 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxTopSpeedModifier: 1.2
-  m_BoostDuration: 1
+  m_BoostDuration: 0.5
   m_BoostCurve:
     serializedVersion: 2
     m_Curve:
@@ -1627,7 +1626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 6022623401752220769}
   gravity: -50
-  m_Thrust: 120
+  m_Thrust: 20
   m_Turn: 60
   m_GroundingModule: {fileID: 493142911493066043}
   m_TopSpeedModule: {fileID: 701939521791292234}
@@ -1943,7 +1942,7 @@ MonoBehaviour:
   translateSpeed: 20
   rotateSpeed: 20
   backDistance: 15
-  maxBoostZoom: 5
+  maxBoostZoom: 4
   lift: 4
 --- !u!81 &1649706657558590277
 AudioListener:
@@ -2206,13 +2205,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxTopSpeedModifier: 1.5
-  m_BoostDuration: 2
+  m_BoostDuration: 0.8
   m_BoostCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.004166667
-      value: 0.0041841003
+      time: -0.013300076
+      value: 1.0121646
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -2220,28 +2219,10 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.045833334
-      value: -0.066945605
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.17916666
-      value: 1.0543933
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.825
-      value: 0.95815897
-      inSlope: -0.464246
-      outSlope: -0.464246
+      time: 0.5953694
+      value: 0.89594114
+      inSlope: -0.45504954
+      outSlope: -0.45504954
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -7154,7 +7135,7 @@ MonoBehaviour:
   m_PlayerLayer:
     serializedVersion: 2
     m_Bits: 512
-  m_DraftStrength: 30
+  m_DraftStrength: 10
   m_DraftDistance: 100
   m_TopSpeedModifier: 1.2
   particles: {fileID: 7524532138655846017}
@@ -7415,7 +7396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 605099110978547427, guid: f3ab7bc42e20e974ebff8e510a52c872,
     type: 3}
-  speed: 100
+  speed: 60
   offset: 10
 --- !u!1 &5494032704533457502
 GameObject:
@@ -7793,8 +7774,8 @@ Rigidbody:
   m_GameObject: {fileID: 6022623401752220796}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.1
-  m_AngularDrag: 1
+  m_Drag: 0.5
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -12939,7 +12920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6095c731fcfa942478e5b0a57c3cefab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BaseTopSpeed: 90
+  m_BaseTopSpeed: 30
 --- !u!1 &8422834316590372814
 GameObject:
   m_ObjectHideFlags: 0

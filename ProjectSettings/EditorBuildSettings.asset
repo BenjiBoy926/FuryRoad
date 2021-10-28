@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Race.unity
     guid: aba957d001a42a0468ebdb8b63159386
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tracks/DryDryDesert.unity
     guid: 1d2254f162988d24c8175681c4541da5
   - enabled: 0
@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/VisualScene3D.unity
     guid: e3cf7b023e2d04136b8e8940f3a287ca
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Results.unity
     guid: f2c25a83fe3f18e43872d1305dd416e3
   - enabled: 1
