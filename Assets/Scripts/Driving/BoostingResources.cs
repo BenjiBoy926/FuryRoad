@@ -19,9 +19,6 @@ public class BoostingResources : DrivingModule
 
     #region Private Editor Fields
     [SerializeField]
-    [Tooltip("Script used to manage player UI")]
-    private DrivingUI ui;
-    [SerializeField]
     [Tooltip("Number of boosts available to the vehicle")]
     private int m_BoostsAvailable = 3;
     [SerializeField]
