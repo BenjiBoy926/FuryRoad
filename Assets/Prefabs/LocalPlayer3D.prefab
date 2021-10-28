@@ -7074,7 +7074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offroadTag: Offroad
-  offroadModifier: 0.5
+  offroadModifier: 0.6
 --- !u!1 &3889982616532899054
 GameObject:
   m_ObjectHideFlags: 0
