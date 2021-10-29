@@ -11,6 +11,11 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
     private class FloatEvent : UnityEvent<float> { }
     #endregion
 
+    #region Public Constants
+    // A large force applied to the rigidbody to push it to its top speed
+    public const float BoostForce = 1000f;
+    #endregion
+
     #region Public Properties
     // Public getters for the events
     public UnityEvent onBoostBegin => m_OnBoostBegin;
@@ -89,9 +94,8 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
         // If the boost is in progress, set the velocity to boost speed
         if (boostActive)
         {
-            // Separate the speed into component perpendicular to motion
-            // and speed in the plane of motion (planes change based on normal vector)
-            m_Manager.rigidbody.velocity = m_Manager.heading * m_Manager.topSpeedModule.currentTopSpeed + Vector3.Project(m_Manager.rigidbody.velocity, m_Manager.groundingModule.groundNormal);
+            // Add a large force in the direction of the manager to force it up to top speed
+            m_Manager.rigidbody.AddForce(manager.heading * BoostForce, ForceMode.Acceleration);
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -117,7 +121,6 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
         }
         return false;
     }
-
     public void StartBoosting()
     {
         // At the start of the boost, set the velocity to the top speed
@@ -131,7 +134,6 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
         m_BoostHasStopped = false;
         SetParticlesActive(true);
     }
-
     public void StopBoosting()
     {
         // Invoke the boost end event and stop the particles
