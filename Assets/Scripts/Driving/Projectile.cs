@@ -10,16 +10,19 @@ public class Projectile : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     [Tooltip("Reference to the collision event hook on the physical part of the projectile")]
-    private CollisionEventHook collisionEvents;
+    private CollisionEvents sphereCollisionEvents;
+    [SerializeField]
+    [Tooltip("Reference to the collision events on the outer, wider trigger of the projectile")]
+    private CollisionEvents triggerCollisionEvents;
     [SerializeField]
     [Tooltip("Reference to the root object of the projectile")]
     private GameObject root;
     [SerializeField]
-    [Tooltip("Transform of the object that renders a trail")]
-    private Transform trail;
-    [SerializeField]
     [Tooltip("Total lifetime of the projectile")]
     private float lifetime = 10f;
+    [SerializeField]
+    [Tooltip("List of objects that will follow the position of the rigidbody programmatically")]
+    private Transform[] followingObjects;
     #endregion
 
     #region Private Fields
@@ -32,13 +35,22 @@ public class Projectile : MonoBehaviour
     #region Monobehaviour Messages
     private void Start()
     {
-        collisionEvents.CollisionEnter.AddListener(HandleCollisionEnter);
-        collisionEvents.TriggerEnter.AddListener(HandleTriggerEnter);
+        // Handle collision/trigger for the sphere by checking if the player was hit
+        sphereCollisionEvents.CollisionEnter.AddListener(BallCollisionEnter);
+        sphereCollisionEvents.TriggerEnter.AddListener(BallTriggerEnter);
+
+        // Handle event when the extended trigger enters something
+        triggerCollisionEvents.TriggerEnter.AddListener(ExtendedTriggerEnter);
+
         timeOfCreation = Time.time;
     }
     private void Update()
     {
-        trail.position = rb.position;
+        // Update the position of each following object
+        foreach(Transform follower in followingObjects)
+        {
+            follower.position = rb.position;
+        }
 
         // Destoy myself if lifetime is up
         if(Time.time - timeOfCreation > lifetime)
@@ -57,15 +69,15 @@ public class Projectile : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void HandleCollisionEnter(Collision collision)
+    private void BallCollisionEnter(Collision collision)
     {
-        HandlePlayerHit(collision.gameObject.GetComponentInParent<DrivingManager>());
+        HandlePlayerPhysicsEnter(collision.gameObject.GetComponentInParent<DrivingManager>());
     }
-    private void HandleTriggerEnter(Collider other)
+    private void BallTriggerEnter(Collider other)
     {
-        HandlePlayerHit(other.GetComponentInParent<DrivingManager>());
+        HandlePlayerPhysicsEnter(other.GetComponentInParent<DrivingManager>());
     }
-    private void HandlePlayerHit(DrivingManager driver)
+    private void HandlePlayerPhysicsEnter(DrivingManager driver)
     {
         if(driver)
         {
@@ -77,8 +89,26 @@ public class Projectile : MonoBehaviour
             else owningDriver.boostingModule.StartBoosting();
 
             // Destroy self when I hit a player
-            NetworkUtilities.DestroyLocalOrNetwork(root);
+            DestroySelf();
         }
-    } 
+    }
+    
+    // Action taken when the extended trigger on the projectile enters some other object
+    private void ExtendedTriggerEnter(Collider other)
+    {
+        Projectile otherProjectile = other.GetComponentInParent<Projectile>();
+
+        // If another projectile was found that is not this projectile then the projectiles destroy each other
+        if(otherProjectile && otherProjectile != this)
+        {
+            otherProjectile.DestroySelf();
+            DestroySelf();
+        }
+    }
+
+    private void DestroySelf()
+    {
+        NetworkUtilities.DestroyLocalOrNetwork(root);
+    }
     #endregion
 }
