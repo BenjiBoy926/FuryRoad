@@ -30,20 +30,18 @@ public class PlayerDriving : MonoBehaviour
         // Jump button fires projectiles
         if(Input.GetButtonDown("Action"))
         {
-            // TODO: 
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            // If axis less than zero, or down keys pressed on standalone, then fire a projectile
+            if (m_VerticalAxis < 0 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
                 m_DrivingManager.projectileModule.TryFire(-1f);
             }
             else m_DrivingManager.projectileModule.TryFire(1f);
         }
-
-        if(Input.GetButton("Fire1"))
+        if (Input.GetButton("Drift"))
         {
             m_DrivingManager.driftingModule.TryStartDrifting(m_HorizontalAxis);
         }
-
-        if(Input.GetButtonUp("Fire1"))
+        if(Input.GetButtonUp("Drift"))
         {
             m_DrivingManager.driftingModule.FinishDrifting();
         }
