@@ -61,14 +61,10 @@ public class DrivingManager : MonoBehaviour
 
     #region Private Fields
     // Current heading of the movement module
-    private Vector3 m_Heading;
+    private Vector3 m_Heading = Vector3.forward;
     #endregion
 
     #region Monobehaviour Messages
-    private void Start()
-    {
-        m_Heading = Vector3.forward;
-    }
     private void FixedUpdate()
     {
         Vector3 groundNormal = m_GroundingModule.groundNormal;
@@ -111,7 +107,7 @@ public class DrivingManager : MonoBehaviour
     public void Thrust(float vertical)
     {
         // Car can only thrust while grounded
-        if(m_GroundingModule.grounded && !m_BoostingModule.boostActive)
+        if(m_GroundingModule.grounded)
         {
             m_Rigidbody.AddForce(m_Heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
