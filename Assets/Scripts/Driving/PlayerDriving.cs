@@ -30,8 +30,8 @@ public class PlayerDriving : MonoBehaviour
         // Jump button fires projectiles
         if(Input.GetButtonDown("Action"))
         {
-            // If axis less than zero, or down keys pressed on standalone, then fire a projectile
-            if (m_VerticalAxis < 0 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            // If axis less than zero, or down keys pressed on laptop standalone, then fire a projectile
+            if (Input.GetAxis("Vertical") < -0.2 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
                 m_DrivingManager.projectileModule.TryFire(-1f);
             }
@@ -50,7 +50,6 @@ public class PlayerDriving : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         // Use the movement module to move the car
-        // (You can also move the car if the network is not connected for debugging purposes)
         m_DrivingManager.Turn(m_HorizontalAxis);
         m_DrivingManager.Thrust(m_VerticalAxis);
     }
