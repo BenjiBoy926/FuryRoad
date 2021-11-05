@@ -13,7 +13,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
 
     #region Public Constants
     // A large force applied to the rigidbody to push it to its top speed
-    public const float BoostForce = 1000f;
+    public const float BoostForce = 100f;
     #endregion
 
     #region Public Properties
