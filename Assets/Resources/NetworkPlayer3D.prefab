@@ -40,7 +40,6 @@ MonoBehaviour:
   networkSensitiveObjects:
   - {fileID: 7321561507806336119}
   - {fileID: 736197172568407096}
-  - {fileID: 580446048943530214}
   networkSensitiveBehaviours:
   - {fileID: 9189678694920113825}
 --- !u!114 &5770960330747569835
@@ -288,12 +287,6 @@ GameObject:
 --- !u!1 &736197172568407096 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2951110721149992784, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
-    type: 3}
-  m_PrefabInstance: {fileID: 2504860099477750632}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &580446048943530214 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3084161340724814734, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
     type: 3}
   m_PrefabInstance: {fileID: 2504860099477750632}
   m_PrefabAsset: {fileID: 0}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3914638805108289681
+--- !u!1 &3209979394332644941
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3914638805108289682}
-  - component: {fileID: 3154878426786866022}
-  - component: {fileID: 3914638805264454942}
+  - component: {fileID: 3209979394332644942}
+  - component: {fileID: 3209979394332644943}
+  - component: {fileID: 2890227525391087351}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: RacingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3914638805108289682
+--- !u!4 &3209979394332644942
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914638805108289681}
+  m_GameObject: {fileID: 3209979394332644941}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,51 +32,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3154878426786866022
+--- !u!114 &3209979394332644943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914638805108289681}
+  m_GameObject: {fileID: 3209979394332644941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 745af36ddb6bd034bab904cf8b710ba5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c3648c2bc02f8e44a0cae914c18fa3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Settings:
-    playerPrefab: {fileID: 125792143897180039, guid: 063f1dcd0d8a1ef489f3b5dc1885fddd,
-      type: 3}
-    maxPlayersPerRace: 5
-    launcherScene:
-      name: Launcher
-      hasPlayer: 0
-      spawnPointTag: Respawn
-      managementObjects: []
-    lobbyScene:
-      name: Lobby
-      hasPlayer: 1
-      spawnPointTag: Respawn
-      managementObjects:
-      - {fileID: 8000442257093504142, guid: 0ec752da84d9c084e87b72cec4b213b0, type: 3}
-    raceScene:
-      name: BabyPark
-      hasPlayer: 1
-      spawnPointTag: Respawn
-      managementObjects:
-      - {fileID: 3209979394332644941, guid: 7ef23a284f190d14b92cb80fbe38e04b, type: 3}
-    resultsScene:
-      name: Results
-      hasPlayer: 0
-      spawnPointTag: Respawn
-      managementObjects: []
---- !u!114 &3914638805264454942
+  totalLaps: 1
+  checkpointPassedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2890227525391087351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914638805108289681}
+  m_GameObject: {fileID: 3209979394332644941}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
