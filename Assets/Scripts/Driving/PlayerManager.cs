@@ -26,6 +26,8 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
             return players.FindIndex(x => Get(x) == this);
         }
     }
+    // Reference to the player this manager is attached to
+    public Player networkPlayer => PhotonNetwork.PlayerList[networkIndex];
     // Get the player management module attached to the local player
     public static PlayerManager networkLocal
     {

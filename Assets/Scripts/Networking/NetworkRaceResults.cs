@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,13 +21,23 @@ public class NetworkRaceResults : MonoBehaviour
     private NetworkLeaveRoomButton leaveButton;
     [SerializeField]
     [Tooltip("GUI used to display race results")]
-    private NetworkRaceResultsGUI gui;
+    private RaceResultWidget widgetPrefab;
+    [SerializeField]
+    [Tooltip("Transform component to instantiate widgets into")]
+    private Transform widgetParent;
 
     Coroutine countdownRoutine;
 
+    public static List<int> ranking = new List<int>();
+
+    #region Monobehaviour Messages
     private void Start()
     {
-        gui.Start();
+        for(int i = 0; i < ranking.Count; i++)
+        {
+            RaceResultWidget clone = Instantiate(widgetPrefab, widgetParent);
+            clone.Setup(ranking[0], i + 1);
+        }
 
         // When we leave the room, stop the countdown
         leaveButton.onLeave.AddListener(() => StopCoroutine(countdownRoutine));
@@ -34,7 +45,21 @@ public class NetworkRaceResults : MonoBehaviour
         // Start the countdown now
         countdownRoutine = StartCoroutine(NextRaceCountdownRoutine());
     }
+    #endregion
 
+    #region Public Methods
+    public static void LoadResults(IReadOnlyList<PlayerManager> ranking)
+    {
+        NetworkRaceResults.ranking = ranking.Select(player => player.networkPlayer.ActorNumber).ToList();
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            NetworkManager.settings.resultsScene.NetworkLoad();
+        }
+    }
+    #endregion
+
+    #region Private Methods
     private IEnumerator NextRaceCountdownRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(1f);
@@ -62,4 +87,5 @@ public class NetworkRaceResults : MonoBehaviour
             else NetworkManager.settings.lobbyScene.NetworkLoad();
         }
     }
+    #endregion
 }

@@ -259,6 +259,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d68b9c03b6816ed48bda88cf72fbffd7, type: 3}
+--- !u!4 &371665671 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3373185093631108047, guid: d68b9c03b6816ed48bda88cf72fbffd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 371665670}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &814714150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -691,5 +697,57 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.referenceType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.directReference
+      value: 
+      objectReference: {fileID: 1945173777}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.findReference.parent
+      value: 
+      objectReference: {fileID: 371665671}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.findReference.identifier
+      value: Finish
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.findReference.referenceType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.findReference.canCacheObject
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.componentReference.referenceType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.resourcesReference.referenceType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14, type: 3}
+--- !u!114 &1945173777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6722538237108915657, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+    type: 3}
+  m_PrefabInstance: {fileID: 1945173776}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969e2f862104364428ea3d64f247aab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

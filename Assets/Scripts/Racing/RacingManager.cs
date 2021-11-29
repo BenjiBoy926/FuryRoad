@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class RacingManager : MonoBehaviour
 {
@@ -12,12 +13,15 @@ public class RacingManager : MonoBehaviour
     #endregion
 
     #region Public Properties
-    public IReadOnlyDictionary<PlayerManager, RacingLapData> PlayerLapData => (IReadOnlyDictionary<PlayerManager, RacingLapData>)playerLapData;
+    public IReadOnlyDictionary<PlayerManager, RacingLapData> PlayerLapData => playerLapData;
+    public IReadOnlyList<PlayerManager> Ranking => ranking;
     public UnityEvent<PlayerManager, RacingCheckpoint> CheckpointPassedEvent => checkpointPassedEvent;
+    public UnityEvent AllRacersFinishedEvent => allRacersFinishedEvent;
     #endregion
 
     #region Private Properties
     private RacingCheckpoint[] Checkpoints => FindObjectsOfType<RacingCheckpoint>();
+    private PlayerManager[] Racers => FindObjectsOfType<PlayerManager>();
     private int FirstCheckpointOrder => Checkpoints.Min(checkpoint => checkpoint.Order);
     private int LastCheckpointOrder => Checkpoints.Max(checkpoint => checkpoint.Order);
     #endregion
@@ -26,9 +30,20 @@ public class RacingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Max laps for the player to complete until they finish the race")]
     private int totalLaps = 3;
+
+    [SerializeField]
+    [Tooltip("Audio clip to play for the racing soundtrack")]
+    private AudioClip racingMusic;
+    [SerializeField]
+    [Tooltip("Audio source used to play the racing soundtrack")]
+    private AudioSource racingMusicSource;
+
     [SerializeField]
     [Tooltip("Event invoked when a player passes a checkpoint")]
     private PlayerManagerRacingCheckpointEvent checkpointPassedEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when all players finish the race")]
+    private UnityEvent allRacersFinishedEvent;
     #endregion
 
     #region Private Fields
@@ -36,6 +51,7 @@ public class RacingManager : MonoBehaviour
     private Dictionary<PlayerManager, RacingLapData> playerLapData = new Dictionary<PlayerManager, RacingLapData>();
     // Current ranking of players, where the earliest player in the list got first place
     private List<PlayerManager> ranking = new List<PlayerManager>();
+    private bool finishedEventInvoked = false;
     #endregion
 
     #region Monobehaviour Messages
@@ -52,6 +68,13 @@ public class RacingManager : MonoBehaviour
                 playerLapData.Add(player, new RacingLapData());
             }
         }
+
+        // At the start, the race finished event has not been invoked yet
+        finishedEventInvoked = false;
+
+        // Play the racing music
+        racingMusicSource.clip = racingMusic;
+        racingMusicSource.Play();
     }
     #endregion
 
@@ -72,7 +95,10 @@ public class RacingManager : MonoBehaviour
                     ranking.Add(player);
 
                     // Notify the player that they just finished the race
-                    player.OnRaceFinished(ranking.IndexOf(player));
+                    player.OnRaceFinished(ranking.Count - 1);
+
+                    // When the ranking count exceeds the racer count then invoke all racers finished event
+                    if (ranking.Count >= Racers.Length) OnAllRacersFinished();
                 }
             }
         }
@@ -80,6 +106,15 @@ public class RacingManager : MonoBehaviour
 
         // Invoke the checkpoint passed event
         checkpointPassedEvent.Invoke(player, checkpoint);
+    }
+    public void OnAllRacersFinished()
+    {
+        // Invoke all racers finished event only if it has not been invoked already
+        if(!finishedEventInvoked)
+        {
+            allRacersFinishedEvent.Invoke();
+            finishedEventInvoked = true;
+        }
     }
     #endregion
 }
