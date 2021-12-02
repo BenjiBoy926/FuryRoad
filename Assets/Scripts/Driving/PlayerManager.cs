@@ -10,11 +10,14 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     #region Public Typedefs
     [System.Serializable]
     public class IntEvent : UnityEvent<int> { }
+    [System.Serializable]
+    public class RacingLapDataEvent : UnityEvent<RacingLapData> { }
     #endregion
 
     #region Public Properties
     public PlayerDriving movementDriver => m_MovementDriver;
     public Rigidbody rb => m_Rb;
+    public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
 
     // Get the index of this player in the list of network players
@@ -46,6 +49,9 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     [Tooltip("Reference to the rigidbody of the car")]
     private Rigidbody m_Rb;
     [SerializeField]
+    [Tooltip("Event invoked when the player manager finishes a new lap")]
+    private RacingLapDataEvent newLapEvent;
+    [SerializeField]
     [Tooltip("Event invoked when the player finishes the race")]
     private IntEvent playerFinishedEvent;
     #endregion
@@ -64,6 +70,14 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     public void EnableControl(bool active)
     {
         m_MovementDriver.enabled = active;
+    }
+    /// <summary>
+    /// Method invoked when the player passes a new lap
+    /// </summary>
+    /// <param name="lap"></param>
+    public void OnNewLap(RacingLapData lap)
+    {
+        newLapEvent.Invoke(lap);
     }
     public void OnRaceFinished(int rank)
     {

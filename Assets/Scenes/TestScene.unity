@@ -700,7 +700,12 @@ PrefabInstance:
     - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
         type: 3}
       propertyPath: reference.referenceType
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.canCacheObject
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
         type: 3}
@@ -719,6 +724,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
         type: 3}
+      propertyPath: reference.sceneReference.identifier
+      value: Respawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
       propertyPath: reference.findReference.referenceType
       value: 1
       objectReference: {fileID: 0}
@@ -729,12 +739,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
         type: 3}
+      propertyPath: reference.sceneReference.referenceType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
       propertyPath: reference.componentReference.referenceType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
         type: 3}
       propertyPath: reference.resourcesReference.referenceType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
+        type: 3}
+      propertyPath: reference.sceneReference.componentReference.referenceType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

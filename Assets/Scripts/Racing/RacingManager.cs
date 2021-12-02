@@ -66,6 +66,7 @@ public class RacingManager : MonoBehaviour
             if (!playerLapData.ContainsKey(player))
             {
                 playerLapData.Add(player, new RacingLapData());
+                player.OnNewLap(playerLapData[player]);
             }
         }
 
@@ -88,6 +89,7 @@ public class RacingManager : MonoBehaviour
             if (newLap)
             {
                 // Notify the player that they just passed a new lap
+                player.OnNewLap(playerLapData[player]);
 
                 // If the player passed the final lap and they are not in the ranking yet then add them to the ranking
                 if(playerLapData[player].CurrentLap >= totalLaps && !ranking.Contains(player))
