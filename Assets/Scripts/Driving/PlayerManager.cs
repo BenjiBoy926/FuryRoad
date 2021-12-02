@@ -32,13 +32,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     // Reference to the player this manager is attached to
     public Player networkPlayer => PhotonNetwork.PlayerList[networkIndex];
     // Get the player management module attached to the local player
-    public static PlayerManager networkLocal
-    {
-        get
-        {
-            return Get(PhotonNetwork.LocalPlayer);
-        }
-    }
+    public static PlayerManager networkLocal => Get(PhotonNetwork.LocalPlayer);
     #endregion
 
     #region Private Editor Fields

@@ -7,7 +7,8 @@ public class CarModelSelector : MonoBehaviour
 
     private void Awake()
     {
-        ChooseCarModel(SaveManager.instance.currentCar);
+        // If the save manager exists then use it to select a car model
+        if (SaveManager.instance) ChooseCarModel(SaveManager.instance.currentCar);
     }
     private void ChooseCarModel(int _index)
     {
