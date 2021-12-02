@@ -3,7 +3,10 @@
 public class CarModelSelector : MonoBehaviour
 {
     [SerializeField] private Mesh[] carModels;
-    [SerializeField] private MeshFilter carMesh;
+    [SerializeField] private Material[] carMaterials;
+    private MeshFilter carMeshFilter;
+    private Renderer carMeshRenderer;
+    
 
     private void Awake()
     {
@@ -11,7 +14,9 @@ public class CarModelSelector : MonoBehaviour
     }
     private void ChooseCarModel(int _index)
     {
-        carMesh = this.gameObject.GetComponent<MeshFilter>();
-        carMesh.sharedMesh = Resources.Load<Mesh>(carModels[_index].name); 
+        carMeshFilter = this.gameObject.GetComponent<MeshFilter>();
+        carMeshRenderer = this.gameObject.GetComponent<Renderer>();
+        carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModels[_index].name); 
+        carMeshRenderer.sharedMaterial = carMaterials[_index];
     }
 }

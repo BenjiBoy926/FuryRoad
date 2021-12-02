@@ -76,7 +76,12 @@ MonoBehaviour:
   - {fileID: 4300058, guid: fd8eb9b21d8e659409ba168f39c93ea3, type: 3}
   - {fileID: 4300000, guid: b91de7b355924304a86ca9d1ee9f5a36, type: 3}
   - {fileID: 4300056, guid: 4e242ef32aae8d64d8c16b43e78b149e, type: 3}
-  carMesh: {fileID: 0}
+  carMaterials:
+  - {fileID: 2100000, guid: 0e6f027596e6089469ee18aa2128e9c7, type: 2}
+  - {fileID: 2100000, guid: 2bdeecc1f36252347bb4b767714d8971, type: 2}
+  - {fileID: 2100000, guid: b47acc8856593c34ca1b7d517c13de25, type: 2}
+  - {fileID: 2100000, guid: b1d8cceacb4dfda478ff82be0a731a13, type: 2}
+  - {fileID: 2100000, guid: 6b617a0c21e14624092b8badc6e35cbe, type: 2}
 --- !u!114 &2137541920405553066
 MonoBehaviour:
   m_ObjectHideFlags: 0
