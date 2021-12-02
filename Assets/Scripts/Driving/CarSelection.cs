@@ -9,25 +9,29 @@ public class CarSelection : MonoBehaviour
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
 
-    private void Awake()
+    private void Start()
     {
-        selectCar(0);
+        currentCar = SaveManager.instance.currentCar;
+        SelectCar(currentCar);
     }
 
-    private void selectCar(int index)
+    private void SelectCar(int _index)
     {
-        previousButton.interactable = (index != 0);
-        nextButton.interactable = (index != transform.childCount-1);
-
         for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(i == index);
-        }
+            transform.GetChild(i).gameObject.SetActive(i == _index);
     }
 
-    public void ChangeCar(int change)
+    public void ChangeCar(int _change)
     {
-        currentCar += change;
-        selectCar(currentCar);
+        currentCar += _change;
+
+        if (currentCar > transform.childCount - 1)
+            currentCar = 0;
+        else if (currentCar < 0)
+            currentCar = transform.childCount - 1;
+
+        SaveManager.instance.currentCar = currentCar;
+        SaveManager.instance.Save();
+        SelectCar(currentCar);
     }
 }
