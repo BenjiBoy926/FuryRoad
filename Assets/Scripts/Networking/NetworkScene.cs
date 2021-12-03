@@ -78,7 +78,7 @@ public class NetworkScene
     }
     #endregion
 
-    #region Private Fields
+    #region Private Methods
     // Check if this scene should have a player.  If it should, instantiate the player
     private void CheckInstantiateSceneObjects(Scene arg0, LoadSceneMode arg1)
     {
@@ -95,14 +95,20 @@ public class NetworkScene
         GameObject mySpawn = spawnPoints[NetworkSettings.localPlayerIndex % spawnPoints.Count];        
         // Instantiate the player
         GameObject clone = PhotonNetwork.Instantiate(playerPrefab.name, mySpawn.transform.position, mySpawn.transform.rotation);
-        // Assign the player manager to the tag object of the local player
-        PlayerManager manager = clone.GetComponent<PlayerManager>();
 
-        // Ensure correct rotation
-        manager.movementDriver.drivingManager.SetHeading(mySpawn.transform.forward);
+        if (clone)
+        {
+            // Assign the player manager to the tag object of the local player
+            PlayerManager manager = clone.GetComponent<PlayerManager>();
 
-        // Set the tag object on the local player
-        PhotonNetwork.LocalPlayer.TagObject = manager;
+            // Ensure correct rotation
+            manager.movementDriver.drivingManager.SetHeading(mySpawn.transform.forward);
+
+            // Set the tag object on the local player
+            PhotonNetwork.LocalPlayer.TagObject = manager;
+        }
+        else Debug.LogError($"{nameof(NetworkScene)}: Scene '{name}' " +
+            $"failed to network instantiate a player");
     }
     // Instantiate additional objects, but only if we are the master client
     // We are assuming that any additional objects are manager type objects
@@ -113,7 +119,11 @@ public class NetworkScene
         {
             foreach (GameObject go in managementObjects)
             {
-                PhotonNetwork.Instantiate(go.name, Vector3.zero, Quaternion.identity);
+                GameObject clone = PhotonNetwork.Instantiate(go.name, Vector3.zero, Quaternion.identity);
+
+                // If no clone instantiated then say so
+                if (!clone) Debug.LogError($"{nameof(NetworkScene)}: Scene '{name}' " +
+                     $"failed to network instantiate prefab '{go}'");
             }
         }
     }

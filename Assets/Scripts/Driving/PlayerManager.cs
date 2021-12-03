@@ -26,11 +26,25 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
         get
         {
             List<Player> players = new List<Player>(PhotonNetwork.PlayerList);
-            return players.FindIndex(x => Get(x) == this);
+            return players.FindIndex(player => Get(player) == this);
         }
     }
     // Reference to the player this manager is attached to
-    public Player networkPlayer => PhotonNetwork.PlayerList[networkIndex];
+    public Player networkPlayer
+    {
+        get
+        {
+            Player[] players = PhotonNetwork.PlayerList;
+            int index = networkIndex;
+
+            // If index is in range then return the player
+            if (index >= 0 && index < players.Length) return players[index];
+            // Otherwise throw exception
+            else throw new System.IndexOutOfRangeException($"{nameof(PlayerManager)}: " +
+                $"Index '{index}' does not identify any player in the current room. " +
+                $"Player count: {players.Length}");
+        }
+    }
     // Get the player management module attached to the local player
     public static PlayerManager networkLocal => Get(PhotonNetwork.LocalPlayer);
     #endregion
@@ -54,11 +68,37 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
     // Get the tag object of the player cast to a player manager
     public static PlayerManager Get(int index)
     {
-        return Get(PhotonNetwork.PlayerList[index]);
+        Player[] players = PhotonNetwork.PlayerList;
+
+        // If index is in range get the tag object
+        if (index >= 0 && index < players.Length) return Get(players[index]);
+        // Otherwise throw index out of range
+        else throw new System.IndexOutOfRangeException($"{nameof(PlayerManager)}: " +
+            $"Index '{index}' does not identify any player in the current room." +
+            $"\n\tPlayer count: {players.Length}" +
+            $"\n\tLocal player number: {PhotonNetwork.LocalPlayer.ActorNumber}");
+
     }
     public static PlayerManager Get(Player player)
     {
-        return (PlayerManager)player.TagObject;
+        if (player != null)
+        {
+            if (player.TagObject != null)
+            {
+                PlayerManager manager = player.TagObject as PlayerManager;
+
+                // If cast succeeds return the manager
+                if (manager) return manager;
+                // Otherwise throw invalid cast exception
+                else throw new System.InvalidCastException($"{nameof(PlayerManager)}: " +
+                    $"Tag object of player '{player.ActorNumber}' is not convertible to type '{nameof(PlayerManager)}'" +
+                    $"\n\tTag object: {player.TagObject}");
+            }
+            else throw new System.NullReferenceException($"{nameof(PlayerManager)}: " +
+                $"Player '{player.ActorNumber}' tag object is null");
+        }
+        else throw new System.ArgumentNullException($"{nameof(PlayerManager)}: " +
+            $"Argument '{player}' cannot be null");
     }
     // Enable/Disable control of the car
     public void EnableControl(bool active)
