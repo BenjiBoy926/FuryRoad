@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
             else throw new System.IndexOutOfRangeException($"{nameof(PlayerManager)}: " +
                 $"Index '{index}' does not identify any player in the current room." +
                 $"\n\tPlayer count: {players.Length}" +
-                $"\n\tLocal player number: {PhotonNetwork.LocalPlayer.ActorNumber}");
+                $"\n\tCurrent Room - {NetworkManager.CurrentRoomString("\t")}\n");
         }
     }
     // Get the player management module attached to the local player
@@ -77,7 +77,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
         else throw new System.IndexOutOfRangeException($"{nameof(PlayerManager)}: " +
             $"Index '{index}' does not identify any player in the current room." +
             $"\n\tPlayer count: {players.Length}" +
-            $"\n\tLocal player number: {PhotonNetwork.LocalPlayer.ActorNumber}");
+            $"\n\tCurrent room - {NetworkManager.CurrentRoomString("\t")}\n");
 
     }
     public static PlayerManager Get(Player player)
@@ -94,15 +94,14 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
                 else throw new System.InvalidCastException($"{nameof(PlayerManager)}: " +
                     $"Tag object of player '{player.ActorNumber}' is not convertible to type '{nameof(PlayerManager)}'" +
                     $"\n\tTag object: {player.TagObject}" +
-                    $"\n\tLocal player number: {PhotonNetwork.LocalPlayer.ActorNumber}");
+                    $"\n\tCurrent room - {NetworkManager.CurrentRoomString("\t")}\n");
             }
             else throw new System.NullReferenceException($"{nameof(PlayerManager)}: " +
                 $"Player '{player.ActorNumber}' tag object is null" +
-                $"\n\tLocal player: {PhotonNetwork.LocalPlayer.ActorNumber}");
+                $"\n\tCurrent room - {NetworkManager.CurrentRoomString("\t")}\n");
         }
         else throw new System.ArgumentNullException($"{nameof(PlayerManager)}: " +
-            $"Argument '{player}' cannot be null" +
-            $"\n\tLocal player: {PhotonNetwork.LocalPlayer.ActorNumber}");
+            $"Argument '{player}' cannot be null");
     }
     // Enable/Disable control of the car
     public void EnableControl(bool active)

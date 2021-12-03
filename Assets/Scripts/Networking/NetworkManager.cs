@@ -76,7 +76,7 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
             else str += "<color=red>Closed</color>, ";
             // Output if room is visible or not
             if (room.IsVisible) str += "<b>Visible</b>, ";
-            else str += "<color=grey>Invisible</color>, ";
+            else str += "<color=#888888>Invisible</color>, ";
             // Output if the room is online or not
             if (room.IsOffline) str += "<color=yellow>Offline</color>";
             else str += "<color=blue>Online</color>";
@@ -86,7 +86,7 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
             str += $"\n\t{newLinePrefix}Player Ttl:  {room.PlayerTtl}";
 
             // Output all of the players
-            str += $"\n\t{newLinePrefix}Players:";
+            str += $"\n\t{newLinePrefix}Total Players: {room.Players.Count}";
             foreach (Player player in room.Players.Values)
             {
                 str += $"\n\t\t{newLinePrefix}" + PlayerString(player, $"\t\t{newLinePrefix}");
@@ -101,12 +101,12 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
         string str = $"Player {player.ActorNumber}";
 
         // Add a line for stats
-        str += $"\n\t{newLinePrefix}Stats:     "; 
+        str += $"\n\t{newLinePrefix}Status:    "; 
 
         // Add in tags for master client and local player
         if (player.IsMasterClient) str += " <color=blue>(Master)</color>";
         if (player.IsLocal) str += " <color=green>(Myself)</color>";
-        if (!player.IsMasterClient && !player.IsLocal) str += "<color=gray>(Normal Player)</color>";
+        if (!player.IsMasterClient && !player.IsLocal) str += "<color=#888888>(Normal Player)</color>";
 
         // Input the actor number, user id and tag object
         str += $"\n\t{newLinePrefix}Tag object: {player.TagObject}";

@@ -55,7 +55,7 @@ public class Projectile : MonoBehaviour
         // Destoy myself if lifetime is up
         if(Time.time - timeOfCreation > lifetime)
         {
-            NetworkUtilities.DestroyLocalOrNetwork(gameObject);
+            DestroySelf();
         }
     }
     #endregion
@@ -79,14 +79,21 @@ public class Projectile : MonoBehaviour
     }
     private void HandlePlayerPhysicsEnter(DrivingManager driver)
     {
+        // Only handle the player enter 
         if(driver)
         {
-            if (driver == owningDriver)
+            // If this projectile has an owning driver, then give them a boost
+            // (May not have an owning driver since network instantiated projectiles
+            // are not set up)
+            if(owningDriver)
             {
-                // Slow the owner a little
+                if (driver == owningDriver)
+                {
+                    // Slow the owner a little
+                }
+                // If the other is not the owner then make the owner boost
+                else owningDriver.boostingModule.StartBoosting();
             }
-            // If the other is not the owner then make the owner boost
-            else owningDriver.boostingModule.StartBoosting();
 
             // Destroy self when I hit a player
             DestroySelf();
@@ -108,7 +115,7 @@ public class Projectile : MonoBehaviour
 
     private void DestroySelf()
     {
-        NetworkUtilities.DestroyLocalOrNetwork(root);
+        Destroy(root);
     }
     #endregion
 }
