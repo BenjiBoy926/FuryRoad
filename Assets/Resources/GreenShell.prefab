@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 468567373147343185}
   - component: {fileID: 605099110978547427}
   - component: {fileID: 4823623606737855212}
+  - component: {fileID: 4836509860662273477}
   m_Layer: 0
   m_Name: GreenShell
   m_TagString: Untagged
@@ -164,6 +165,9 @@ MonoBehaviour:
   followingObjects:
   - {fileID: 468567373394451290}
   - {fileID: 4422353958885504777}
+  prepareToDestroyEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4823623606737855212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,11 +188,23 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 1606298248096183968}
-  - {fileID: 0}
   - {fileID: 7250160850266470051}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4836509860662273477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468567373147343184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fb4c0ac9a34484bac8dd1967b39987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 605099110978547427}
 --- !u!1 &468567373394451293
 GameObject:
   m_ObjectHideFlags: 0

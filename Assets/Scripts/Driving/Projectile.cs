@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Projectile : MonoBehaviour
 {
+    #region Public Properties
+    public UnityEvent PrepareToDestroyEvent => prepareToDestroyEvent;
+    #endregion
+
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the rigidbody of the projectile")]
@@ -23,6 +28,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     [Tooltip("List of objects that will follow the position of the rigidbody programmatically")]
     private Transform[] followingObjects;
+    [SerializeField]
+    [Tooltip("Event invoked when the projectile is about to destroy itself")]
+    private UnityEvent prepareToDestroyEvent;
     #endregion
 
     #region Private Fields
@@ -65,6 +73,11 @@ public class Projectile : MonoBehaviour
     {
         this.owningDriver = owningDriver;
         rb.velocity = velocity;
+    }
+    public void DestroySelf()
+    {
+        prepareToDestroyEvent.Invoke();
+        Destroy(root);
     }
     #endregion
 
@@ -111,11 +124,6 @@ public class Projectile : MonoBehaviour
             otherProjectile.DestroySelf();
             DestroySelf();
         }
-    }
-
-    private void DestroySelf()
-    {
-        Destroy(root);
     }
     #endregion
 }
