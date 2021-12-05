@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Results.unity
     guid: f2c25a83fe3f18e43872d1305dd416e3
+  - enabled: 1
+    path: Assets/Scenes/Tracks/DistortedBabyPark.unity
+    guid: 9ded1f74bc3d7f94e8570a2c3ceb7a07
   m_configObjects: {}
