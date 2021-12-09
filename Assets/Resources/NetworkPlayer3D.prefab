@@ -36,7 +36,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea41a3fab4736e54c86f6333c0c1d4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view: {fileID: 1327358602759675443}
   networkSensitiveObjects:
   - {fileID: 7321561507806336119}
   - {fileID: 736197172568407096}

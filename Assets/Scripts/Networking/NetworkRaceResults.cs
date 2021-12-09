@@ -38,7 +38,7 @@ public class NetworkRaceResults : MonoBehaviour
         for (int i = 0; i < ranking.Count; i++)
         {
             RaceResultWidget clone = Instantiate(widgetPrefab, widgetParent);
-            clone.Setup(ranking[0], i + 1);
+            clone.Setup(ranking[i], i + 1);
         }
 
         // When we leave the room, stop the countdown
@@ -54,7 +54,7 @@ public class NetworkRaceResults : MonoBehaviour
     {
         // Get a list of the actor numbers of the players controlling each car
         NetworkRaceResults.ranking = ranking
-            .Select(player => NetworkPlayer.GetPlayerControllingCar(player.gameObject).ActorNumber)
+            .Select(player => NetworkPlayer.GetPlayer(player.gameObject).ActorNumber)
             .ToList();
         Debug.Log($"Ranking:\n- Player {string.Join("\n- Player ", NetworkRaceResults.ranking)}");
 

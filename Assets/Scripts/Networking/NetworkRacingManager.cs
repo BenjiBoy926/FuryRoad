@@ -24,7 +24,7 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
     #region Private Methods
     private void OnCheckpointPassedRPCSender(DrivingManager driver, RacingCheckpoint checkpoint)
     {
-        Player player = NetworkPlayer.GetPlayerControllingCar(driver.gameObject);
+        Player player = NetworkPlayer.GetPlayer(driver.gameObject);
         Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} detected player {player.ActorNumber} passing checkpoint {checkpoint.Order}, sending rpc");
         // This appears to result in a double count of the player passing the second to last checkpoint, 
         // resulting in an early win

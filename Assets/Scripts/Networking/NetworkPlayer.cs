@@ -47,7 +47,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     /// </summary>
     /// <param name="car"></param>
     /// <returns></returns>
-    public static Player GetPlayerControllingCar(GameObject car)
+    public static Player GetPlayer(GameObject car)
     {
         PhotonView view = car.GetComponent<PhotonView>();
 

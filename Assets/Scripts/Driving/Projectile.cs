@@ -123,7 +123,7 @@ public class Projectile : MonoBehaviour
             Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
 
             Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with projectile from actor {otherView.OwnerActorNr}" +
-                $"\n\t{NetworkManager.CurrentRoomString("\n")}");
+                $"\n\t{NetworkManager.CurrentRoomString()}");
         }
     }
     #endregion

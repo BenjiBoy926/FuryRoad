@@ -18,7 +18,8 @@ public class AudioUI : MonoBehaviourSingleton<AudioUI>
     #region Monobehaviour Messages
     private void Start()
     {
-        muteToggle.onValueChanged.AddListener(Mute);   
+        muteToggle.onValueChanged.AddListener(Mute);
+        Mute(muteToggle.isOn);
     }
     #endregion
 
