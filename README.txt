@@ -2,6 +2,8 @@ Team members:
 Codey Huntting - 8266 1345
 Amen Wondwosen - 5562 4547
 Christian Bond-Flasza - 4771 5324
+Spencer Mansripattanakul - 4869 1111
+Joseph(Hyunjun) Cha - 1148 5331
 
 Controls:
 WS or UP/DOWN: drive forward/backward
@@ -9,7 +11,7 @@ AD or LEFT/RIGHT: steer
 SPACE: boost
 LEFT CTRL or LEFT MOUSE: drift
 
-NOTES ON TESTING:
+Notes on testing:
 In order test, please complete the following steps:
 
 1) Ensure that you are on the latest version of the master branch
