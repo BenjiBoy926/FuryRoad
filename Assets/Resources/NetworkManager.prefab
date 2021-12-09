@@ -301,7 +301,7 @@ MonoBehaviour:
       managementObjects:
       - {fileID: 8000442257093504142, guid: 0ec752da84d9c084e87b72cec4b213b0, type: 3}
     raceScene:
-      name: BabyPark
+      name: DistortedBabyPark
       hasPlayer: 1
       spawnPointTag: Respawn
       managementObjects:
