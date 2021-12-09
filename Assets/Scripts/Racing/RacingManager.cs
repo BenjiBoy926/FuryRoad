@@ -9,19 +9,19 @@ public class RacingManager : MonoBehaviour
 {
     #region Public Typedefs
     [System.Serializable]
-    public class PlayerManagerRacingCheckpointEvent : UnityEvent<PlayerManager, RacingCheckpoint> { }
+    public class DrivingManagerRacingCheckpointEvent : UnityEvent<DrivingManager, RacingCheckpoint> { }
     #endregion
 
     #region Public Properties
-    public IReadOnlyDictionary<PlayerManager, RacingLapData> PlayerLapData => playerLapData;
-    public IReadOnlyList<PlayerManager> Ranking => ranking;
-    public UnityEvent<PlayerManager, RacingCheckpoint> CheckpointPassedEvent => checkpointPassedEvent;
+    public IReadOnlyDictionary<DrivingManager, RacingLapData> PlayerLapData => playerLapData;
+    public IReadOnlyList<DrivingManager> Ranking => ranking;
+    public UnityEvent<DrivingManager, RacingCheckpoint> CheckpointPassedEvent => checkpointPassedEvent;
     public UnityEvent AllRacersFinishedEvent => allRacersFinishedEvent;
     #endregion
 
     #region Private Properties
     private RacingCheckpoint[] Checkpoints => FindObjectsOfType<RacingCheckpoint>();
-    private PlayerManager[] Racers => FindObjectsOfType<PlayerManager>();
+    private DrivingManager[] Drivers => FindObjectsOfType<DrivingManager>();
     private int FirstCheckpointOrder => Checkpoints.Min(checkpoint => checkpoint.Order);
     private int LastCheckpointOrder => Checkpoints.Max(checkpoint => checkpoint.Order);
     #endregion
@@ -40,7 +40,7 @@ public class RacingManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Event invoked when a player passes a checkpoint")]
-    private PlayerManagerRacingCheckpointEvent checkpointPassedEvent;
+    private DrivingManagerRacingCheckpointEvent checkpointPassedEvent;
     [SerializeField]
     [Tooltip("Event invoked when all players finish the race")]
     private UnityEvent allRacersFinishedEvent;
@@ -48,9 +48,9 @@ public class RacingManager : MonoBehaviour
 
     #region Private Fields
     // Maps each player to their current checkpoint
-    private Dictionary<PlayerManager, RacingLapData> playerLapData = new Dictionary<PlayerManager, RacingLapData>();
+    private Dictionary<DrivingManager, RacingLapData> playerLapData = new Dictionary<DrivingManager, RacingLapData>();
     // Current ranking of players, where the earliest player in the list got first place
-    private List<PlayerManager> ranking = new List<PlayerManager>();
+    private List<DrivingManager> ranking = new List<DrivingManager>();
     private bool finishedEventInvoked = false;
     #endregion
 
@@ -58,15 +58,13 @@ public class RacingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerManager[] allPlayers = FindObjectsOfType<PlayerManager>();
-
         // Add a kvp for each player in the list
-        foreach(PlayerManager player in allPlayers)
+        foreach(DrivingManager driver in Drivers)
         {
-            if (!playerLapData.ContainsKey(player))
+            if (!playerLapData.ContainsKey(driver))
             {
-                playerLapData.Add(player, new RacingLapData());
-                player.OnNewLap(playerLapData[player]);
+                playerLapData.Add(driver, new RacingLapData());
+                driver.OnNewLap(playerLapData[driver]);
             }
         }
 
@@ -80,7 +78,7 @@ public class RacingManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void OnCheckpointPassed(PlayerManager player, RacingCheckpoint checkpoint)
+    public void OnCheckpointPassed(DrivingManager player, RacingCheckpoint checkpoint)
     {
         if (playerLapData.ContainsKey(player))
         {
@@ -89,7 +87,7 @@ public class RacingManager : MonoBehaviour
             playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder);
 
             // Log the result of this checkpoint pass
-            Debug.Log($"Player {player.networkActor} passed checkpoint {checkpoint.Order}." +
+            Debug.Log($"Player {NetworkPlayer.GetPlayerControllingCar(player.gameObject).ActorNumber} passed checkpoint {checkpoint.Order}." +
                 $"\nPrevious lap: {previous.CurrentLap} (checkpoint {previous.CurrentCheckpoint.Order}" +
                 $"\nCurrent lap:  {playerLapData[player].CurrentLap} (checkpoint {playerLapData[player].CurrentCheckpoint.Order}");
 
@@ -107,7 +105,7 @@ public class RacingManager : MonoBehaviour
                     player.OnRaceFinished(ranking.Count - 1);
 
                     // When the ranking count exceeds the racer count then invoke all racers finished event
-                    if (ranking.Count >= Racers.Length) OnAllRacersFinished();
+                    if (ranking.Count >= Drivers.Length) OnAllRacersFinished();
                 }
             }
         }

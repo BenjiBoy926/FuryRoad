@@ -50,9 +50,12 @@ public class NetworkRaceResults : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public static void LoadResults(IReadOnlyList<PlayerManager> ranking)
+    public static void LoadResults(IReadOnlyList<DrivingManager> ranking)
     {
-        NetworkRaceResults.ranking = ranking.Select(player => player.networkActor).ToList();
+        // Get a list of the actor numbers of the players controlling each car
+        NetworkRaceResults.ranking = ranking
+            .Select(player => NetworkPlayer.GetPlayerControllingCar(player.gameObject).ActorNumber)
+            .ToList();
         Debug.Log($"Ranking:\n- Player {string.Join("\n- Player ", NetworkRaceResults.ranking)}");
 
         if(PhotonNetwork.IsMasterClient)

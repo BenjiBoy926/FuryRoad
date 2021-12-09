@@ -49,14 +49,14 @@ public class RacingCheckpoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        PlayerManager player = other.GetComponentInParent<PlayerManager>();
+        DrivingManager driver = other.GetComponentInParent<DrivingManager>();
 
-        if(player)
+        if(driver)
         {
             // Notify the racing manager that a player passed this checkpoint
             if(Manager)
             {
-                Manager.OnCheckpointPassed(player, this);
+                Manager.OnCheckpointPassed(driver, this);
             }
         }
     }

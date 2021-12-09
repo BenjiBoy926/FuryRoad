@@ -5,6 +5,13 @@ using UnityEngine.Events;
 
 public class DrivingManager : MonoBehaviour
 {
+    #region Public Typedefs
+    [System.Serializable]
+    public class IntEvent : UnityEvent<int> { }
+    [System.Serializable]
+    public class RacingLapDataEvent : UnityEvent<RacingLapData> { }
+    #endregion
+
     #region Public Properties
     // Public getters
     public new Rigidbody rigidbody => m_Rigidbody;
@@ -18,6 +25,8 @@ public class DrivingManager : MonoBehaviour
     public Vector3 heading => m_Heading;
     // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
     public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
+    public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
+    public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
     #endregion
 
     #region Private Editor Fields
@@ -57,6 +66,15 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the object used to fire projectiles")]
     private ProjectileModule m_ProjectileModule;
+
+    [Space]
+
+    [SerializeField]
+    [Tooltip("Event invoked when the player manager finishes a new lap")]
+    private RacingLapDataEvent newLapEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when the player finishes the race")]
+    private IntEvent playerFinishedEvent;
     #endregion
 
     #region Private Fields
@@ -115,6 +133,14 @@ public class DrivingManager : MonoBehaviour
     public void SetHeading(Vector3 heading)
     {
         m_Heading = heading;
+    }
+    public void OnNewLap(RacingLapData data)
+    {
+        newLapEvent.Invoke(data);
+    }
+    public void OnRaceFinished(int rank)
+    {
+        playerFinishedEvent.Invoke(rank);
     }
     #endregion
 }

@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerFinishedUI : MonoBehaviour
+public class PlayerFinishedUI : DrivingModule
 {
     #region Private Editor Fields
-    [SerializeField]
-    [Tooltip("Reference to the player manager to invoke the race finished event")]
-    private PlayerManager manager;
     [SerializeField]
     [Tooltip("Reference to the game object to enable when the race is finished")]
     private GameObject banner;
@@ -18,8 +15,9 @@ public class PlayerFinishedUI : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         manager.PlayerFinishedEvent.AddListener(UpdateDisplay);
     }
     #endregion

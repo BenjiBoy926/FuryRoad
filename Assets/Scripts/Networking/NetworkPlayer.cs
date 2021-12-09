@@ -86,5 +86,15 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         else throw new System.NullReferenceException($"{nameof(NetworkPlayer)}: " +
             $"Tag object of player {player.ActorNumber} is null");
     }
+    public static GameObject GetCar(int actor)
+    {
+        Player player = System.Array.Find(PhotonNetwork.PlayerList, p => p.ActorNumber == actor);
+
+        // If the player is found try to get the game object tag from it
+        if (player != null) return GetCar(player);
+        // If the player could not be found then throw argument exception
+        else throw new System.ArgumentException($"{nameof(NetworkPlayer)}: " +
+            $"No network player found with actor number {actor}");
+    }
     #endregion
 }

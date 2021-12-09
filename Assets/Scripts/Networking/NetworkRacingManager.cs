@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class NetworkRacingManager : MonoBehaviourPunCallbacks
 {
@@ -21,9 +22,10 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Methods
-    private void OnCheckpointPassedRPCSender(PlayerManager player, RacingCheckpoint checkpoint)
+    private void OnCheckpointPassedRPCSender(DrivingManager driver, RacingCheckpoint checkpoint)
     {
-        Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} detected player {player.networkActor} passing checkpoint {checkpoint.Order}, sending rpc");
+        Player player = NetworkPlayer.GetPlayerControllingCar(driver.gameObject);
+        Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} detected player {player.ActorNumber} passing checkpoint {checkpoint.Order}, sending rpc");
         // This appears to result in a double count of the player passing the second to last checkpoint, 
         // resulting in an early win
         // photonView.RPC(nameof(OnCheckpointPassedRPCReceiver), RpcTarget.Others, player.networkActor, checkpoint.Order);
@@ -39,13 +41,13 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
     public void OnCheckpointPassedRPCReceiver(int playerActor, int checkpointOrder)
     {
         // Get the player manager with the same actor number
-        PlayerManager player = PlayerManager.GetByActor(playerActor);
+        GameObject player = NetworkPlayer.GetCar(playerActor);
         // Get the checkpoint with the same order
         RacingCheckpoint checkpoint = FindObjectsOfType<RacingCheckpoint>()
             .Where(check => check.Order == checkpointOrder)
             .First();
         // Notify the manager of the checkpoint pass
-        manager.OnCheckpointPassed(player, checkpoint);
+        manager.OnCheckpointPassed(player.GetComponent<DrivingManager>(), checkpoint);
     }
     [PunRPC]
     public void OnAllRacersFinishedRPCReceiver()

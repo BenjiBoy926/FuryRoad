@@ -59,7 +59,7 @@ public class NetworkRaceStart
 
     public void StartCountdown()
     {
-        PlayerManager.networkLocal.EnableControl(false);
+        //PlayerManager.networkLocal.EnableControl(false);
         ui.StartCountdown();
         leaveButton.interactable = false;
     }
@@ -69,7 +69,7 @@ public class NetworkRaceStart
         // If this is the final count, then enable control for the player
         if (count >= (numCounts - 1))
         {
-            PlayerManager.networkLocal.EnableControl(true);
+            //PlayerManager.networkLocal.EnableControl(true);
         }
         ui.UpdateCountdown(count);
     }
