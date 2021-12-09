@@ -33,7 +33,9 @@ public class NetworkRaceResults : MonoBehaviour
     #region Monobehaviour Messages
     private void Start()
     {
-        for(int i = 0; i < ranking.Count; i++)
+        Debug.Log($"Ranking:\n- Player {string.Join("\n- Player ", NetworkRaceResults.ranking)}");
+
+        for (int i = 0; i < ranking.Count; i++)
         {
             RaceResultWidget clone = Instantiate(widgetPrefab, widgetParent);
             clone.Setup(ranking[0], i + 1);
@@ -50,7 +52,8 @@ public class NetworkRaceResults : MonoBehaviour
     #region Public Methods
     public static void LoadResults(IReadOnlyList<PlayerManager> ranking)
     {
-        NetworkRaceResults.ranking = ranking.Select(player => player.networkPlayer.ActorNumber).ToList();
+        NetworkRaceResults.ranking = ranking.Select(player => player.networkActor).ToList();
+        Debug.Log($"Ranking:\n- Player {string.Join("\n- Player ", NetworkRaceResults.ranking)}");
 
         if(PhotonNetwork.IsMasterClient)
         {

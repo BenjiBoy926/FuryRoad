@@ -25,9 +25,8 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     {
         // If this view is mine then destroy myself
         if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
-        // If this photon view is not mine then notify all others
-        // The player who owns this projectile will get the RPC and perform the network destruction
-        else photonView.RPC(nameof(DestroySelfRPCReceive), RpcTarget.Others);
+        // If this photon view is not mine then notify the owner so they perform a network destroy
+        else photonView.RPC(nameof(DestroySelfRPCReceive), photonView.Owner);
     }
     #endregion
 

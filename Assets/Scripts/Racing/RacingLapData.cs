@@ -31,11 +31,8 @@ public class RacingLapData
     #endregion
 
     #region Public Methods
-    public RacingLapData CheckpointPassed(RacingCheckpoint checkpointPassed, int firstCheckpointOrder, int lastCheckpointOrder, out bool newLap)
+    public RacingLapData CheckpointPassed(RacingCheckpoint checkpointPassed, int firstCheckpointOrder, int lastCheckpointOrder)
     {
-        // By default, we did not pass a new lap
-        newLap = false;
-
         // If we have a current checkpoint we need to do some work to check it against the checkpoint just passed
         if (currentCheckpoint)
         {
@@ -45,8 +42,6 @@ public class RacingLapData
             // it means we just finished a lap!
             else if (checkpointPassed.Order == firstCheckpointOrder && currentCheckpoint.Order == lastCheckpointOrder)
             {
-                // Notify the player that they just passed a lap
-                newLap = true;
                 // Return the racing data with the checkpoitn passed and update the lap by 1
                 return new RacingLapData(checkpointPassed, currentLap + 1);
             }

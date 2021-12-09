@@ -84,9 +84,16 @@ public class RacingManager : MonoBehaviour
     {
         if (playerLapData.ContainsKey(player))
         {
-            playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder, out bool newLap);
+            // Update the current lap data associated with the player
+            RacingLapData previous = playerLapData[player];
+            playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder);
 
-            if (newLap)
+            // Log the result of this checkpoint pass
+            Debug.Log($"Player {player.networkActor} passed checkpoint {checkpoint.Order}." +
+                $"\nPrevious lap: {previous.CurrentLap} (checkpoint {previous.CurrentCheckpoint.Order}" +
+                $"\nCurrent lap:  {playerLapData[player].CurrentLap} (checkpoint {playerLapData[player].CurrentCheckpoint.Order}");
+
+            if (previous.CurrentLap != playerLapData[player].CurrentLap)
             {
                 // Notify the player that they just passed a new lap
                 player.OnNewLap(playerLapData[player]);

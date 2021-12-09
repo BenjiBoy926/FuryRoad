@@ -69,7 +69,7 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
         if (room != null)
         {
             string str = $"Room: {room.Name}";
-            str += $"\n\t{newLinePrefix}Status:      ";
+            str += $"\n- {newLinePrefix}Status: ";
 
             // Output open or closed for the room
             if (room.IsOpen) str += "<color=green>Open</color>, ";
@@ -82,14 +82,14 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
             else str += "<color=blue>Online</color>";
 
             // Output some more stats
-            str += $"\n\t{newLinePrefix}Max Players: {room.MaxPlayers}";
-            str += $"\n\t{newLinePrefix}Player Ttl:  {room.PlayerTtl}";
+            str += $"\n- {newLinePrefix}Max Players: {room.MaxPlayers}";
+            str += $"\n- {newLinePrefix}Player Ttl: {room.PlayerTtl}";
 
             // Output all of the players
-            str += $"\n\t{newLinePrefix}Total Players: {room.Players.Count}";
+            str += $"\n- {newLinePrefix}Total Players: {room.Players.Count}";
             foreach (Player player in room.Players.Values)
             {
-                str += $"\n\t\t{newLinePrefix}" + PlayerString(player, $"\t\t{newLinePrefix}");
+                str += $"\n- - {newLinePrefix}" + PlayerString(player, $"--{newLinePrefix}");
             }
 
             return str;
@@ -101,7 +101,7 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
         string str = $"Player {player.ActorNumber}";
 
         // Add a line for stats
-        str += $"\n\t{newLinePrefix}Status:    "; 
+        str += $"\n- {newLinePrefix}Status: "; 
 
         // Add in tags for master client and local player
         if (player.IsMasterClient) str += " <color=blue>(Master)</color>";
@@ -109,7 +109,7 @@ public class NetworkManager : MonoBehaviourPunCallbacksSingleton<NetworkManager>
         if (!player.IsMasterClient && !player.IsLocal) str += "<color=#888888>(Normal Player)</color>";
 
         // Input the actor number, user id and tag object
-        str += $"\n\t{newLinePrefix}Tag object: {player.TagObject}";
+        str += $"\n- {newLinePrefix}Tag object: {player.TagObject}";
 
         // Return the string
         return str;

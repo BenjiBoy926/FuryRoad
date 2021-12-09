@@ -7,7 +7,6 @@ public class Projectile : MonoBehaviour
 {
     #region Public Fields
     public readonly VirtualAction destroySelf = new VirtualAction();
-    public readonly VirtualAction<Projectile> destroyOther = new VirtualAction<Projectile>();
     #endregion
 
     #region Private Editor Fields
@@ -43,7 +42,6 @@ public class Projectile : MonoBehaviour
     {
         // Destroy the root object
         destroySelf.SetVirtual(() => Destroy(root));
-        destroyOther.SetVirtual(other => other.destroySelf.Invoke());
 
         // Handle collision/trigger for the sphere by checking if the player was hit
         sphereCollisionEvents.CollisionEnter.AddListener(BallCollisionEnter);
@@ -118,8 +116,8 @@ public class Projectile : MonoBehaviour
         // If another projectile was found that is not this projectile then the projectiles destroy each other
         if(otherProjectile && otherProjectile != this)
         {
-            destroyOther.Invoke(otherProjectile);
             destroySelf.Invoke();
+            otherProjectile.destroySelf.Invoke();
 
             Photon.Pun.PhotonView otherView = otherProjectile.GetComponent<Photon.Pun.PhotonView>();
             Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
