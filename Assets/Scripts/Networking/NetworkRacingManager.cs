@@ -23,7 +23,9 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
     #region Private Methods
     private void OnCheckpointPassedRPCSender(PlayerManager player, RacingCheckpoint checkpoint)
     {
-        photonView.RPC(nameof(OnCheckpointPassedRPCReceiver), RpcTarget.Others, player.networkIndex, checkpoint.Order);
+        // This appears to result in a double count of the player passing the second to last checkpoint, 
+        // resulting in an early win
+        // photonView.RPC(nameof(OnCheckpointPassedRPCReceiver), RpcTarget.Others, player.networkActor, checkpoint.Order);
     }
     private void OnAllRacersFinishedRPCSender()
     {
@@ -33,10 +35,10 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
 
     #region Rpc Targets
     [PunRPC]
-    public void OnCheckpointPassedRPCReceiver(int playerIndex, int checkpointOrder)
+    public void OnCheckpointPassedRPCReceiver(int playerActor, int checkpointOrder)
     {
-        // Get the player manager with the same index
-        PlayerManager player = PlayerManager.Get(playerIndex);
+        // Get the player manager with the same actor number
+        PlayerManager player = PlayerManager.GetByActor(playerActor);
         // Get the checkpoint with the same order
         RacingCheckpoint checkpoint = FindObjectsOfType<RacingCheckpoint>()
             .Where(check => check.Order == checkpointOrder)

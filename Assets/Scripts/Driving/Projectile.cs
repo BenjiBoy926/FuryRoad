@@ -5,8 +5,9 @@ using UnityEngine.Events;
 
 public class Projectile : MonoBehaviour
 {
-    #region Public Properties
-    public UnityEvent PrepareToDestroyEvent => prepareToDestroyEvent;
+    #region Public Fields
+    public readonly VirtualAction destroySelf = new VirtualAction();
+    public readonly VirtualAction<Projectile> destroyOther = new VirtualAction<Projectile>();
     #endregion
 
     #region Private Editor Fields
@@ -28,9 +29,6 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     [Tooltip("List of objects that will follow the position of the rigidbody programmatically")]
     private Transform[] followingObjects;
-    [SerializeField]
-    [Tooltip("Event invoked when the projectile is about to destroy itself")]
-    private UnityEvent prepareToDestroyEvent;
     #endregion
 
     #region Private Fields
@@ -43,6 +41,10 @@ public class Projectile : MonoBehaviour
     #region Monobehaviour Messages
     private void Start()
     {
+        // Destroy the root object
+        destroySelf.SetVirtual(() => Destroy(root));
+        destroyOther.SetVirtual(other => other.destroySelf.Invoke());
+
         // Handle collision/trigger for the sphere by checking if the player was hit
         sphereCollisionEvents.CollisionEnter.AddListener(BallCollisionEnter);
         sphereCollisionEvents.TriggerEnter.AddListener(BallTriggerEnter);
@@ -63,7 +65,7 @@ public class Projectile : MonoBehaviour
         // Destoy myself if lifetime is up
         if(Time.time - timeOfCreation > lifetime)
         {
-            DestroySelf();
+            destroySelf.Invoke();
         }
     }
     #endregion
@@ -73,11 +75,6 @@ public class Projectile : MonoBehaviour
     {
         this.owningDriver = owningDriver;
         rb.velocity = velocity;
-    }
-    public void DestroySelf()
-    {
-        prepareToDestroyEvent.Invoke();
-        Destroy(root);
     }
     #endregion
 
@@ -109,7 +106,7 @@ public class Projectile : MonoBehaviour
             }
 
             // Destroy self when I hit a player
-            DestroySelf();
+            destroySelf.Invoke();
         }
     }
     
@@ -121,8 +118,14 @@ public class Projectile : MonoBehaviour
         // If another projectile was found that is not this projectile then the projectiles destroy each other
         if(otherProjectile && otherProjectile != this)
         {
-            otherProjectile.DestroySelf();
-            DestroySelf();
+            destroyOther.Invoke(otherProjectile);
+            destroySelf.Invoke();
+
+            Photon.Pun.PhotonView otherView = otherProjectile.GetComponent<Photon.Pun.PhotonView>();
+            Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
+
+            Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with projectile from actor {otherView.OwnerActorNr}" +
+                $"\n\t{NetworkManager.CurrentRoomString("\n")}");
         }
     }
     #endregion

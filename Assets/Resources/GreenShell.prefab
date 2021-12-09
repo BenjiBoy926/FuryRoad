@@ -165,9 +165,6 @@ MonoBehaviour:
   followingObjects:
   - {fileID: 468567373394451290}
   - {fileID: 4422353958885504777}
-  prepareToDestroyEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &4823623606737855212
 MonoBehaviour:
   m_ObjectHideFlags: 0

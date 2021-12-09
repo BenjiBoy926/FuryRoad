@@ -26,9 +26,10 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
         get
         {
             List<Player> players = new List<Player>(PhotonNetwork.PlayerList);
-            return players.FindIndex(player => Get(player) == this);
+            return players.FindIndex(player => GetOnPlayer(player) == this);
         }
     }
+    public int networkActor => networkPlayer.ActorNumber;
     // Reference to the player this manager is attached to
     public Player networkPlayer
     {
@@ -47,7 +48,7 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
         }
     }
     // Get the player management module attached to the local player
-    public static PlayerManager networkLocal => Get(PhotonNetwork.LocalPlayer);
+    public static PlayerManager networkLocal => GetOnPlayer(PhotonNetwork.LocalPlayer);
     #endregion
 
     #region Private Editor Fields
@@ -67,12 +68,12 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
 
     #region Public Methods
     // Get the tag object of the player cast to a player manager
-    public static PlayerManager Get(int index)
+    public static PlayerManager GetByIndex(int index)
     {
         Player[] players = PhotonNetwork.PlayerList;
 
         // If index is in range get the tag object
-        if (index >= 0 && index < players.Length) return Get(players[index]);
+        if (index >= 0 && index < players.Length) return GetOnPlayer(players[index]);
         // Otherwise throw index out of range
         else throw new System.IndexOutOfRangeException($"{nameof(PlayerManager)}: " +
             $"Index '{index}' does not identify any player in the current room." +
@@ -80,7 +81,17 @@ public class PlayerManager : MonoBehaviour, IPunInstantiateMagicCallback
             $"\n\tCurrent room - {NetworkManager.CurrentRoomString("\t")}\n");
 
     }
-    public static PlayerManager Get(Player player)
+    public static PlayerManager GetByActor(int actor)
+    {
+        // Find a player with the correct actor number
+        Player player = System.Array.Find(PhotonNetwork.PlayerList, p => p.ActorNumber == actor);
+
+        if (player != null) return GetOnPlayer(player);
+        else throw new System.NullReferenceException($"{nameof(PlayerManager)}: " +
+            $"No network player found with actor number '{actor}" +
+            $"\n\tCurrent room - {NetworkManager.CurrentRoomString("\t")}\n");
+    }
+    public static PlayerManager GetOnPlayer(Player player)
     {
         if (player != null)
         {

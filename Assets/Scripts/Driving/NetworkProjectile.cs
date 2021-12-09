@@ -15,22 +15,27 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     #region Monobehaviour Callbacks
     private void Start()
     {
-        projectile.PrepareToDestroyEvent.AddListener(DestroySelfRPCSend);
+        // This does not seem to clear existing RPCs, resulting in errors when projectiles destroy each other
+        projectile.destroySelf.SetOverride(DestroySelfOverNetwork);
+    }
+    #endregion
+
+    #region Private Methods
+    private void DestroySelfOverNetwork()
+    {
+        // If this view is mine then destroy myself
+        if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
+        // If this photon view is not mine then notify all others
+        // The player who owns this projectile will get the RPC and perform the network destruction
+        else photonView.RPC(nameof(DestroySelfRPCReceive), RpcTarget.Others);
     }
     #endregion
 
     #region RPC Callbacks
-    private void DestroySelfRPCSend()
-    {
-        if(photonView.IsMine)
-        {
-            photonView.RPC(nameof(DestroySelfRPCReceive), RpcTarget.Others);
-        }
-    }
     [PunRPC]
     public void DestroySelfRPCReceive()
     {
-        projectile.DestroySelf();
+        if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
     }
     #endregion
 }
