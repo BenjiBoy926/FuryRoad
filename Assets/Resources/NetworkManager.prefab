@@ -440,7 +440,7 @@ MonoBehaviour:
       spawnPointTag: Respawn
       managementObjects: []
     raceScene:
-      name: BabyPark
+      name: DistortedBabyPark
       hasPlayer: 1
       spawnPointTag: Respawn
       managementObjects: []
