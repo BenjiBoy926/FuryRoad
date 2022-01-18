@@ -72,7 +72,7 @@ public class DriftingModule : DrivingModule
         }
         else return steer;
     }
-    public Vector3 RotatedHeading(bool againstDriftDirection)
+    public Vector3 GetHeading(bool againstDriftDirection)
     {
         if (m_DriftActive)
         {

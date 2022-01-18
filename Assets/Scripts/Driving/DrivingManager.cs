@@ -131,7 +131,7 @@ public class DrivingManager : MonoBehaviour
         // Car can only thrust while grounded
         if(m_GroundingModule.grounded)
         {
-            Vector3 heading = driftingModule.RotatedHeading(true);
+            Vector3 heading = driftingModule.GetHeading(true);
             m_Rigidbody.AddForce(heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
@@ -155,7 +155,7 @@ public class DrivingManager : MonoBehaviour
         // When the drift begins, immediate set the speed to go in the direction of the rotated heading
         // instead of the true heading
         Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
-        Vector3 drivingComponent = driftingModule.RotatedHeading(true).normalized * drivingSpeed;
+        Vector3 drivingComponent = driftingModule.GetHeading(true).normalized * drivingSpeed;
         m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     #endregion
