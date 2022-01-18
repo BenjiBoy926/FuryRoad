@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/VisualScene3D.unity
     guid: e3cf7b023e2d04136b8e8940f3a287ca
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tracks/BabyPark.unity
     guid: dbe7affbfdcf1824cabbfd9013ce8a57
   - enabled: 1

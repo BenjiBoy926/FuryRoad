@@ -87,9 +87,12 @@ public class RacingManager : MonoBehaviour
             playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder);
 
             // Log the result of this checkpoint pass
-            Debug.Log($"Player {NetworkPlayer.GetPlayer(player.gameObject).ActorNumber} passed checkpoint {checkpoint.Order}." +
-                $"\nPrevious lap: {previous.CurrentLap} (checkpoint {previous.CurrentCheckpoint.Order})" +
-                $"\nCurrent lap:  {playerLapData[player].CurrentLap} (checkpoint {playerLapData[player].CurrentCheckpoint.Order})");
+            if (Photon.Pun.PhotonNetwork.IsConnected)
+            {
+                Debug.Log($"Player {NetworkPlayer.GetPlayer(player.gameObject).ActorNumber} passed checkpoint {checkpoint.Order}." +
+                    $"\nPrevious lap: {previous.CurrentLap} (checkpoint {previous.CurrentCheckpoint.Order})" +
+                    $"\nCurrent lap:  {playerLapData[player].CurrentLap} (checkpoint {playerLapData[player].CurrentCheckpoint.Order})");
+            }
 
             if (previous.CurrentLap != playerLapData[player].CurrentLap)
             {

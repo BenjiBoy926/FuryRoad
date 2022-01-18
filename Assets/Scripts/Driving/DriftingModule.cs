@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DriftingModule : DrivingModule
 {
@@ -8,6 +9,9 @@ public class DriftingModule : DrivingModule
     public bool driftActive => m_DriftActive;
     public float currentDirection => m_CurrentDirection;
     public BoostingModule driftBoost => m_DriftBoost;
+    public UnityEvent driftStartEvent => m_driftStartEvent;
+    public UnityEvent driftStopEvent => m_driftStopEvent;
+    public float driftDuration => Time.time - m_DriftStartTime;
     #endregion
 
     #region Private Editor Fields
@@ -15,19 +19,23 @@ public class DriftingModule : DrivingModule
     [Tooltip("Boost that the rigidbody receives when the drift is finished")]
     private BoostingModule m_DriftBoost;
     [SerializeField]
+    [Tooltip("Amount that the heading is rotated against the drift direction when drifting begins")]
+    private float m_reverseHeadingAmount = 30f;
+    [SerializeField]
     [Tooltip("Time that the module must be drifting for in order to receive a drift boost at the end")]
     private float driftBoostChargeTime;
-    [SerializeField]
-    [Tooltip("Amount that the steering changes while the drift is active.  " +
-        "A value of 1 indicates that the vehicle moves straight forward while turning against the drift," +
-        "a value of 0 indicates that the vehicle's turning will not be modified at all")]
-    private float steeringModifier;
     [SerializeField]
     [Tooltip("If the speed of the rigidbody falls below this threshold, the drifting module cancels the drift without boosting")]
     private float cancelThreshold = 5f;
     [SerializeField]
     [Tooltip("Handle the audio of the drift")]
     private new DriftingAudio audio;
+    [SerializeField]
+    [Tooltip("Event invoked when the drifting begins")]
+    private UnityEvent m_driftStartEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when the drifting stops")]
+    private UnityEvent m_driftStopEvent;
     #endregion
 
     #region Private Fields
@@ -59,10 +67,27 @@ public class DriftingModule : DrivingModule
     {
         if (m_DriftActive)
         {
-            return steer + (m_CurrentDirection * steeringModifier);
+            // Add current direction to the steer
+            return steer + m_CurrentDirection;
         }
         else return steer;
     }
+    public Vector3 RotatedHeading(bool againstDriftDirection)
+    {
+        if (m_DriftActive)
+        {
+            // Get the rotation angle
+            float rotationAngle = m_reverseHeadingAmount * m_CurrentDirection;
+            if (againstDriftDirection) rotationAngle *= -1f;
+
+            // Axis of rotation will be the ground normal of the vehicle
+            Vector3 axis = manager.groundingModule.groundNormal;
+            Quaternion rotation = Quaternion.AngleAxis(rotationAngle, axis);
+            return rotation * manager.heading;
+        }
+        else return manager.heading;
+    }
+
 
     public bool TryStartDrifting(float horizontalInput)
     {
@@ -85,6 +110,9 @@ public class DriftingModule : DrivingModule
 
         // Set drifting direction
         m_CurrentDirection = Mathf.Sign(horizontalInput);
+
+        // Invoke the drift start event
+        m_driftStartEvent.Invoke();
     }
 
     // Finish the drift by checking if we have drifted enough for a boost
@@ -103,6 +131,7 @@ public class DriftingModule : DrivingModule
     {
         if(m_DriftActive) audio.PlaySkidSound();
         m_DriftActive = false;
+        m_driftStopEvent.Invoke();
     }
     #endregion
 }

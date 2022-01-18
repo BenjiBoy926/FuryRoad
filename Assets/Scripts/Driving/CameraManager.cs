@@ -22,25 +22,18 @@ public class CameraManager : DrivingModule
     private float lift;
     #endregion
 
-    #region Private Fields
-    private bool boostUpdating = false;
-    #endregion
-
     #region Monobehaviour Messages
     protected override void Start()
     {
         base.Start();
 
         manager.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
-        manager.boostingModule.onBoostEnd.AddListener(OnBoostEnd);
-
         manager.driftingModule.driftBoost.onBoostUpdate.AddListener(OnDriftBoostUpdate);
-        manager.driftingModule.driftBoost.onBoostEnd.AddListener(OnDriftBoostEnd);
     }
 
     private void FixedUpdate()
     {
-        if(!boostUpdating)
+        if(!manager.boostingModule.boostActive)
         {
             // Lerp towards the target position
             Vector3 target = GetGlobalPosition(backDistance);
@@ -54,29 +47,15 @@ public class CameraManager : DrivingModule
     #region Private Methods
     private void OnBoostUpdate(float boostPower)
     {
-        boostUpdating = true;
-
         // Lerp towards a position that is further back from the car as the car boosts
         Vector3 target = GetGlobalPosition(backDistance + (maxBoostZoom * boostPower));
         transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
     }
-
-    private void OnBoostEnd()
-    {
-        boostUpdating = false;
-    }
-
     // Only update the position for a drift boost if the main boost is inactive
     private void OnDriftBoostUpdate(float boostPower)
     {
         if (!manager.boostingModule.boostActive) OnBoostUpdate(boostPower);
     }
-    // Only end the boost if the main boost is not also active
-    private void OnDriftBoostEnd()
-    {
-        if (!manager.boostingModule.boostActive) OnBoostEnd();
-    }
-
     private Vector3 GetLocalPosition(float backDistance)
     {
         return (-manager.heading * backDistance) + (manager.groundingModule.groundNormal * lift);

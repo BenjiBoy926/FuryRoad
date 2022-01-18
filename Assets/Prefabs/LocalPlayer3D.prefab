@@ -1522,7 +1522,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DriftBoost: {fileID: 8468606007509199711}
   driftBoostChargeTime: 1
-  steeringModifier: 1
   cancelThreshold: 5
   audio:
     skidSource: {fileID: 8862228342308956321}
@@ -1533,6 +1532,31 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ccc0344a102ea054e838a9333f9f3348, type: 3}
     - {fileID: 8300000, guid: 59687208ae7935441b9676c7f0d03869, type: 3}
     - {fileID: 8300000, guid: 09151668fa7224d4abe9369a5b8abaac, type: 3}
+  reverseSwing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.012458801
+      value: 0.9984436
+      inSlope: -1.0137435
+      outSlope: -1.0137435
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9916992
+      value: 0.005744934
+      inSlope: -1.0137435
+      outSlope: -1.0137435
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverseSwingTime: 1
 --- !u!114 &8468606007509199711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1808,12 +1832,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MovementDriver: {fileID: 6722538237108915657}
   m_Rb: {fileID: 6022623401752220769}
-  newLapEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  playerFinishedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6722538237108915657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,6 +1868,12 @@ MonoBehaviour:
   m_DriftingModule: {fileID: 6004894320764145718}
   m_DraftingModule: {fileID: 5001690254259539076}
   m_ProjectileModule: {fileID: 2377211861322896346}
+  newLapEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerFinishedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2310409300590355751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7688,7 +7712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf72ed1749db0bb4ba2cf21abcffa90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 5033853149257033885}
   banner: {fileID: 1108231852667870844}
   textDisplay: {fileID: 3335055850067961680}
 --- !u!1 &5367082498181170945
