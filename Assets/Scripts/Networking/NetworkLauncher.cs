@@ -63,11 +63,16 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         bool success = PhotonNetwork.CreateRoom(null, defaultRoomOptions);
 
         // Log result if create room fails
-        if (!success) Debug.Log("CreateRoom (random) could not be executed on the server");
+        if (!success)
+        {
+            Debug.Log("CreateRoom (random) could not be executed on the server");
+            EnablePlayControls(true);
+        }
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.LogError("Joining room failed with error: " + message);
+        EnablePlayControls(true);
     }
     public override void OnJoinedRoom()
     {
@@ -90,7 +95,11 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
             bool success = PhotonNetwork.JoinRandomRoom();
 
             // Debug log if joining the room goes wrong
-            if (!success) Debug.Log("JoinRandomRoom could not be called on the server");
+            if (!success) 
+            {
+                Debug.Log("JoinRandomRoom could not be called on the server");
+                EnablePlayControls(true);
+            }
         }
         else
         {
@@ -105,7 +114,11 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
             bool success = PhotonNetwork.JoinOrCreateRoom(testRoomName, defaultRoomOptions, TypedLobby.Default);
 
             // Debug log if joining fails
-            if (!success) Debug.Log("JoinOrCreateRoom failed to be called on the server");
+            if (!success)
+            {
+                Debug.Log("JoinOrCreateRoom failed to be called on the server");
+                EnablePlayControls(true);
+            }
         }
         else
         {

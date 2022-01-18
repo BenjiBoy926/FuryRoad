@@ -105,7 +105,7 @@ public class NetworkScene
             manager.movementDriver.drivingManager.SetHeading(mySpawn.transform.forward);
 
             // Set the tag object on the local player
-            PhotonNetwork.LocalPlayer.TagObject = manager;
+            PhotonNetwork.LocalPlayer.TagObject = clone;
         }
         else Debug.LogError($"{nameof(NetworkScene)}: Scene '{name}' " +
             $"failed to network instantiate a player");

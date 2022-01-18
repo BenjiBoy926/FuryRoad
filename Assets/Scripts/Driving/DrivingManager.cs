@@ -85,7 +85,8 @@ public class DrivingManager : MonoBehaviour
     #region Monobehaviour Messages
     private void Start()
     {
-        driftingModule.driftStartEvent.AddListener(OnDriftStarted);   
+        driftingModule.driftStartEvent.AddListener(OnDriftStarted);
+        driftingModule.driftStopEvent.AddListener(OnDriftStopped);
     }
     private void FixedUpdate()
     {
@@ -156,6 +157,14 @@ public class DrivingManager : MonoBehaviour
         // instead of the true heading
         Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
         Vector3 drivingComponent = driftingModule.GetHeading(true).normalized * drivingSpeed;
+        m_Rigidbody.velocity = drivingComponent + verticalComponent;
+    }
+    private void OnDriftStopped()
+    {
+        // When the drift begins, immediate set the speed to go in the direction of the rotated heading
+        // instead of the true heading
+        Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
+        Vector3 drivingComponent = heading.normalized * drivingSpeed;
         m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     #endregion
