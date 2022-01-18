@@ -83,6 +83,10 @@ public class DrivingManager : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
+    private void Start()
+    {
+        driftingModule.driftStartEvent.AddListener(OnDriftStarted);   
+    }
     private void FixedUpdate()
     {
         Vector3 groundNormal = m_GroundingModule.groundNormal;
@@ -112,9 +116,9 @@ public class DrivingManager : MonoBehaviour
             // Let the drifting module decide how we will actually steer the car
             horizontal = m_DriftingModule.GetSteer(horizontal);
 
-            // Define a rotation around the y axis
-            // Should this be around the y-axis?  Shouldn't it actually be around the ground normal?
-            Quaternion rotation = Quaternion.Euler(0f, horizontal * m_Turn * Time.fixedDeltaTime, 0f);
+            // Define a rotation around the ground normal
+            float rotationAngle = horizontal * m_Turn * Time.fixedDeltaTime;
+            Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
             
             // Rotate the rigidbody, the velocity, and the heading
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
@@ -127,7 +131,8 @@ public class DrivingManager : MonoBehaviour
         // Car can only thrust while grounded
         if(m_GroundingModule.grounded)
         {
-            m_Rigidbody.AddForce(m_Heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            Vector3 heading = driftingModule.RotatedHeading(true);
+            m_Rigidbody.AddForce(heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
     public void SetHeading(Vector3 heading)
@@ -141,6 +146,17 @@ public class DrivingManager : MonoBehaviour
     public void OnRaceFinished(int rank)
     {
         playerFinishedEvent.Invoke(rank);
+    }
+    #endregion
+
+    #region Private Methods
+    private void OnDriftStarted()
+    {
+        // When the drift begins, immediate set the speed to go in the direction of the rotated heading
+        // instead of the true heading
+        Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
+        Vector3 drivingComponent = driftingModule.RotatedHeading(true).normalized * drivingSpeed;
+        m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     #endregion
 }
