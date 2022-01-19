@@ -34,7 +34,7 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DestroySelfRPCReceive()
     {
-        if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
+        PhotonNetwork.Destroy(photonView);
     }
     #endregion
 }

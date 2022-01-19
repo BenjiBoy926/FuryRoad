@@ -13,6 +13,12 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
 {
     #region Private Editor Fields
     [SerializeField]
+    [Tooltip("Reference to the manager used to drive this player's car")]
+    private DrivingManager manager;
+    [SerializeField]
+    [Tooltip("Reference to the ui that displays when a projectile hits someone")]
+    private ProjectileHitUI projectileUI;
+    [SerializeField]
     [Tooltip("List of game objects to enable/disable depending on ownership of the photon view provided")]
     private GameObject[] networkSensitiveObjects;
     [SerializeField]
@@ -23,6 +29,11 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     #region Monobehaviour Messages
     private void Start()
     {
+        // Listen for when my projectile hits another and when another hits me
+        manager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
+        manager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+
+        // Setup network sensitive objects
         foreach(GameObject obj in networkSensitiveObjects)
         {
             obj.SetActive(photonView.IsMine);
@@ -34,10 +45,62 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     }
     #endregion
 
+    #region Event Listeners
+    private void OnProjectileHitOther(DrivingManager other)
+    {
+        PhotonView otherView = other.GetComponent<PhotonView>();
+
+        // If we got the other view, then send an rpc to the owner of this player
+        // saying that our projectile hit the other
+        if (otherView)
+        {
+            photonView.RPC(nameof(OnProjectileHitOtherRPC), photonView.Owner, otherView.OwnerActorNr);
+
+            // Notify the other player that a projectile hit them
+            otherView.RPC(nameof(OnProjectileHitMeRPC), otherView.Owner, photonView.OwnerActorNr);
+        }
+    }
+    private void OnProjectileHitMe(Projectile projectile)
+    {
+        PhotonView projectileView = projectile.GetComponent<PhotonView>();
+
+        // If we got a photon view on the projectile,
+        // use it to create the projectile ui animation
+        if (projectileView)
+        {
+            photonView.RPC(nameof(OnProjectileHitMeRPC), photonView.Owner, projectileView.OwnerActorNr);
+
+            // Get the car (on our local machine) being controlled by the same player
+            // who controls the projectile hit
+            GameObject otherCar = GetCar(projectileView.Owner);
+            PhotonView otherView = otherCar.GetComponent<PhotonView>();
+
+            // Notify the other player that their projectile hit me
+            if (otherView)
+            {
+                otherView.RPC(nameof(OnProjectileHitOtherRPC), otherView.Owner, photonView.OwnerActorNr);
+            }
+        }
+    }
+    #endregion
+
     #region Interface Implementation
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         info.Sender.TagObject = gameObject;
+    }
+    #endregion
+
+    #region RPC Targets
+    [PunRPC]
+    public void OnProjectileHitOtherRPC(int otherActorNumber)
+    {
+        projectileUI.AnimateProjectileHitOther(otherActorNumber);
+    }
+    [PunRPC]
+    public void OnProjectileHitMeRPC(int projectileActorNumber)
+    {
+        projectileUI.AnimateProjectileHitMe(projectileActorNumber);
     }
     #endregion
 

@@ -10,6 +10,10 @@ public class DrivingManager : MonoBehaviour
     public class IntEvent : UnityEvent<int> { }
     [System.Serializable]
     public class RacingLapDataEvent : UnityEvent<RacingLapData> { }
+    [System.Serializable]
+    public class DrivingManagerEvent : UnityEvent<DrivingManager> { }
+    [System.Serializable]
+    public class ProjectileEvent : UnityEvent<Projectile> { }
     #endregion
 
     #region Public Properties
@@ -27,6 +31,8 @@ public class DrivingManager : MonoBehaviour
     public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
+    public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
+    public UnityEvent<Projectile> ProjectileHitMeEvent => projectileHitMeEvent;
     #endregion
 
     #region Private Editor Fields
@@ -75,6 +81,12 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Event invoked when the player finishes the race")]
     private IntEvent playerFinishedEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when my projectile hits another driver")]
+    private DrivingManagerEvent projectileHitOtherEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when another projectile hit me")]
+    private ProjectileEvent projectileHitMeEvent;
     #endregion
 
     #region Private Fields
@@ -132,7 +144,9 @@ public class DrivingManager : MonoBehaviour
         // Car can only thrust while grounded
         if(m_GroundingModule.grounded)
         {
-            Vector3 heading = driftingModule.GetHeading(true);
+            // Get the heading of the vehicle according to the drifting module,
+            // because the drifting module rotates the true heading
+            //Vector3 heading = driftingModule.GetHeading();
             m_Rigidbody.AddForce(heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
@@ -156,7 +170,7 @@ public class DrivingManager : MonoBehaviour
         // When the drift begins, immediate set the speed to go in the direction of the rotated heading
         // instead of the true heading
         Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
-        Vector3 drivingComponent = driftingModule.GetHeading(true).normalized * drivingSpeed;
+        Vector3 drivingComponent = driftingModule.GetHeading().normalized * drivingSpeed;
         m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     private void OnDriftStopped()

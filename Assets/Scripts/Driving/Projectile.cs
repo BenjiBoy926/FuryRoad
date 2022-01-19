@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public readonly VirtualAction destroySelf = new VirtualAction();
     #endregion
 
+
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the rigidbody of the projectile")]
@@ -100,7 +101,14 @@ public class Projectile : MonoBehaviour
                     // Slow the owner a little
                 }
                 // If the other is not the owner then make the owner boost
-                else owningDriver.boostingModule.StartBoosting();
+                else
+                {
+                    owningDriver.boostingModule.StartBoosting();
+
+                    // Invoke event for the owning driver and for the other driver
+                    owningDriver.ProjectileHitOtherEvent.Invoke(driver);
+                    driver.ProjectileHitMeEvent.Invoke(this);
+                }
             }
 
             // Destroy self when I hit a player
@@ -122,8 +130,11 @@ public class Projectile : MonoBehaviour
             Photon.Pun.PhotonView otherView = otherProjectile.GetComponent<Photon.Pun.PhotonView>();
             Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
 
-            Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with projectile from actor {otherView.OwnerActorNr}" +
-                $"\n\t{NetworkManager.CurrentRoomString()}");
+            if (otherView && myView)
+            {
+                Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with projectile from actor {otherView.OwnerActorNr}" +
+                    $"\n\t{NetworkManager.CurrentRoomString()}");
+            }
         }
     }
     #endregion

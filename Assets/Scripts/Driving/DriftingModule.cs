@@ -72,13 +72,12 @@ public class DriftingModule : DrivingModule
         }
         else return steer;
     }
-    public Vector3 GetHeading(bool againstDriftDirection)
+    public Vector3 GetHeading()
     {
         if (m_DriftActive)
         {
             // Get the rotation angle
-            float rotationAngle = m_reverseHeadingAmount * m_CurrentDirection;
-            if (againstDriftDirection) rotationAngle *= -1f;
+            float rotationAngle = m_reverseHeadingAmount * m_CurrentDirection * -1f;
 
             // Axis of rotation will be the ground normal of the vehicle
             Vector3 axis = manager.groundingModule.groundNormal;

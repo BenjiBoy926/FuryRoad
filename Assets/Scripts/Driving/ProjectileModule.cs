@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ProjectileModule : DrivingModule
 {
+    #region Public Typedefs
+    [System.Serializable]
+    public class DrivingManagerEvent : UnityEvent<DrivingManager> { }
+    #endregion
+
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Projectile prefab to instantiate when firing a projectile")]
@@ -14,6 +20,9 @@ public class ProjectileModule : DrivingModule
     [SerializeField]
     [Tooltip("Offset from the player manager that the projectile is placed")]
     private float offset = 5f;
+    [SerializeField]
+    [Tooltip("Event invoked when a projectile fired from this module hits a driver")]
+    private DrivingManagerEvent driverHitEvent;
     #endregion
 
     #region Monobehaviour Messages
