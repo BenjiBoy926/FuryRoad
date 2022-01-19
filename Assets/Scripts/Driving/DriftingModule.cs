@@ -50,8 +50,8 @@ public class DriftingModule : DrivingModule
     #region Monobehaviour Messages
     private void FixedUpdate()
     {
-        // If the velocity magnitude falls below the threshold, cancel the drift
-        if(m_Manager.rigidbody.velocity.sqrMagnitude <= (cancelThreshold * cancelThreshold))
+        // If the velocity magnitude falls below the threshold, and the drift is still going, then stop drifting
+        if(m_Manager.rigidbody.velocity.sqrMagnitude <= (cancelThreshold * cancelThreshold) && m_DriftActive)
         {
             StopDrifting();
         }
