@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DriftBoost: {fileID: 8468606007509199711}
-  m_reverseHeadingAmount: 30
+  m_reverseHeadingAmount: 45
   driftBoostChargeTime: 1
   cancelThreshold: 5
   audio:
