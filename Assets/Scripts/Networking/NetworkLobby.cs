@@ -13,9 +13,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
 {
     #region Private Editor Fields
     [SerializeField]
-    [Tooltip("Button used to make the player leave the lobby")]
-    private NetworkLeaveRoomButton leaveButton;
-    [SerializeField]
     [Tooltip("Button that forces the game to start")]
     private Button forceStartButton;
     [SerializeField]
@@ -84,7 +81,6 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     }
     private void SetLobbyOpen(bool open)
     {
-        leaveButton.interactable = open;
         forceStartButton.interactable = open;
         playerText.enabled = open;
         PhotonNetwork.CurrentRoom.IsOpen = open;
