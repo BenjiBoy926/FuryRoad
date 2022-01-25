@@ -15,13 +15,13 @@ public class RacingManager : MonoBehaviour
     #region Public Properties
     public IReadOnlyDictionary<DrivingManager, RacingLapData> PlayerLapData => playerLapData;
     public IReadOnlyList<DrivingManager> Ranking => ranking;
+    public DrivingManager[] Drivers => FindObjectsOfType<DrivingManager>();
     public UnityEvent<DrivingManager, RacingCheckpoint> CheckpointPassedEvent => checkpointPassedEvent;
     public UnityEvent AllRacersFinishedEvent => allRacersFinishedEvent;
     #endregion
 
     #region Private Properties
     private RacingCheckpoint[] Checkpoints => FindObjectsOfType<RacingCheckpoint>();
-    private DrivingManager[] Drivers => FindObjectsOfType<DrivingManager>();
     private int FirstCheckpointOrder => Checkpoints.Min(checkpoint => checkpoint.Order);
     private int LastCheckpointOrder => Checkpoints.Max(checkpoint => checkpoint.Order);
     #endregion

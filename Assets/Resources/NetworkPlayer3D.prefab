@@ -36,13 +36,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea41a3fab4736e54c86f6333c0c1d4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 4634159052545891195}
+  player: {fileID: 9189678694920113825}
   projectileUI: {fileID: 57655208722578687}
   networkSensitiveObjects:
   - {fileID: 7321561507806336119}
   - {fileID: 736197172568407096}
-  networkSensitiveBehaviours:
-  - {fileID: 9189678694920113825}
 --- !u!114 &5770960330747569835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,18 +293,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 969e2f862104364428ea3d64f247aab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4634159052545891195 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7101292500975048723, guid: 0a7739c1e3d3a1a4d9fbe558843cfa14,
-    type: 3}
-  m_PrefabInstance: {fileID: 2504860099477750632}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125792143897180039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bb82812e6f11d942b059b4e280ea683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2305959640808503720 stripped

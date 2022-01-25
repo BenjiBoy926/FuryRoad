@@ -9,6 +9,10 @@ public class PlayerDriving : MonoBehaviour
     public DrivingManager drivingManager => m_DrivingManager;
     #endregion
 
+    #region Public Fields
+    public readonly VirtualAction<bool> setControl = new VirtualAction<bool>();
+    #endregion
+
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
@@ -21,6 +25,17 @@ public class PlayerDriving : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
+    private void Start()
+    {
+        setControl.SetVirtual(enabled =>
+        {
+            this.enabled = enabled;
+
+            // Make sure the drafting module is enabled/disabled so that
+            // a car without controls cannot draft
+            m_DrivingManager.draftingModule.enabled = enabled;
+        });
+    }
     protected virtual void Update()
     {
         // Setup current input axes every frame

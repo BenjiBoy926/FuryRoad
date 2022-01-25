@@ -123,8 +123,8 @@ public class DrivingManager : MonoBehaviour
     #region Public Methods
     public void Turn(float horizontal)
     {
-        // Car can only turn while moving and grounded
-        if(m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
+        // Car can only turn while moving and grounded, and while the script is enabled
+        if (m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
         {
             // Let the drifting module decide how we will actually steer the car
             horizontal = m_DriftingModule.GetSteer(horizontal);
@@ -132,7 +132,7 @@ public class DrivingManager : MonoBehaviour
             // Define a rotation around the ground normal
             float rotationAngle = horizontal * m_Turn * Time.fixedDeltaTime;
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
-            
+
             // Rotate the rigidbody, the velocity, and the heading
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
             m_Rigidbody.angularVelocity = rotation * m_Rigidbody.angularVelocity;
@@ -141,7 +141,7 @@ public class DrivingManager : MonoBehaviour
     }
     public void Thrust(float vertical)
     {
-        // Car can only thrust while grounded
+        // Car can only thrust while grounded and the manager is enabled
         if(m_GroundingModule.grounded)
         {
             // Get the heading of the vehicle according to the drifting module,

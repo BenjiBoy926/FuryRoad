@@ -13,34 +13,40 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
 {
     #region Private Editor Fields
     [SerializeField]
-    [Tooltip("Reference to the manager used to drive this player's car")]
-    private DrivingManager manager;
+    [Tooltip("Reference to the script that lets the player drive using a driving manager")]
+    private PlayerDriving player;
     [SerializeField]
     [Tooltip("Reference to the ui that displays when a projectile hits someone")]
     private ProjectileHitUI projectileUI;
     [SerializeField]
     [Tooltip("List of game objects to enable/disable depending on ownership of the photon view provided")]
     private GameObject[] networkSensitiveObjects;
-    [SerializeField]
-    [Tooltip("List of components to enable/disable depending on ownership of the photon view provided")]
-    private MonoBehaviour[] networkSensitiveBehaviours;
     #endregion
 
     #region Monobehaviour Messages
     private void Start()
     {
         // Listen for when my projectile hits another and when another hits me
-        manager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
-        manager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+        player.drivingManager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
+        player.drivingManager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+
+        player.setControl.SetOverride(enabled =>
+        {
+            // Use the virtual version of set control
+            // only if this is the local player
+            if (photonView.IsMine)
+            {
+                player.setControl.InvokeVirtual(enabled);
+            }
+        });
+
+        // Disable the player driving
+        player.setControl.InvokeVirtual(photonView.IsMine);
 
         // Setup network sensitive objects
         foreach(GameObject obj in networkSensitiveObjects)
         {
             obj.SetActive(photonView.IsMine);
-        }
-        foreach(MonoBehaviour behaviour in networkSensitiveBehaviours)
-        {
-            behaviour.enabled = photonView.IsMine;
         }
     }
     #endregion

@@ -98,11 +98,11 @@ public class NetworkScene
 
         if (clone)
         {
-            // Assign the player manager to the tag object of the local player
-            PlayerManager manager = clone.GetComponent<PlayerManager>();
+            // Get the driving manager on this clone
+            DrivingManager manager = clone.GetComponent<DrivingManager>();
 
             // Ensure correct rotation
-            manager.movementDriver.drivingManager.SetHeading(mySpawn.transform.forward);
+            manager.SetHeading(mySpawn.transform.forward);
 
             // Set the tag object on the local player
             PhotonNetwork.LocalPlayer.TagObject = clone;
