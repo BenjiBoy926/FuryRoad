@@ -58,16 +58,6 @@ public class RacingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Add a kvp for each player in the list
-        foreach(DrivingManager driver in Drivers)
-        {
-            if (!playerLapData.ContainsKey(driver))
-            {
-                playerLapData.Add(driver, new RacingLapData());
-                driver.OnNewLap(playerLapData[driver]);
-            }
-        }
-
         // At the start, the race finished event has not been invoked yet
         finishedEventInvoked = false;
 
@@ -90,17 +80,17 @@ public class RacingManager : MonoBehaviour
             if (Photon.Pun.PhotonNetwork.IsConnected)
             {
                 Debug.Log($"Player {NetworkPlayer.GetPlayer(player.gameObject).ActorNumber} passed checkpoint {checkpoint.Order}." +
-                    $"\nPrevious lap: {previous.CurrentLap} (checkpoint {previous.CurrentCheckpoint.Order})" +
-                    $"\nCurrent lap:  {playerLapData[player].CurrentLap} (checkpoint {playerLapData[player].CurrentCheckpoint.Order})");
+                    $"\nPrevious lap: {previous.CompletedLaps} (checkpoint {previous.CurrentCheckpoint.Order})" +
+                    $"\nCurrent lap:  {playerLapData[player].CompletedLaps} (checkpoint {playerLapData[player].CurrentCheckpoint.Order})");
             }
 
-            if (previous.CurrentLap != playerLapData[player].CurrentLap)
+            if (previous.CompletedLaps != playerLapData[player].CompletedLaps)
             {
                 // Notify the player that they just passed a new lap
                 player.OnNewLap(playerLapData[player]);
 
                 // If the player passed the final lap and they are not in the ranking yet then add them to the ranking
-                if(playerLapData[player].CurrentLap >= totalLaps && !ranking.Contains(player))
+                if (playerLapData[player].CompletedLaps >= totalLaps && !ranking.Contains(player))
                 {
                     ranking.Add(player);
 
@@ -112,7 +102,11 @@ public class RacingManager : MonoBehaviour
                 }
             }
         }
-        else playerLapData.Add(player, new RacingLapData(checkpoint));
+        else
+        {
+            playerLapData.Add(player, new RacingLapData(checkpoint));
+            player.OnNewLap(playerLapData[player]);
+        }
 
         // Invoke the checkpoint passed event
         checkpointPassedEvent.Invoke(player, checkpoint);
