@@ -13,6 +13,7 @@ public class RacingManager : MonoBehaviour
     #endregion
 
     #region Public Properties
+    public int TotalLaps => totalLaps;
     public IReadOnlyDictionary<DrivingManager, RacingLapData> PlayerLapData => playerLapData;
     public IReadOnlyList<DrivingManager> Ranking => ranking;
     public DrivingManager[] Drivers => FindObjectsOfType<DrivingManager>();
@@ -75,14 +76,6 @@ public class RacingManager : MonoBehaviour
             // Update the current lap data associated with the player
             RacingLapData previous = playerLapData[player];
             playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder);
-
-            // Log the result of this checkpoint pass
-            if (Photon.Pun.PhotonNetwork.IsConnected)
-            {
-                Debug.Log($"Player {NetworkPlayer.GetPlayer(player.gameObject).ActorNumber} passed checkpoint {checkpoint.Order}." +
-                    $"\nPrevious lap: {previous.CompletedLaps} (checkpoint {previous.CurrentCheckpoint.Order})" +
-                    $"\nCurrent lap:  {playerLapData[player].CompletedLaps} (checkpoint {playerLapData[player].CurrentCheckpoint.Order})");
-            }
 
             if (previous.CompletedLaps != playerLapData[player].CompletedLaps)
             {

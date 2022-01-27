@@ -144,11 +144,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3209979394332644942}
   - component: {fileID: 3209979394332644943}
-  - component: {fileID: 3298651661556530019}
-  - component: {fileID: 2890227525391087351}
-  - component: {fileID: 5380715679346820309}
   - component: {fileID: 5466337344807596726}
   - component: {fileID: 4480676789111868140}
+  - component: {fileID: 7161983656555260172}
   m_Layer: 0
   m_Name: RacingManager
   m_TagString: Untagged
@@ -192,58 +190,6 @@ MonoBehaviour:
   allRacersFinishedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3298651661556530019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209979394332644941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1101c0639fe15f47bd8a5b0f07f528b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manager: {fileID: 3209979394332644943}
---- !u!114 &2890227525391087351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209979394332644941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents: []
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &5380715679346820309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209979394332644941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69baa215cc3161745824d7075f05afdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manager: {fileID: 3209979394332644943}
-  countdown: 5
-  displayText: 'All racers finished!  Loading results: {0}'
-  textComponent: {fileID: 4530423236977319472}
-  textObject: {fileID: 3718718295927951870}
 --- !u!82 &5466337344807596726
 AudioSource:
   m_ObjectHideFlags: 0
@@ -365,6 +311,23 @@ MonoBehaviour:
   driversEnabledEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7161983656555260172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209979394332644941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69baa215cc3161745824d7075f05afdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 3209979394332644943}
+  countdown: 5
+  displayText: All racers have finished!  Loading results... {0}
+  textComponent: {fileID: 4530423236977319472}
+  textObject: {fileID: 3718718295927951870}
 --- !u!1 &3718718295927951870
 GameObject:
   m_ObjectHideFlags: 0
