@@ -134,7 +134,7 @@ public class DrivingManager : MonoBehaviour
 
             // TODO: Verify that this ensures the car properly turns when driving
             // backwards
-            if (m_Rigidbody.velocity.x < 0) { rotationAngle *= -1f; }
+            if (Vector3.Dot(heading, m_Rigidbody.velocity) < 0f) { rotationAngle *= -1f; }
 
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
 
