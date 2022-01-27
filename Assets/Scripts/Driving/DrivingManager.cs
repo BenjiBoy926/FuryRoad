@@ -131,6 +131,11 @@ public class DrivingManager : MonoBehaviour
 
             // Define a rotation around the ground normal
             float rotationAngle = horizontal * m_Turn * Time.fixedDeltaTime;
+
+            // TODO: Verify that this ensures the car properly turns when driving
+            // backwards
+            if (m_Rigidbody.velocity.x < 0) { rotationAngle *= -1f; }
+
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
 
             // Rotate the rigidbody, the velocity, and the heading
