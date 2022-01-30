@@ -12,6 +12,7 @@ public class DriftingModule : DrivingModule
     public UnityEvent driftStartEvent => m_driftStartEvent;
     public UnityEvent driftStopEvent => m_driftStopEvent;
     public float driftDuration => Time.time - m_DriftStartTime;
+    public bool driftBoostReady => m_DriftActive && driftDuration > driftBoostChargeTime;
     #endregion
 
     #region Private Editor Fields
@@ -27,6 +28,18 @@ public class DriftingModule : DrivingModule
     [SerializeField]
     [Tooltip("If the speed of the rigidbody falls below this threshold, the drifting module cancels the drift without boosting")]
     private float cancelThreshold = 5f;
+    [SerializeField]
+    [Tooltip("Reference to the drift sparks under the left wheel")]
+    private ParticleSystem leftSparks;
+    [SerializeField]
+    [Tooltip("Refernece to the drift sparks under the right wheel")]
+    private ParticleSystem rightSparks;
+    [SerializeField]
+    [Tooltip("Color of the sparks before the boost is ready")]
+    private ParticleSystem.MinMaxGradient boostNotReadyColor = Color.yellow;
+    [SerializeField]
+    [Tooltip("Color of the sparks after the boost is ready")]
+    private ParticleSystem.MinMaxGradient boostIsReadyColor = Color.red;
     [SerializeField]
     [Tooltip("Handle the audio of the drift")]
     private new DriftingAudio audio;
@@ -48,12 +61,28 @@ public class DriftingModule : DrivingModule
     #endregion
 
     #region Monobehaviour Messages
+    protected override void Start()
+    {
+        base.Start();
+
+        // Make sure sparks are inactive to begin with
+        leftSparks.Stop();
+        rightSparks.Stop();
+    }
     private void FixedUpdate()
     {
-        // If the velocity magnitude falls below the threshold, and the drift is still going, then stop drifting
-        if(m_Manager.rigidbody.velocity.sqrMagnitude <= (cancelThreshold * cancelThreshold) && m_DriftActive)
+        if (m_DriftActive)
         {
-            StopDrifting();
+            // If the velocity magnitude falls below the threshold, and the drift is still going, then stop drifting
+            if (m_Manager.rigidbody.velocity.sqrMagnitude <= (cancelThreshold * cancelThreshold))
+            {
+                StopDrifting();
+            }
+            // Set the color of the sparks when the boost is ready
+            if (driftBoostReady)
+            {
+                SetSparkColors(boostIsReadyColor);
+            }
         }
     }
     #endregion
@@ -110,6 +139,11 @@ public class DriftingModule : DrivingModule
         // Set drifting direction
         m_CurrentDirection = Mathf.Sign(horizontalInput);
 
+        // Set sparks to colors for when the boost is not yet ready
+        leftSparks.Play();
+        rightSparks.Play();
+        SetSparkColors(boostNotReadyColor);
+
         // Invoke the drift start event
         m_driftStartEvent.Invoke();
     }
@@ -118,7 +152,7 @@ public class DriftingModule : DrivingModule
     public void FinishDrifting()
     {
         // If we have been drifting long enough to charge the drift boost, then boost!
-        if (m_DriftActive && Time.time - m_DriftStartTime > driftBoostChargeTime)
+        if (driftBoostReady)
         {
             m_DriftBoost.StartBoosting();
         }
@@ -129,8 +163,26 @@ public class DriftingModule : DrivingModule
     public void StopDrifting()
     {
         if(m_DriftActive) audio.PlaySkidSound();
+
+        // Disable the drift
         m_DriftActive = false;
+
+        // Disable drifting sparks
+        leftSparks.Stop();
+        rightSparks.Stop();
+
+        // Invoke drift stop event
         m_driftStopEvent.Invoke();
+    }
+    #endregion
+
+    #region Private Methods
+    private void SetSparkColors(ParticleSystem.MinMaxGradient color)
+    {
+        ParticleSystem.MainModule main = leftSparks.main;
+        main.startColor = color;
+        main = rightSparks.main;
+        main.startColor = color;
     }
     #endregion
 }
