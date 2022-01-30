@@ -23,8 +23,9 @@ public class RacingManager : MonoBehaviour
 
     #region Private Properties
     private RacingCheckpoint[] Checkpoints => FindObjectsOfType<RacingCheckpoint>();
-    private int FirstCheckpointOrder => Checkpoints.Min(checkpoint => checkpoint.Order);
-    private int LastCheckpointOrder => Checkpoints.Max(checkpoint => checkpoint.Order);
+    private int EarliestCheckpointOrder => Checkpoints.Min(checkpoint => checkpoint.Order);
+    private RacingCheckpoint EarliestCheckpoint => System.Array.Find(Checkpoints, check => check.Order == EarliestCheckpointOrder);
+    private int LatestCheckpointOrder => Checkpoints.Max(checkpoint => checkpoint.Order);
     #endregion
 
     #region Private Editor Fields
@@ -59,6 +60,17 @@ public class RacingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Store the earliest checkpoint so it is not re-calculated per driver
+        RacingCheckpoint earliest = EarliestCheckpoint;
+
+        // Add the initial lap data for each driver
+        foreach (DrivingManager driver in Drivers)
+        {
+            RacingLapData lapData = new RacingLapData(earliest, 0);
+            playerLapData.Add(driver, lapData);
+            driver.OnNewLap(lapData);
+        }
+
         // At the start, the race finished event has not been invoked yet
         finishedEventInvoked = false;
 
@@ -75,7 +87,7 @@ public class RacingManager : MonoBehaviour
         {
             // Update the current lap data associated with the player
             RacingLapData previous = playerLapData[player];
-            playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, FirstCheckpointOrder, LastCheckpointOrder);
+            playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, EarliestCheckpointOrder, LatestCheckpointOrder);
 
             if (previous.CompletedLaps != playerLapData[player].CompletedLaps)
             {
