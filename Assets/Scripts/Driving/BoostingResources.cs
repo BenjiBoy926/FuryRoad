@@ -12,6 +12,7 @@ public class BoostingResources : DrivingModule
 
     #region Public Propertes
     public int boostsAvailable => m_BoostsAvailable;
+    public bool allBoostsAvailable => m_BoostsAvailable >= maxBoosts;
     public bool canBoost => boostsAvailable > 0;
     public float boostRecharge => m_BoostRecharge;
     public UnityEvent<int> onAvailableBoostsChanged => m_OnAvailableBoostsChanged;
@@ -54,34 +55,42 @@ public class BoostingResources : DrivingModule
     }
     private void FixedUpdate()
     {
-        // Get some helpful bools
-        bool isDrifting = m_Manager.driftingModule.driftActive;
-        bool isDrafting = m_Manager.draftingModule.draftActive;
-        bool isAirborne = !m_Manager.groundingModule.grounded;
-
-        if(isDrifting || isDrafting || isAirborne)
+        // If all boosts are available then boosting cannot recharge right now
+        if (allBoostsAvailable)
         {
-            float rechargeRate = Mathf.Infinity;
-
-            // Use the smallest recharge rate out of the applicable rates
-            if (isDrifting) rechargeRate = Mathf.Min(rechargeRate, m_DriftRechargeRate);
-            if (isDrafting) rechargeRate = Mathf.Min(rechargeRate, m_DraftRechargeRate);
-            if (isAirborne) rechargeRate = Mathf.Min(rechargeRate, m_AirTimeRechargeRate);
-
-            // Increase boost power at the smallest rate
-            m_BoostRecharge += Time.fixedDeltaTime / rechargeRate;
-
-            // If boost power exceeds 1, then increase available boosts
-            if(m_BoostRecharge >= 1f)
-            {
-                SetBoostsAvailable(m_BoostsAvailable + 1);
-                m_BoostRecharge = 0f;
-            }
+            m_BoostRecharge = 0f;
         }
-        // While no action is taken to increase boost power, it slowly reduces to zero
         else
         {
-            m_BoostRecharge = Mathf.Max(0f, m_BoostRecharge - (Time.fixedDeltaTime / m_BoostPowerGravity));
+            // Get some helpful bools
+            bool isDrifting = m_Manager.driftingModule.driftActive;
+            bool isDrafting = m_Manager.draftingModule.draftActive;
+            bool isAirborne = !m_Manager.groundingModule.grounded;
+
+            if (isDrifting || isDrafting || isAirborne)
+            {
+                float rechargeRate = Mathf.Infinity;
+
+                // Use the smallest recharge rate out of the applicable rates
+                if (isDrifting) rechargeRate = Mathf.Min(rechargeRate, m_DriftRechargeRate);
+                if (isDrafting) rechargeRate = Mathf.Min(rechargeRate, m_DraftRechargeRate);
+                if (isAirborne) rechargeRate = Mathf.Min(rechargeRate, m_AirTimeRechargeRate);
+
+                // Increase boost power at the smallest rate
+                m_BoostRecharge += Time.fixedDeltaTime / rechargeRate;
+
+                // If boost power exceeds 1, then increase available boosts
+                if (m_BoostRecharge >= 1f)
+                {
+                    SetBoostsAvailable(m_BoostsAvailable + 1);
+                    m_BoostRecharge = 0f;
+                }
+            }
+            // While no action is taken to increase boost power, it slowly reduces to zero
+            else
+            {
+                m_BoostRecharge = Mathf.Max(0f, m_BoostRecharge - (Time.fixedDeltaTime / m_BoostPowerGravity));
+            }
         }
     }
     #endregion

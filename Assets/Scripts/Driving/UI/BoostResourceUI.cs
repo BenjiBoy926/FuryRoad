@@ -40,7 +40,19 @@ public class BoostResourceUI : DrivingModule
     }
     private void Update()
     {
-        powerSlider.value = manager.boostResources.boostRecharge;
+        BoostingResources resources = manager.boostResources;
+
+        // Slider stays maxed out if all boosts are available
+        if (resources.allBoostsAvailable)
+        {
+            powerSlider.value = powerSlider.maxValue;
+        }
+        // When not all boosts are available 
+        // update the slider to match the resources recharge rate
+        else
+        {
+            powerSlider.value = manager.boostResources.boostRecharge;
+        }
     }
     #endregion
 
