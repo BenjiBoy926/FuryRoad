@@ -96,13 +96,12 @@ public class RunnerUpUI : DrivingModule
                 // If we display the icon then move it to the right place
                 if (display)
                 {
+                    // Compute the canvas position of the icon
                     Vector2 anchor = CanvasCoordinate(runnerUpCoordinates);
-                    icons[i].RectTransform.anchoredPosition = anchor;
+                    icons[i].SetAnchoredPosition(anchor);
 
-                    // Compute the scale of the icon using interpolation
-                    float interpolator = runnerUpCoordinates.magnitude / MaxRunnerUpDistance;
-                    float size = Mathf.Lerp(1f, minimumIconSize, interpolator);
-                    icons[i].transform.localScale = Vector3.one * size;
+                    // Compute the scale of the icon
+                    icons[i].transform.localScale = Vector3.one * RunnerUpIconSize(runnerUpCoordinates);
                 }
 
                 // Display the icon if this runner up can be displayed
@@ -215,6 +214,11 @@ public class RunnerUpUI : DrivingModule
         }
 
         return anchor;
+    }
+    private float RunnerUpIconSize(Vector3 runnerUpCoordinates) 
+    {
+        float interpolator = runnerUpCoordinates.magnitude / MaxRunnerUpDistance;
+        return Mathf.Lerp(1f, minimumIconSize, interpolator);
     }
     #endregion
 }

@@ -29,5 +29,24 @@ public class RunnerUpIcon : MonoBehaviour
         // If the player does not exist use a placeholder
         else text.text = "P0";
     }
+    public void SetAnchoredPosition(Vector2 anchor)
+    {
+        rectTransform.anchoredPosition = anchor;
+
+        // Make the transform point at the anchor point
+        PointToAnchor();
+    }
+    #endregion
+
+    #region Private Fields
+    private void PointToAnchor()
+    {
+        // Set the anchor position
+        Vector2 anchor = rectTransform.anchoredPosition;
+
+        // Make the transform point at the anchor point
+        float angle = Mathf.Atan(anchor.x / anchor.y) * Mathf.Rad2Deg * -1f;
+        rectTransform.localRotation = Quaternion.Euler(0f, 0f, angle);
+    }
     #endregion
 }
