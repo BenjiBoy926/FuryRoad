@@ -17,12 +17,12 @@ public class RunnerUpUI : DrivingModule
     // based on the ratio of the canvas width to height
     private float RunnerUpSpaceWidth => RunnerUpSpaceHeight * CanvasWidthToHeight;
     // Maximum distance that can exist between this racer and any indicated runners up
-    private float MaxCanvasCoordinateLength
+    private float MaxRunnerUpDistance
     {
         get
         {
-            float w = canvas.pixelRect.width / 2f;
-            float h = canvas.pixelRect.height;
+            float w = RunnerUpSpaceWidth / 2f;
+            float h = RunnerUpSpaceHeight;
             return Mathf.Sqrt(w * w + h * h);
         }
     }
@@ -43,6 +43,9 @@ public class RunnerUpUI : DrivingModule
     [Tooltip("Min-max range of the ui. Racers closer than the min " +
         "and farther than the max do not show up as runner ups to this driver")]
     private FloatRange distanceRange;
+    [SerializeField]
+    [Tooltip("The minimum possible size of the runner up icon")]
+    private float minimumIconSize = 0.1f;
     #endregion
 
     #region Private Fields
@@ -97,11 +100,16 @@ public class RunnerUpUI : DrivingModule
                     icons[i].RectTransform.anchoredPosition = anchor;
 
                     // Compute the scale of the icon using interpolation
+                    float interpolator = runnerUpCoordinates.magnitude / MaxRunnerUpDistance;
+                    float size = Mathf.Lerp(1f, minimumIconSize, interpolator);
+                    icons[i].transform.localScale = Vector3.one * size;
                 }
 
                 // Display the icon if this runner up can be displayed
                 icons[i].gameObject.SetActive(display);
             }
+            // If the other driver was lost then disable its icon
+            else icons[i].gameObject.SetActive(false);
         }
     }
     // Draw the space for the runners up
