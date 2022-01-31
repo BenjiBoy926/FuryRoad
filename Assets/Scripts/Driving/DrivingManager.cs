@@ -33,6 +33,9 @@ public class DrivingManager : MonoBehaviour
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
     public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
     public UnityEvent<Projectile> ProjectileHitMeEvent => projectileHitMeEvent;
+    // Rotate heading around the ground to get the right
+    public Vector3 right => Quaternion.AngleAxis(90f, m_GroundingModule.groundNormal) * m_Heading;
+    public Vector3 up => m_GroundingModule.groundNormal;
     #endregion
 
     #region Private Editor Fields
