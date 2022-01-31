@@ -12,11 +12,20 @@ public class RunnerUpUI : DrivingModule
 {
     #region Private Properties
     private float CanvasWidthToHeight => canvas.pixelRect.width / canvas.pixelRect.height;
-    private float CanvasHeightToWidth => canvas.pixelRect.height / canvas.pixelRect.width;
     private float RunnerUpSpaceHeight => distanceRange.length;
     // Compute the width of the runner up space behind the car
     // based on the ratio of the canvas width to height
     private float RunnerUpSpaceWidth => RunnerUpSpaceHeight * CanvasWidthToHeight;
+    // Maximum distance that can exist between this racer and any indicated runners up
+    private float MaxCanvasCoordinateLength
+    {
+        get
+        {
+            float w = canvas.pixelRect.width / 2f;
+            float h = canvas.pixelRect.height;
+            return Mathf.Sqrt(w * w + h * h);
+        }
+    }
     #endregion
 
     #region Private Editor Fields
@@ -86,6 +95,8 @@ public class RunnerUpUI : DrivingModule
                 {
                     Vector2 anchor = CanvasCoordinate(runnerUpCoordinates);
                     icons[i].RectTransform.anchoredPosition = anchor;
+
+                    // Compute the scale of the icon using interpolation
                 }
 
                 // Display the icon if this runner up can be displayed
