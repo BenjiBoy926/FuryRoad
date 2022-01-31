@@ -174,23 +174,26 @@ public class RunnerUpUI : DrivingModule
             // Interpolate the height based on where the runner up is
             Mathf.LerpUnclamped(0f, -canvas.pixelRect.height, yInterpolator));
 
-        // This is the only part that is broke omg so close
-        //float myWidthToHeight = Mathf.Abs(anchor.x / anchor.y);
+        // Compute the absolute value of the anchor,
+        // in preparation for a similar triangles computation
+        Vector2 absAnchor = anchor.Abs();
+        float myWidthToHeight = absAnchor.x / absAnchor.y;
 
-        //// If my ratio is bigger than canvas width to height ratio,
-        //// then the coordinate should be on the side of the screen
-        //if (myWidthToHeight > CanvasWidthToHeight / 2f)
-        //{
-        //    anchor.y = CanvasHeightToWidth / 2f * anchor.x;
-        //    anchor.x = halfCanvasWidth * Mathf.Sign(anchor.x);
-        //}
-        //// If my ratio is smaller than canvas width to height ratio,
-        //// then the coordinate should be on the bottom of the screen
-        //else
-        //{
-        //    anchor.x = CanvasWidthToHeight / 2f * anchor.y;
-        //    anchor.y = -canvas.pixelRect.height;
-        //}
+        // If my ratio is bigger than canvas width to height ratio,
+        // then the coordinate should be on the side of the screen
+        if (myWidthToHeight > CanvasWidthToHeight / 2f)
+        {
+            float myHeightToWidth = 1f / myWidthToHeight;
+            anchor.y = -(halfCanvasWidth * myHeightToWidth);
+            anchor.x = halfCanvasWidth * Mathf.Sign(anchor.x);
+        }
+        // If my ratio is smaller than canvas width to height ratio,
+        // then the coordinate should be on the bottom of the screen
+        else
+        {
+            anchor.x = canvas.pixelRect.height * myWidthToHeight * Mathf.Sign(anchor.x);
+            anchor.y = -canvas.pixelRect.height;
+        }
 
         return anchor;
     }

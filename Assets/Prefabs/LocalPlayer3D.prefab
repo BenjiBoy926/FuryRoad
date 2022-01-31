@@ -13029,8 +13029,8 @@ MonoBehaviour:
   runnerUpIconPrefab: {fileID: 7732668196543909146, guid: ac65f7a120846a54dbc01a8636c8f15b,
     type: 3}
   distanceRange:
-    _min: 1
-    _max: 50
+    _min: 5
+    _max: 200
 --- !u!1 &5494032704533457502
 GameObject:
   m_ObjectHideFlags: 0
