@@ -230,7 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f827bb66d0ac4a34595dccf98dd5e549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceCollection: {fileID: 7599360180668513827}
+  resourceWidgetPrefab: {fileID: 0}
+  resourceWidgetParent: {fileID: 0}
   powerSlider: {fileID: 8861625876531939979}
 --- !u!1 &3571366724918999955
 GameObject:
@@ -460,7 +461,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d16144be43772499c969e5c678334e94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 277f3f892e36343bca0fd36852dfb38e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1015,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5dd2136621aafa4b8c997f3b335016a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1812966384081001464}
+  speedText: {fileID: 0}
 --- !u!1 &7948683994757944283
 GameObject:
   m_ObjectHideFlags: 0
