@@ -61,6 +61,9 @@ public class RunnerUpUI : DrivingModule
         // Listen for drivers being registered and deregistered
         manager.DriverRegisteredEvent.AddListener(OnDriverRegistryChanged);
         manager.DriverDeregisteredEvent.AddListener(OnDriverRegistryChanged);
+
+        // Update the icons immediately
+        OnDriverRegistryChanged(null);
     }
     private void Update()
     {

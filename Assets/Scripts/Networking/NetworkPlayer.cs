@@ -43,6 +43,10 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         // Disable the player driving
         player.setControl.InvokeVirtual(photonView.IsMine);
 
+        // Over the network, the actor number is determined
+        // by the number of the photon player who owns the driver
+        player.drivingManager.driverNumber.SetOverride(() => photonView.OwnerActorNr);
+
         // Setup network sensitive objects
         foreach(GameObject obj in networkSensitiveObjects)
         {

@@ -38,6 +38,7 @@ public class DrivingManager : MonoBehaviour
     // Rotate heading around the ground to get the right
     public Vector3 right => Quaternion.AngleAxis(90f, m_GroundingModule.groundNormal) * m_Heading;
     public Vector3 up => m_GroundingModule.groundNormal;
+    public string ID => $"P{driverNumber.Invoke()}";
     #endregion
 
     #region Private Editor Fields
@@ -100,6 +101,10 @@ public class DrivingManager : MonoBehaviour
     private ProjectileEvent projectileHitMeEvent;
     #endregion
 
+    #region Public Fields
+    public readonly VirtualFunc<int> driverNumber = new VirtualFunc<int>();
+    #endregion
+
     #region Private Fields
     // Current heading of the movement module
     private Vector3 m_Heading = Vector3.forward;
@@ -113,6 +118,9 @@ public class DrivingManager : MonoBehaviour
 
         // Register this driver with the registry
         DriverRegistry.Register(this);
+
+        // Locally, the driver number is determined by the registry index
+        driverNumber.SetVirtual(() => RegistryIndex() + 1);
     }
     private void FixedUpdate()
     {
@@ -185,6 +193,7 @@ public class DrivingManager : MonoBehaviour
     {
         playerFinishedEvent.Invoke(rank);
     }
+    public int RegistryIndex() => DriverRegistry.IndexOf(this);
     #endregion
 
     #region Private Methods

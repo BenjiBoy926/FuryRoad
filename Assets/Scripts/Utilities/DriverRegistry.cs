@@ -45,5 +45,6 @@ public static class DriverRegistry
             }
         }
     }
+    public static int IndexOf(DrivingManager driver) => registry.IndexOf(driver);
     #endregion
 }
