@@ -21,13 +21,8 @@ public class RunnerUpIcon : MonoBehaviour
     #region Public Methods
     public void DisplayDriver(DrivingManager driver)
     {
-        // Try to get a network player on the driver
-        NetworkPlayer player = driver.GetComponent<NetworkPlayer>();
-
-        // If the player exists then display the network actor number
-        if (player) text.text = $"P{player.photonView.OwnerActorNr}";
-        // If the player does not exist use a placeholder
-        else text.text = "P0";
+        // NOTE: this may not be defined if the driving manager is not yet set up
+        text.text = driver.ID;
     }
     public void SetAnchoredPosition(Vector2 anchor)
     {
