@@ -10,7 +10,12 @@ using Photon.Realtime;
 public class NetworkLauncher : MonoBehaviourPunCallbacks
 {
     #region Private Properties
-    private RoomOptions defaultRoomOptions => new RoomOptions { MaxPlayers = NetworkManager.settings.maxPlayersPerRace };
+    private RoomOptions defaultRoomOptions => new RoomOptions 
+    {
+        IsOpen = true,
+        IsVisible = true,
+        MaxPlayers = NetworkManager.settings.maxPlayersPerRace 
+    };
     #endregion
 
     #region Private Editor Fields
