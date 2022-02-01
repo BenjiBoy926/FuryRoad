@@ -29,6 +29,8 @@ public class DrivingManager : MonoBehaviour
     public Vector3 heading => m_Heading;
     // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
     public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
+    public UnityEvent<DrivingManager> DriverRegisteredEvent => driverRegisteredEvent;
+    public UnityEvent<DrivingManager> DriverDeregisteredEvent => driverDeregisteredEvent;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
     public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
@@ -79,6 +81,12 @@ public class DrivingManager : MonoBehaviour
     [Space]
 
     [SerializeField]
+    [Tooltip("Event invoked when a new player enters the scene that this driver is in")]
+    private DrivingManagerEvent driverRegisteredEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when any values are pruned in the driver registry")]
+    private DrivingManagerEvent driverDeregisteredEvent;
+    [SerializeField]
     [Tooltip("Event invoked when the player manager finishes a new lap")]
     private RacingLapDataEvent newLapEvent;
     [SerializeField]
@@ -102,6 +110,9 @@ public class DrivingManager : MonoBehaviour
     {
         driftingModule.driftStartEvent.AddListener(OnDriftStarted);
         driftingModule.driftStopEvent.AddListener(OnDriftStopped);
+
+        // Register this driver with the registry
+        DriverRegistry.Register(this);
     }
     private void FixedUpdate()
     {
@@ -120,6 +131,10 @@ public class DrivingManager : MonoBehaviour
 
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
+    }
+    private void OnDestroy()
+    {
+        DriverRegistry.Deregister(this);
     }
     #endregion
 

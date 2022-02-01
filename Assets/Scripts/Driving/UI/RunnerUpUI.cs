@@ -49,9 +49,8 @@ public class RunnerUpUI : DrivingModule
     #endregion
 
     #region Private Fields
-    // List of all the other drivers in this scene
     private DrivingManager[] otherDrivers = new DrivingManager[0];
-    private RunnerUpIcon[] icons;
+    private RunnerUpIcon[] icons = new RunnerUpIcon[0];
     #endregion
 
     #region Monobehaviour Messages
@@ -59,20 +58,9 @@ public class RunnerUpUI : DrivingModule
     {
         base.Start();
 
-        // Find all other drivers
-        otherDrivers = FindObjectsOfType<DrivingManager>()
-            .Where(driver => driver != manager)
-            .ToArray();
-
-        // Create an array of icons for each driver
-        icons = new RunnerUpIcon[otherDrivers.Length];
-
-        // Set up each icon to have the right appearance
-        for (int i = 0; i < otherDrivers.Length; i++)
-        {
-            icons[i] = Instantiate(runnerUpIconPrefab, runnerUpIconParent);
-            icons[i].DisplayDriver(otherDrivers[i]);
-        }
+        // Listen for drivers being registered and deregistered
+        manager.DriverRegisteredEvent.AddListener(OnDriverRegistryChanged);
+        manager.DriverDeregisteredEvent.AddListener(OnDriverRegistryChanged);
     }
     private void Update()
     {
@@ -86,29 +74,23 @@ public class RunnerUpUI : DrivingModule
 
         for (int i = 0; i < otherDrivers.Length; i++)
         {
-            // Check that the other driver still exists
-            if (otherDrivers[i])
+            // Get the other driver's runner up coordinates
+            Vector3 runnerUpCoordinates = RunnerUpCoordinates(otherDrivers[i]);
+            bool display = RunnerUpCoordinateIsDisplayable(runnerUpCoordinates);
+
+            // If we display the icon then move it to the right place
+            if (display)
             {
-                // Get the other driver's runner up coordinates
-                Vector3 runnerUpCoordinates = RunnerUpCoordinates(otherDrivers[i]);
-                bool display = RunnerUpCoordinateIsDisplayable(runnerUpCoordinates);
+                // Compute the canvas position of the icon
+                Vector2 anchor = CanvasCoordinate(runnerUpCoordinates);
+                icons[i].SetAnchoredPosition(anchor);
 
-                // If we display the icon then move it to the right place
-                if (display)
-                {
-                    // Compute the canvas position of the icon
-                    Vector2 anchor = CanvasCoordinate(runnerUpCoordinates);
-                    icons[i].SetAnchoredPosition(anchor);
-
-                    // Compute the scale of the icon
-                    icons[i].transform.localScale = Vector3.one * RunnerUpIconSize(runnerUpCoordinates);
-                }
-
-                // Display the icon if this runner up can be displayed
-                icons[i].gameObject.SetActive(display);
+                // Compute the scale of the icon
+                icons[i].transform.localScale = Vector3.one * RunnerUpIconSize(runnerUpCoordinates);
             }
-            // If the other driver was lost then disable its icon
-            else icons[i].gameObject.SetActive(false);
+
+            // Display the icon if this runner up can be displayed
+            icons[i].gameObject.SetActive(display);
         }
     }
     // Draw the space for the runners up
@@ -133,6 +115,32 @@ public class RunnerUpUI : DrivingModule
             Gizmos.DrawLine(topLeft, bottomLeft);
             Gizmos.DrawLine(topRight, bottomRight);
             Gizmos.DrawLine(bottomLeft, bottomRight);
+        }
+    }
+    #endregion
+
+    #region Event Listeners
+    private void OnDriverRegistryChanged(DrivingManager newDriver)
+    {
+        // Destroy any existing icons
+        foreach(RunnerUpIcon icon in icons)
+        {
+            Destroy(icon.gameObject);
+        }
+
+        // Create a list with all drivers besides this one
+        otherDrivers = DriverRegistry.Registry
+            .Where(driver => driver != manager)
+            .ToArray();
+
+        // Create a new array to hold the icons
+        icons = new RunnerUpIcon[otherDrivers.Length];
+
+        // Instantiate an icon for each driver
+        for (int i = 0; i < icons.Length; i++)
+        {
+            icons[i] = Instantiate(runnerUpIconPrefab, runnerUpIconParent);
+            icons[i].DisplayDriver(otherDrivers[i]);
         }
     }
     #endregion
