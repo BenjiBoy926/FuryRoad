@@ -25,7 +25,7 @@ public class PlayerDriving : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
-    private void Start()
+    private void Awake()
     {
         setControl.SetVirtual(enabled =>
         {

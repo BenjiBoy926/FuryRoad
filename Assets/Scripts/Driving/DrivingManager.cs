@@ -111,6 +111,10 @@ public class DrivingManager : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
+    private void Awake()
+    {
+        driverNumber.SetVirtual(() => RegistryIndex() + 1);
+    }
     private void Start()
     {
         driftingModule.driftStartEvent.AddListener(OnDriftStarted);
@@ -118,9 +122,6 @@ public class DrivingManager : MonoBehaviour
 
         // Register this driver with the registry
         DriverRegistry.Register(this);
-
-        // Locally, the driver number is determined by the registry index
-        driverNumber.SetVirtual(() => RegistryIndex() + 1);
     }
     private void FixedUpdate()
     {

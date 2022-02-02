@@ -13,7 +13,7 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     #endregion
 
     #region Monobehaviour Callbacks
-    private void Start()
+    private void Awake()
     {
         // This does not seem to clear existing RPCs, resulting in errors when projectiles destroy each other
         projectile.destroySelf.SetOverride(DestroySelfOverNetwork);

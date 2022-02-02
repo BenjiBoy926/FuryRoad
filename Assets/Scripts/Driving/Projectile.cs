@@ -9,7 +9,6 @@ public class Projectile : MonoBehaviour
     public readonly VirtualAction destroySelf = new VirtualAction();
     #endregion
 
-
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the rigidbody of the projectile")]
@@ -39,11 +38,13 @@ public class Projectile : MonoBehaviour
     #endregion
 
     #region Monobehaviour Messages
-    private void Start()
+    private void Awake()
     {
         // Destroy the root object
         destroySelf.SetVirtual(() => Destroy(root));
-
+    }
+    private void Start()
+    {
         // Handle collision/trigger for the sphere by checking if the player was hit
         sphereCollisionEvents.CollisionEnter.AddListener(BallCollisionEnter);
         sphereCollisionEvents.TriggerEnter.AddListener(BallTriggerEnter);
@@ -51,6 +52,7 @@ public class Projectile : MonoBehaviour
         // Handle event when the extended trigger enters something
         triggerCollisionEvents.TriggerEnter.AddListener(ExtendedTriggerEnter);
 
+        // Set the time of the projectile's creation
         timeOfCreation = Time.time;
     }
     private void Update()

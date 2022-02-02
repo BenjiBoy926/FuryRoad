@@ -24,12 +24,8 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     #endregion
 
     #region Monobehaviour Messages
-    private void Start()
+    private void Awake()
     {
-        // Listen for when my projectile hits another and when another hits me
-        player.drivingManager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
-        player.drivingManager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
-
         player.setControl.SetOverride(enabled =>
         {
             // Use the virtual version of set control
@@ -40,12 +36,18 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
             }
         });
 
-        // Disable the player driving
-        player.setControl.InvokeVirtual(photonView.IsMine);
-
         // Over the network, the actor number is determined
         // by the number of the photon player who owns the driver
         player.drivingManager.driverNumber.SetOverride(() => photonView.OwnerActorNr);
+    }
+    private void Start()
+    {
+        // Listen for when my projectile hits another and when another hits me
+        player.drivingManager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
+        player.drivingManager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+
+        // Disable the player driving if they are not owned by me
+        player.setControl.InvokeVirtual(photonView.IsMine);
 
         // Setup network sensitive objects
         foreach(GameObject obj in networkSensitiveObjects)
