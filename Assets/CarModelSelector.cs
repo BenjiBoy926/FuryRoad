@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+using Photon.Pun;
+using Photon.Realtime;
 
 public class CarModelSelector : MonoBehaviour
 {
-    [SerializeField] private Mesh[] carModels;
-    [SerializeField] private Material[] carMaterials;
-    private MeshFilter carMeshFilter;
-    private Renderer carMeshRenderer;
+    [SerializeField] public Mesh[] carModels;
+    [SerializeField] public Material[] carMaterials;
+    public MeshFilter carMeshFilter;
+    public Renderer carMeshRenderer;
     
+    private void Start(){
+        if (SaveManager.instance){
+            int carFilterRenderer = SaveManager.instance.currentCar;
+            Hashtable hash = new Hashtable();
+            hash.Add("Car Model", carFilterRenderer);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+        
+    }
 
     private void Awake()
     {

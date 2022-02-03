@@ -21,6 +21,7 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
+    private CarModelSelector carModelSelector;
     #endregion
 
     #region Monobehaviour Messages
@@ -43,8 +44,10 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     #region Photon Callbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log("We got here");
         UpdatePlayerText();
         CheckLoadRace();
+        UpdatePlayerCarModel();
     }
     // When a player leaves the room, we need to make sure the lobby is open and player text is displayed
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -89,6 +92,23 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     {
         playerText.enabled = true;
         playerText.text = "Waiting for players to join: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
+    }
+
+    private void UpdatePlayerCarModel()
+    {
+        Debug.Log("We got here");
+        foreach(Player player in PhotonNetwork.PlayerList)
+		{
+            Debug.Log("Then we got here");
+            MeshFilter carMeshFilter = NetworkPlayer.GetCar(player).GetComponent<MeshFilter>();
+            Renderer carMeshRenderer = NetworkPlayer.GetCar(player).GetComponent<Renderer>();
+            carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModelSelector.carModels[(int)player.CustomProperties["Car Model"]].name); 
+            carMeshRenderer.sharedMaterial = carModelSelector.carMaterials[(int)player.CustomProperties["Car Model"]];
+            Debug.Log(player.CustomProperties["Car Model"]);
+            Debug.Log(NetworkPlayer.GetCar(player).GetComponent<MeshFilter>());
+            Debug.Log(NetworkPlayer.GetCar(player).GetComponent<Renderer>());
+        }
+            
     }
     #endregion
 }
