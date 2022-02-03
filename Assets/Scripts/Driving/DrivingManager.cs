@@ -152,7 +152,7 @@ public class DrivingManager : MonoBehaviour
     #region Public Methods
     public void Turn(float horizontal)
     {
-        // Car can only turn while moving and grounded, and while the script is enabled
+        // Car can only turn while moving and grounded
         if (m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
         {
             // Set the steer
@@ -178,7 +178,7 @@ public class DrivingManager : MonoBehaviour
     }
     public void Thrust(float vertical)
     {
-        // Car can only thrust while grounded and the manager is enabled
+        // Car can only thrust while grounded
         if(m_GroundingModule.grounded)
         {
             // Get the heading of the vehicle according to the drifting module,

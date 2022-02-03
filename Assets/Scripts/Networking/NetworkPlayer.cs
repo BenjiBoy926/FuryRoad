@@ -107,9 +107,16 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     [PunRPC]
     public void OnProjectileHitOtherRPC(int otherActorNumber)
     {
+        // Make the UI animate for projectile hit other
         GameObject otherCar = GetCar(otherActorNumber);
         DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
         projectileUI.AnimateProjectileHitOther(otherDriver.ID);
+
+        // Make the driver boost. This is necessary because sometimes
+        // my projectile on another machine hits that player's car,
+        // but the version of my projectile on my machine doesn't hit
+        // that player's car on my machine
+        player.drivingManager.boostingModule.TryStartBoosting();
     }
     [PunRPC]
     public void OnProjectileHitMeRPC(int projectileActorNumber)

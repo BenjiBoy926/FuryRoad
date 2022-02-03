@@ -84,7 +84,7 @@ public class RunnerUpUI : DrivingModule
                 icons[i].transform.localScale = Vector3.one * RunnerUpIconSize(runnerUpCoordinates);
 
                 // Set the rotation of the icon
-                icons[i].transform.rotation = RunnerUpIconRotation(anchor);
+                icons[i].transform.localRotation = RunnerUpIconRotation(anchor);
             }
 
             // Display the icon if this runner up can be displayed
