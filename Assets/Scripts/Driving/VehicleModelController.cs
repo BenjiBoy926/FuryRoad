@@ -51,7 +51,9 @@ public class VehicleModelController : DrivingModule
             // Steer each of the wheels
             foreach(Transform wheel in steeringWheels)
             {
-                RotateWheel(wheel, manager.steer, driftSteerOffset, driftSteerAngle);
+                RotateWheel(wheel, manager.steer, 
+                    driftSteerOffset * manager.driftingModule.currentDirection * -1, 
+                    driftSteerAngle);
             }
         }
         else

@@ -28,7 +28,7 @@ public class DrivingManager : MonoBehaviour
     public ProjectileModule projectileModule => m_ProjectileModule;
     public Vector3 heading => m_Heading;
     // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
-    public float drivingSpeed => Vector3.ProjectOnPlane(m_Rigidbody.velocity, m_GroundingModule.groundNormal).magnitude;
+    public float drivingSpeed => Vector3.Dot(m_Rigidbody.velocity, m_Heading);
     public UnityEvent<DrivingManager> DriverRegisteredEvent => driverRegisteredEvent;
     public UnityEvent<DrivingManager> DriverDeregisteredEvent => driverDeregisteredEvent;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
@@ -152,12 +152,12 @@ public class DrivingManager : MonoBehaviour
     #region Public Methods
     public void Turn(float horizontal)
     {
+        // Set the steer
+        m_steer = horizontal;
+
         // Car can only turn while moving and grounded
         if (m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
         {
-            // Set the steer
-            m_steer = horizontal;
-
             // Let the drifting module decide how we will actually steer the car
             horizontal = m_DriftingModule.GetSteer(horizontal);
 
