@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7065900963281124736}
   - component: {fileID: 7732668196543909146}
   m_Layer: 9
-  m_Name: RunnerUpIcon
+  m_Name: DriverIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6987318028899844771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ede47e6ea426b0449b0f7fa67291fb15, type: 3}
+  m_Script: {fileID: 11500000, guid: 2aa45835e0916ff459e39d50b4bf32fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 7065900963281124736}

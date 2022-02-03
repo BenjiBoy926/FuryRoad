@@ -16,7 +16,6 @@ public class RacingManager : MonoBehaviour
     public int TotalLaps => totalLaps;
     public IReadOnlyDictionary<DrivingManager, RacingLapData> PlayerLapData => playerLapData;
     public IReadOnlyList<DrivingManager> Ranking => ranking;
-    public DrivingManager[] Drivers => FindObjectsOfType<DrivingManager>();
     public UnityEvent<DrivingManager, RacingCheckpoint> CheckpointPassedEvent => checkpointPassedEvent;
     public UnityEvent AllRacersFinishedEvent => allRacersFinishedEvent;
     #endregion
@@ -64,7 +63,7 @@ public class RacingManager : MonoBehaviour
         RacingCheckpoint earliest = EarliestCheckpoint;
 
         // Add the initial lap data for each driver
-        foreach (DrivingManager driver in Drivers)
+        foreach (DrivingManager driver in DriverRegistry.Registry)
         {
             RacingLapData lapData = new RacingLapData(earliest, 0);
             playerLapData.Add(driver, lapData);
@@ -103,7 +102,7 @@ public class RacingManager : MonoBehaviour
                     player.OnRaceFinished(ranking.Count - 1);
 
                     // When the ranking count exceeds the racer count then invoke all racers finished event
-                    if (ranking.Count >= Drivers.Length) OnAllRacersFinished();
+                    if (ranking.Count >= DriverRegistry.Registry.Count) OnAllRacersFinished();
                 }
             }
         }

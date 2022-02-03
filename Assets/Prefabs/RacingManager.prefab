@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3648c2bc02f8e44a0cae914c18fa3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalLaps: 3
+  totalLaps: 1
   racingMusic: {fileID: 8300000, guid: b992256bb67f99e4896cf115adec754b, type: 3}
   racingMusicSource: {fileID: 5466337344807596726}
   checkpointPassedEvent:

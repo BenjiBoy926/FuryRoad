@@ -18,6 +18,26 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
         // This does not seem to clear existing RPCs, resulting in errors when projectiles destroy each other
         projectile.destroySelf.SetOverride(DestroySelfOverNetwork);
     }
+    private void Start()
+    {
+        GameObject owningCar = NetworkPlayer.GetCar(photonView.Owner);
+
+        // Check if there is an owning car
+        if (owningCar)
+        {
+            DrivingManager driver = owningCar.GetComponent<DrivingManager>();
+
+            // Set the owner of the driver to this local driving manager
+            if (driver)
+            {
+                projectile.SetOwner(driver);
+            }
+            else Debug.LogWarning($"No driving manager attached to the car " +
+                $"owned by player {photonView.OwnerActorNr}");
+        }
+        else Debug.LogWarning($"Network projectile could not find a car " +
+            $"owned by player {photonView.OwnerActorNr}, who owns this projectile");
+    }
     #endregion
 
     #region Private Methods

@@ -5,6 +5,10 @@ using UnityEngine.Events;
 
 public class Projectile : MonoBehaviour
 {
+    #region Public Properties
+    public DrivingManager OwningDriver => owningDriver;
+    #endregion
+
     #region Public Fields
     public readonly VirtualAction destroySelf = new VirtualAction();
     #endregion
@@ -72,10 +76,14 @@ public class Projectile : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void Setup(DrivingManager owningDriver, Vector3 velocity)
+    public void Launch(DrivingManager owningDriver, Vector3 velocity)
+    {
+        SetOwner(owningDriver);
+        rb.velocity = velocity;
+    }
+    public void SetOwner(DrivingManager owningDriver)
     {
         this.owningDriver = owningDriver;
-        rb.velocity = velocity;
     }
     #endregion
 

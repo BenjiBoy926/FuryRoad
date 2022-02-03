@@ -14,7 +14,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         IsOpen = true,
         IsVisible = true,
-        MaxPlayers = NetworkManager.settings.maxPlayersPerRace 
+        MaxPlayers = NetworkManager.settings.maxPlayersPerRace ,
     };
     #endregion
 
@@ -34,7 +34,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Fields
-    public const string gameVersion = "0";
+    public const string gameVersion = "0.1";
     public const string testRoomName = "Test";
     #endregion
 
@@ -48,12 +48,16 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         // Automatically sync the scene
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        // Disable play controls
-        EnablePlayControls(false);
+        if (!PhotonNetwork.IsConnected)
+        {
+            // Disable play controls
+            EnablePlayControls(false);
 
-        // Connect to server as soon as we enter the scene
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = gameVersion;
+            // Connect to server as soon as we enter the scene
+            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.GameVersion = gameVersion;
+        }
+        else EnablePlayControls(true);
     }
     #endregion
 

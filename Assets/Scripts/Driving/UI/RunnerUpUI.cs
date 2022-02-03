@@ -38,7 +38,7 @@ public class RunnerUpUI : DrivingModule
     private Transform runnerUpIconParent;
     [SerializeField]
     [Tooltip("Icon prefab to use for each runner up icon")]
-    private RunnerUpIcon runnerUpIconPrefab;
+    private DriverIcon runnerUpIconPrefab;
     [SerializeField]
     [Tooltip("Min-max range of the ui. Racers closer than the min " +
         "and farther than the max do not show up as runner ups to this driver")]
@@ -50,7 +50,7 @@ public class RunnerUpUI : DrivingModule
 
     #region Private Fields
     private DrivingManager[] otherDrivers = new DrivingManager[0];
-    private RunnerUpIcon[] icons = new RunnerUpIcon[0];
+    private DriverIcon[] icons = new DriverIcon[0];
     #endregion
 
     #region Monobehaviour Messages
@@ -67,14 +67,6 @@ public class RunnerUpUI : DrivingModule
     }
     private void Update()
     {
-        // IMPORTANT
-        // This will not work over the network because the number of drivers is volatile!
-        // They might leave the game, resulting in null reference exceptions.
-        // This also won't work if another racer joins a game... except they cannot join a race in progress
-        // So the only issue would be that you could not see the correct runner up UI in the lobby
-        // while people are joining because the icons does not resize and neither does the 
-        // number of drivers
-
         for (int i = 0; i < otherDrivers.Length; i++)
         {
             // Get the other driver's runner up coordinates
@@ -86,10 +78,13 @@ public class RunnerUpUI : DrivingModule
             {
                 // Compute the canvas position of the icon
                 Vector2 anchor = CanvasCoordinate(runnerUpCoordinates);
-                icons[i].SetAnchoredPosition(anchor);
+                icons[i].RectTransform.anchoredPosition = anchor;
 
-                // Compute the scale of the icon
+                // Set the scale of the icon
                 icons[i].transform.localScale = Vector3.one * RunnerUpIconSize(runnerUpCoordinates);
+
+                // Set the rotation of the icon
+                icons[i].transform.rotation = RunnerUpIconRotation(anchor);
             }
 
             // Display the icon if this runner up can be displayed
@@ -126,7 +121,7 @@ public class RunnerUpUI : DrivingModule
     private void OnDriverRegistryChanged(DrivingManager newDriver)
     {
         // Destroy any existing icons
-        foreach(RunnerUpIcon icon in icons)
+        foreach(DriverIcon icon in icons)
         {
             Destroy(icon.gameObject);
         }
@@ -137,7 +132,7 @@ public class RunnerUpUI : DrivingModule
             .ToArray();
 
         // Create a new array to hold the icons
-        icons = new RunnerUpIcon[otherDrivers.Length];
+        icons = new DriverIcon[otherDrivers.Length];
 
         // Instantiate an icon for each driver
         for (int i = 0; i < icons.Length; i++)
@@ -230,6 +225,12 @@ public class RunnerUpUI : DrivingModule
     {
         float interpolator = runnerUpCoordinates.magnitude / MaxRunnerUpDistance;
         return Mathf.Lerp(1f, minimumIconSize, interpolator);
+    }
+    private Quaternion RunnerUpIconRotation(Vector2 pointTo)
+    {
+        // Make the transform point at the anchor point
+        float angle = Mathf.Atan(pointTo.x / pointTo.y) * Mathf.Rad2Deg * -1f;
+        return Quaternion.Euler(0f, 0f, angle);
     }
     #endregion
 }

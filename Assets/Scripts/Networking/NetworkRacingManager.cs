@@ -28,7 +28,7 @@ public class NetworkRacingManager : MonoBehaviourPunCallbacks
         Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} detected player {player.ActorNumber} passing checkpoint {checkpoint.Order}, sending rpc");
         // This appears to result in a double count of the player passing the second to last checkpoint, 
         // resulting in an early win
-        // photonView.RPC(nameof(OnCheckpointPassedRPCReceiver), RpcTarget.Others, player.networkActor, checkpoint.Order);
+        // photonView.RPC(nameof(OnCheckpointPassedRPCReceiver), RpcTarget.Others, player.ActorNumber, checkpoint.Order);
     }
     private void OnAllRacersFinishedRPCSender()
     {

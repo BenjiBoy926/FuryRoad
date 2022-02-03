@@ -11,20 +11,19 @@ public class ProjectileHitUI : DrivingModule
     [System.Serializable]
     public struct TextAnimationData
     {
-        public string messageFormat;
         public Color color;
         public Vector2 startingAnchor;
         public Vector2 endingAnchor;
         public Ease animationEase;
 
-        public void Animate(TextMeshProUGUI target, float time, int playerNumber)
+        public void Animate(TextMeshProUGUI target, float time, string text)
         {
             // Kill any active tweens
             target.rectTransform.DOKill();
 
             // Setup the text
             target.gameObject.SetActive(true);
-            target.text = string.Format(messageFormat, playerNumber);
+            target.text = text;
             target.color = color;
             target.rectTransform.anchoredPosition = startingAnchor;
 
@@ -68,43 +67,34 @@ public class ProjectileHitUI : DrivingModule
     #region Event Listeners
     private void OnProjectileHitOther(DrivingManager other)
     {
-        int playerNumber = -1;
-
-        // Get the network player if the network is connected
-        if (PhotonNetwork.IsConnected)
-        {
-            playerNumber = NetworkPlayer.GetPlayer(other.gameObject).ActorNumber;
-        }
-
         // Animate the text
-        AnimateProjectileHitOther(playerNumber);
+        AnimateProjectileHitOther(other.ID);
     }
     private void OnProjectileHitMe(Projectile projectile)
     {
-        int otherPlayer = -1;
+        string projectileOwnerName = "P0";
 
-        // Get the owner of the projectile if they exist
-        if (PhotonNetwork.IsConnected)
+        // If the projectile has an owning driver then the name is their name
+        if (projectile.OwningDriver)
         {
-            PhotonView projectileView = projectile.GetComponent<PhotonView>();
-
-            // Set other player to the owner of the photon view
-            if (projectileView) otherPlayer = projectileView.OwnerActorNr;
+            projectileOwnerName = projectile.OwningDriver.ID;
         }
 
         // Animate the text
-        AnimateProjectileHitMe(otherPlayer);
+        AnimateProjectileHitMe(projectileOwnerName);
     }
     #endregion
 
     #region Public Methods
-    public void AnimateProjectileHitOther(int otherActorNumber)
+    public void AnimateProjectileHitOther(string otherActorName)
     {
-        projectileHitOtherAnimation.Animate(text, animationTime, otherActorNumber);
+        string content = $"You hit {otherActorName}!";
+        projectileHitOtherAnimation.Animate(text, animationTime, content);
     }
-    public void AnimateProjectileHitMe(int projectileActorNumber)
+    public void AnimateProjectileHitMe(string projectileActorName)
     {
-        projectileHitMeAnimation.Animate(text, animationTime, projectileActorNumber);
+        string content = $"{projectileActorName} hit you...";
+        projectileHitMeAnimation.Animate(text, animationTime, content);
     }
     #endregion
 }

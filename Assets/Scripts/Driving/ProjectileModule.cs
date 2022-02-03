@@ -52,7 +52,7 @@ public class ProjectileModule : DrivingModule
         // Create the projectile
         Projectile projectile = NetworkUtilities.InstantiateLocalOrNetwork(projectilePrefab, position, Quaternion.identity);
         // Setup the projectile
-        projectile.Setup(manager, ComputeProjectileVelocity(dir));
+        projectile.Launch(manager, ComputeProjectileVelocity(dir));
         // Consume a boost resource once the projectile is fired
         manager.boostResources.ConsumeBoostResource();
     }

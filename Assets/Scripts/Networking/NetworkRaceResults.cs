@@ -54,7 +54,7 @@ public class NetworkRaceResults : MonoBehaviour
     {
         // Get a list of the actor numbers of the players controlling each car
         NetworkRaceResults.ranking = ranking
-            .Select(player => NetworkPlayer.GetPlayer(player.gameObject).ActorNumber)
+            .Select(driver => driver.driverNumber.Invoke())
             .ToList();
         Debug.Log($"Ranking:\n- Player {string.Join("\n- Player ", NetworkRaceResults.ranking)}");
 

@@ -107,12 +107,16 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     [PunRPC]
     public void OnProjectileHitOtherRPC(int otherActorNumber)
     {
-        projectileUI.AnimateProjectileHitOther(otherActorNumber);
+        GameObject otherCar = GetCar(otherActorNumber);
+        DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
+        projectileUI.AnimateProjectileHitOther(otherDriver.ID);
     }
     [PunRPC]
     public void OnProjectileHitMeRPC(int projectileActorNumber)
     {
-        projectileUI.AnimateProjectileHitMe(projectileActorNumber);
+        GameObject otherCar = GetCar(projectileActorNumber);
+        DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
+        projectileUI.AnimateProjectileHitMe(otherDriver.ID);
     }
     #endregion
 
