@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6849061370265863861}
   - component: {fileID: 1816422852126994920}
   m_Layer: 9
-  m_Name: BoostResourceWidget
+  m_Name: ResourceWidget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,9 +84,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 653895514916048702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14256112d4809404f99f03d2591a14db, type: 3}
+  m_Script: {fileID: 11500000, guid: 616a4d8188db1d245866f120bf693b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 6849061370265863861}
   available: {r: 0.70980394, g: 1, b: 0, a: 1}
-  unavailable: {r: 0.70980394, g: 1, b: 0, a: 0.09803922}
+  unavailable: {r: 0.70980394, g: 1, b: 0, a: 0.39215687}

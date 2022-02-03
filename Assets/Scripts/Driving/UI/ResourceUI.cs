@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
-public class BoostResourceUI : DrivingModule
+public class ResourceUI : DrivingModule
 {
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the prefab instantiated for each boosting resource")]
-    private BoostResourceWidget resourceWidgetPrefab;
+    private ResourceWidget resourceWidgetPrefab;
     [SerializeField]
     [Tooltip("Reference to the transform to use as the parent of all widgets")]
     private Transform resourceWidgetParent;
     [SerializeField]
     [Tooltip("Slider for the boost power")]
-    private Slider powerSlider;
+    [FormerlySerializedAs("powerSlider")]
+    private Slider rechargeSlider;
     #endregion
 
     #region Private Fields
-    private BoostResourceWidget[] resourceWidgets;
+    private ResourceWidget[] resourceWidgets;
     #endregion
 
     #region Monobehaviour Messages
@@ -27,7 +29,7 @@ public class BoostResourceUI : DrivingModule
         base.Start();
 
         // Create the array
-        resourceWidgets = new BoostResourceWidget[manager.boostResources.boostsAvailable];
+        resourceWidgets = new ResourceWidget[manager.resources.ResourcesAvailable];
         
         // Instantiate a widget for each resource available at the start
         for(int i = 0; i < resourceWidgets.Length; i++)
@@ -36,32 +38,32 @@ public class BoostResourceUI : DrivingModule
         }
 
         // Add listener for when available boosts change
-        manager.boostResources.onAvailableBoostsChanged.AddListener(OnAvailableBoostsChanged);
+        manager.resources.onAvailableResourcesChanged.AddListener(OnAvailableResourcesChanged);
     }
     private void Update()
     {
-        BoostingResources resources = manager.boostResources;
+        ResourcesModule resources = manager.resources;
 
         // Slider stays maxed out if all boosts are available
-        if (resources.allBoostsAvailable)
+        if (resources.allResourcesAvailable)
         {
-            powerSlider.value = powerSlider.maxValue;
+            rechargeSlider.value = rechargeSlider.maxValue;
         }
         // When not all boosts are available 
         // update the slider to match the resources recharge rate
         else
         {
-            powerSlider.value = manager.boostResources.boostRecharge;
+            rechargeSlider.value = manager.resources.projectileRecharge;
         }
     }
     #endregion
 
     #region Private Methods
-    private void OnAvailableBoostsChanged(int availableBoosts)
+    private void OnAvailableResourcesChanged(int resources)
     {
         for(int i = 0; i < resourceWidgets.Length; i++)
         {
-            resourceWidgets[i].SetActive(availableBoosts > i);
+            resourceWidgets[i].SetActive(resources > i);
         }
     }
     #endregion

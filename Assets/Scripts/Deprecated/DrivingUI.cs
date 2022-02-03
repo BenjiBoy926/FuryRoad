@@ -11,7 +11,7 @@ public class DrivingUI : DrivingModule
     private DrivingSpeedUI speedUI;
     [SerializeField]
     [Tooltip("Reference to the script used to manage boost resources ui")]
-    private BoostResourceUI boostResourceUI;
+    private ResourceUI boostResourceUI;
     [SerializeField]
     [Tooltip("Reference to the script used to manage placement of racers ui")]
     private PlacementUIManager placementUI;

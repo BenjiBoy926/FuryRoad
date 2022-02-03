@@ -40,7 +40,7 @@ public class ProjectileModule : DrivingModule
     /// <param name="dir"></param>
     public void TryFire(float dir)
     {
-        if(!manager.boostingModule.boostActive && manager.boostResources.canBoost)
+        if(!manager.boostingModule.boostActive && manager.resources.hasResources)
         {
             Fire(dir);
         }
@@ -54,7 +54,7 @@ public class ProjectileModule : DrivingModule
         // Setup the projectile
         projectile.Launch(manager, ComputeProjectileVelocity(dir));
         // Consume a boost resource once the projectile is fired
-        manager.boostResources.ConsumeBoostResource();
+        manager.resources.ConsumeResource();
     }
     #endregion
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoostResourceWidget : MonoBehaviour, System.IComparable<BoostResourceWidget>
+public class ResourceWidget : MonoBehaviour, System.IComparable<ResourceWidget>
 {
     #region Private Editor Fields
     [SerializeField]
@@ -24,7 +24,7 @@ public class BoostResourceWidget : MonoBehaviour, System.IComparable<BoostResour
         else image.color = unavailable;
     }
     // Sort from widget lowest to widget highest
-    public int CompareTo(BoostResourceWidget other)
+    public int CompareTo(ResourceWidget other)
     {
         return (int)(transform.position.y - other.transform.position.y);
     }

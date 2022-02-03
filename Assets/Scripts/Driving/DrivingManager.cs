@@ -21,7 +21,7 @@ public class DrivingManager : MonoBehaviour
     public new Rigidbody rigidbody => m_Rigidbody;
     public GroundingModule groundingModule => m_GroundingModule;
     public TopSpeedModule topSpeedModule => m_TopSpeedModule;
-    public BoostingResources boostResources => m_BoostResources;
+    public ResourcesModule resources => m_BoostResources;
     public BoostingModule boostingModule => m_BoostingModule;
     public DriftingModule driftingModule => m_DriftingModule;
     public DraftingModule draftingModule => m_DraftingModule;
@@ -66,7 +66,7 @@ public class DrivingManager : MonoBehaviour
     private TopSpeedModule m_TopSpeedModule;
     [SerializeField]
     [Tooltip("Used to manage the boosting resources of the vehicle")]
-    private BoostingResources m_BoostResources;
+    private ResourcesModule m_BoostResources;
     [SerializeField]
     [Tooltip("Module with the information on how to boost")]
     private BoostingModule m_BoostingModule;

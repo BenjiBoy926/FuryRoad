@@ -6,7 +6,7 @@ public class BoostResourceCollection : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("List of widgets used to display when we have a boost resource")]
-    private List<BoostResourceWidget> widgets;
+    private List<ResourceWidget> widgets;
 
     public void UpdateWidgets(int boosts)
     {
