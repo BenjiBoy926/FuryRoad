@@ -39,6 +39,7 @@ public class DrivingManager : MonoBehaviour
     public Vector3 right => Quaternion.AngleAxis(90f, m_GroundingModule.groundNormal) * m_Heading;
     public Vector3 up => m_GroundingModule.groundNormal;
     public string ID => $"P{driverNumber.Invoke()}";
+    public float steer => m_steer;
     #endregion
 
     #region Private Editor Fields
@@ -108,6 +109,7 @@ public class DrivingManager : MonoBehaviour
     #region Private Fields
     // Current heading of the movement module
     private Vector3 m_Heading = Vector3.forward;
+    private float m_steer;
     #endregion
 
     #region Monobehaviour Messages
@@ -153,6 +155,9 @@ public class DrivingManager : MonoBehaviour
         // Car can only turn while moving and grounded, and while the script is enabled
         if (m_Rigidbody.velocity.sqrMagnitude > 0.1f && m_GroundingModule.grounded)
         {
+            // Set the steer
+            m_steer = horizontal;
+
             // Let the drifting module decide how we will actually steer the car
             horizontal = m_DriftingModule.GetSteer(horizontal);
 
