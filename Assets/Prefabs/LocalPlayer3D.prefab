@@ -1222,6 +1222,7 @@ Transform:
   - {fileID: 8821501690210540280}
   - {fileID: 6014698601701233389}
   - {fileID: 4742619668956136865}
+  - {fileID: 8899190706334385769}
   m_Father: {fileID: 2557459325734712563}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6839,9 +6840,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 6022623401752220769}
   gravity: -50
-  m_Thrust: 40
+  m_Thrust: 30
   m_Turn: 60
-  m_StabilizingForce: 10
+  m_ArtificialDrag: 15
   m_GroundingModule: {fileID: 493142911493066043}
   m_TopSpeedModule: {fileID: 701939521791292234}
   m_Resources: {fileID: 2561939237913462756}
@@ -6849,6 +6850,7 @@ MonoBehaviour:
   m_DriftingModule: {fileID: 6004894320764145718}
   m_DraftingModule: {fileID: 5001690254259539076}
   m_ProjectileModule: {fileID: 2377211861322896346}
+  m_SlowDownModule: {fileID: 1607810426534898151}
   driverRegisteredEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -12637,6 +12639,104 @@ MonoBehaviour:
     startingAnchor: {x: 0, y: 50}
     endingAnchor: {x: 0, y: -50}
     animationEase: 30
+--- !u!1 &4199811367544503862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8899190706334385769}
+  - component: {fileID: 1607810426534898151}
+  m_Layer: 9
+  m_Name: SlowDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8899190706334385769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199811367544503862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 210878546111107929}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1607810426534898151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199811367544503862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c55b50c78e6364cb62acb97dd1adf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectMagnitude: 0.7
+  effectDuration: 0.5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.004166667
+      value: 0.008368201
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 1.0083683
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8041667
+      value: 0.80753136
+      inSlope: -1.0771141
+      outSlope: -1.0771141
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99583334
+      value: -0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  applyForce: 0
+  force: 100
+  effectStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  effectUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  effectStopEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4612123893895070304
 GameObject:
   m_ObjectHideFlags: 0
@@ -13558,7 +13658,7 @@ Rigidbody:
   m_GameObject: {fileID: 6022623401752220796}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.5
+  m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0

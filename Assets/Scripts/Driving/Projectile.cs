@@ -134,6 +134,8 @@ public class Projectile : MonoBehaviour
                 if (driver == owningDriver)
                 {
                     // Slow the owner a little
+                    owningDriver.slowDownModule.StartEffect();
+                    owningDriver.ProjectileHitMeEvent.Invoke(this);
                 }
                 // If the other is not the owner then make the owner boost
                 else

@@ -72,16 +72,24 @@ public class ProjectileHitUI : DrivingModule
     }
     private void OnProjectileHitMe(Projectile projectile)
     {
-        string projectileOwnerName = "P0";
-
-        // If the projectile has an owning driver then the name is their name
-        if (projectile.OwningDriver)
+        if (projectile.OwningDriver != manager)
         {
-            projectileOwnerName = projectile.OwningDriver.ID;
-        }
+            string projectileOwnerName = "P0";
 
-        // Animate the text
-        AnimateProjectileHitMe(projectileOwnerName);
+            // If the projectile has an owning driver then the name is their name
+            if (projectile.OwningDriver)
+            {
+                projectileOwnerName = projectile.OwningDriver.ID;
+            }
+
+            // Animate the text
+            AnimateProjectileHitMe(projectileOwnerName);
+        }
+        else
+        {
+            string content = "You hit yourself...";
+            projectileHitMeAnimation.Animate(text, animationTime, content);
+        }
     }
     #endregion
 

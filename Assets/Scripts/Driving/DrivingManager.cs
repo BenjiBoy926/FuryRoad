@@ -27,6 +27,7 @@ public class DrivingManager : MonoBehaviour
     public DriftingModule driftingModule => m_DriftingModule;
     public DraftingModule draftingModule => m_DraftingModule;
     public ProjectileModule projectileModule => m_ProjectileModule;
+    public SpeedOverTimeModule slowDownModule => m_SlowDownModule;
     public UnityEvent<DrivingManager> DriverRegisteredEvent => driverRegisteredEvent;
     public UnityEvent<DrivingManager> DriverDeregisteredEvent => driverDeregisteredEvent;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
@@ -58,8 +59,9 @@ public class DrivingManager : MonoBehaviour
     [Tooltip("Tightness of the racer's turn")]
     private float m_Turn = 10f;
     [SerializeField]
-    [Tooltip("A stabilizing force that pushes on the car laterally")]
-    private float m_StabilizingForce = 10f;
+    [Tooltip("Artificial drag that does not scale with the force of the car " +
+        "and remains inactive while accelerating to top speed")]
+    private float m_ArtificialDrag = 10f;
 
     [Space]
 
@@ -85,6 +87,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the object used to fire projectiles")]
     private ProjectileModule m_ProjectileModule;
+    [SerializeField]
+    [Tooltip("Module that causes the driver to slow down temporarily")]
+    private SpeedOverTimeModule m_SlowDownModule;
 
     [Space]
 
@@ -115,6 +120,7 @@ public class DrivingManager : MonoBehaviour
     #region Private Fields
     // Current heading of the movement module
     private Vector3 m_Forward = Vector3.forward;
+    private float m_thrust;
     private float m_steer;
     #endregion
 
@@ -149,9 +155,17 @@ public class DrivingManager : MonoBehaviour
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
 
+        // Check if there is no thrust
+        if (Mathf.Abs(m_thrust) < 0.1f)
+        {
+            // Apply artifical draf while there is not thrust
+            if (forwardSpeed > 1f) m_Rigidbody.AddForce(-forward * m_ArtificialDrag);
+            else if (forwardSpeed < -1f) m_Rigidbody.AddForce(forward * m_ArtificialDrag);
+        }
+
         // Add a stabilizing force when the car is moving side to side
-        if (rightSpeed > 0.1f) m_Rigidbody.AddForce(-right * m_StabilizingForce);
-        else if (rightSpeed < -0.1f) m_Rigidbody.AddForce(right * m_StabilizingForce);
+        if (rightSpeed > 0.1f) m_Rigidbody.AddForce(-right * m_ArtificialDrag);
+        else if (rightSpeed < -0.1f) m_Rigidbody.AddForce(right * m_ArtificialDrag);
     }
     private void OnDestroy()
     {
@@ -187,6 +201,9 @@ public class DrivingManager : MonoBehaviour
     }
     public void Thrust(float vertical)
     {
+        // Set the recent thrust of the vehicle
+        m_thrust = vertical;
+
         // Car can only thrust while grounded
         if(m_GroundingModule.grounded)
         {
