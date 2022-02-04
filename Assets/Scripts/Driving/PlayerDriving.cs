@@ -60,6 +60,11 @@ public class PlayerDriving : MonoBehaviour
         {
             m_DrivingManager.driftingModule.FinishDrifting();
         }
+
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            m_DrivingManager.boostingModule.StartEffect();
+        }
     }
 
     protected virtual void FixedUpdate()

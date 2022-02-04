@@ -8,7 +8,7 @@ public class DriftingModule : DrivingModule
     #region Public Properties
     public bool driftActive => m_DriftActive;
     public float currentDirection => m_CurrentDirection;
-    public BoostingModule driftBoost => m_DriftBoost;
+    public SpeedOverTimeModule driftBoost => m_DriftBoost;
     public UnityEvent driftStartEvent => m_driftStartEvent;
     public UnityEvent driftStopEvent => m_driftStopEvent;
     public float driftDuration => Time.time - m_DriftStartTime;
@@ -18,7 +18,7 @@ public class DriftingModule : DrivingModule
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Boost that the rigidbody receives when the drift is finished")]
-    private BoostingModule m_DriftBoost;
+    private SpeedOverTimeModule m_DriftBoost;
     [SerializeField]
     [Tooltip("Amount that the heading is rotated against the drift direction when drifting begins")]
     private float m_reverseHeadingAmount = 30f;
@@ -157,7 +157,7 @@ public class DriftingModule : DrivingModule
         // If we have been drifting long enough to charge the drift boost, then boost!
         if (driftBoostReady)
         {
-            m_DriftBoost.StartBoosting();
+            m_DriftBoost.StartEffect();
         }
         StopDrifting();
     }

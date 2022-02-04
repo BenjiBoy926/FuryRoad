@@ -116,7 +116,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         // my projectile on another machine hits that player's car,
         // but the version of my projectile on my machine doesn't hit
         // that player's car on my machine
-        player.drivingManager.boostingModule.TryStartBoosting();
+        player.drivingManager.boostingModule.StartEffectIfNotActive();
     }
     [PunRPC]
     public void OnProjectileHitMeRPC(int projectileActorNumber)

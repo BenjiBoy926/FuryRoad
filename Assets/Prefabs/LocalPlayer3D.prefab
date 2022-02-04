@@ -1530,7 +1530,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6860147089287800895}
   - component: {fileID: 6004894320764145718}
-  - component: {fileID: 8468606007509199711}
+  - component: {fileID: 4991273436843196555}
+  - component: {fileID: 8100060234691756484}
   m_Layer: 9
   m_Name: Drifting
   m_TagString: Untagged
@@ -1564,7 +1565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e9d7497b1b0e540b40ae07921c4216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DriftBoost: {fileID: 8468606007509199711}
+  m_DriftBoost: {fileID: 4991273436843196555}
   m_reverseHeadingAmount: 45
   driftBoostChargeTime: 1
   cancelThreshold: 5
@@ -1709,7 +1710,7 @@ MonoBehaviour:
   m_driftStopEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8468606007509199711
+--- !u!114 &4991273436843196555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1718,17 +1719,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706626556713780631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195bdb0ff789da14eaac4c002bfa41e4, type: 3}
+  m_Script: {fileID: 11500000, guid: c6c55b50c78e6364cb62acb97dd1adf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxTopSpeedModifier: 1.2
-  m_BoostDuration: 1
-  m_BoostCurve:
+  effectMagnitude: 1.2
+  effectDuration: 1
+  curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.004270779
-      value: -0.0038316492
+      time: -0.004166667
+      value: -0
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -1736,8 +1737,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.26836675
-      value: 0.99572754
+      time: 0.2375
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -1745,17 +1746,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.81250304
-      value: 0.8828448
-      inSlope: -0.6102045
-      outSlope: -0.6102045
+      time: 0.725
+      value: 0.916318
+      inSlope: -0.43660173
+      outSlope: -0.43660173
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.0083333
-      value: -0.020920502
+      time: 1.0041667
+      value: 0.0041841003
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -1765,25 +1766,38 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_JetstreamParticles:
-  - {fileID: 3481365984426146045}
-  audio:
-    audio: {fileID: 4239266452316172489}
-    clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
-    pitchRange:
-      _min: 1
-      _max: 1.5
-    fadeIn: 0.2
-    fadeOut: 1
-  m_OnBoostBegin:
+  applyForce: 1
+  force: 100
+  effectStartEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_OnBoostUpdate:
+  effectUpdateEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_OnBoostEnd:
+  effectStopEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8100060234691756484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706626556713780631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0890650c90aa05947b41e200898eef4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boost: {fileID: 4991273436843196555}
+  source: {fileID: 4239266452316172489}
+  clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
+  pitchRange:
+    _min: 1
+    _max: 1.5
+  fadeIn: 0.2
+  fadeOut: 1
+  jetstream: {fileID: 3481365984426146045}
 --- !u!1 &1769921196615183470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6827,10 +6841,11 @@ MonoBehaviour:
   gravity: -50
   m_Thrust: 40
   m_Turn: 60
+  m_StabilizingForce: 10
   m_GroundingModule: {fileID: 493142911493066043}
   m_TopSpeedModule: {fileID: 701939521791292234}
-  m_BoostResources: {fileID: 2561939237913462756}
-  m_BoostingModule: {fileID: 3643526296515383204}
+  m_Resources: {fileID: 2561939237913462756}
+  m_BoostingModule: {fileID: 3123362694168871876}
   m_DriftingModule: {fileID: 6004894320764145718}
   m_DraftingModule: {fileID: 5001690254259539076}
   m_ProjectileModule: {fileID: 2377211861322896346}
@@ -7521,7 +7536,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2313236658512369018}
-  - component: {fileID: 3643526296515383204}
+  - component: {fileID: 3123362694168871876}
+  - component: {fileID: 3825989738704860239}
   m_Layer: 9
   m_Name: MainBoost
   m_TagString: Untagged
@@ -7543,7 +7559,7 @@ Transform:
   m_Father: {fileID: 210878546111107929}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3643526296515383204
+--- !u!114 &3123362694168871876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7552,17 +7568,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3328718424380773461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195bdb0ff789da14eaac4c002bfa41e4, type: 3}
+  m_Script: {fileID: 11500000, guid: c6c55b50c78e6364cb62acb97dd1adf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxTopSpeedModifier: 1.5
-  m_BoostDuration: 1.5
-  m_BoostCurve:
+  effectMagnitude: 1.5
+  effectDuration: 1.5
+  curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.004786487
-      value: 0.00031023272
+      time: -0.004166667
+      value: 0.0041841003
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -7570,8 +7586,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.26608455
-      value: 0.99933577
+      time: 0.24166666
+      value: 0.9958159
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -7579,17 +7595,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.7768933
-      value: 0.8279125
-      inSlope: -0.9238049
-      outSlope: -0.9238049
+      time: 0.75836587
+      value: 0.8661063
+      inSlope: -0.69178456
+      outSlope: -0.69178456
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.0083333
-      value: -0.012552301
+      time: 0.9916667
+      value: -0.0041841003
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -7599,25 +7615,38 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_JetstreamParticles:
-  - {fileID: 6036832914775020795}
-  audio:
-    audio: {fileID: 7282523214234107454}
-    clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
-    pitchRange:
-      _min: 1
-      _max: 1.5
-    fadeIn: 0.2
-    fadeOut: 1
-  m_OnBoostBegin:
+  applyForce: 1
+  force: 100
+  effectStartEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_OnBoostUpdate:
+  effectUpdateEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_OnBoostEnd:
+  effectStopEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3825989738704860239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328718424380773461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0890650c90aa05947b41e200898eef4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boost: {fileID: 3123362694168871876}
+  source: {fileID: 7282523214234107454}
+  clip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
+  pitchRange:
+    _min: 1
+    _max: 1.5
+  fadeIn: 0.2
+  fadeOut: 1
+  jetstream: {fileID: 6036832914775020795}
 --- !u!1 &3481365984426146035
 GameObject:
   m_ObjectHideFlags: 0

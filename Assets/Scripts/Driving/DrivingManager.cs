@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class DrivingManager : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class DrivingManager : MonoBehaviour
     public new Rigidbody rigidbody => m_Rigidbody;
     public GroundingModule groundingModule => m_GroundingModule;
     public TopSpeedModule topSpeedModule => m_TopSpeedModule;
-    public ResourcesModule resources => m_BoostResources;
-    public BoostingModule boostingModule => m_BoostingModule;
+    public ResourcesModule resources => m_Resources;
+    public SpeedOverTimeModule boostingModule => m_BoostingModule;
     public DriftingModule driftingModule => m_DriftingModule;
     public DraftingModule draftingModule => m_DraftingModule;
     public ProjectileModule projectileModule => m_ProjectileModule;
@@ -70,10 +71,11 @@ public class DrivingManager : MonoBehaviour
     private TopSpeedModule m_TopSpeedModule;
     [SerializeField]
     [Tooltip("Used to manage the boosting resources of the vehicle")]
-    private ResourcesModule m_BoostResources;
+    [FormerlySerializedAs("m_BoostResources")]
+    private ResourcesModule m_Resources;
     [SerializeField]
     [Tooltip("Module with the information on how to boost")]
-    private BoostingModule m_BoostingModule;
+    private SpeedOverTimeModule m_BoostingModule;
     [SerializeField]
     [Tooltip("Module with the information on how to drift")]
     private DriftingModule m_DriftingModule;
@@ -172,9 +174,8 @@ public class DrivingManager : MonoBehaviour
             // Define a rotation around the ground normal
             float rotationAngle = horizontal * m_Turn * Time.fixedDeltaTime;
 
-            // TODO: Verify that this ensures the car properly turns when driving
-            // backwards
-            if (Vector3.Dot(forward, m_Rigidbody.velocity) < 0f) { rotationAngle *= -1f; }
+            // If forward speed is negative then the rotation is reversed
+            if (forwardSpeed < 0f) { rotationAngle *= -1f; }
 
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
 

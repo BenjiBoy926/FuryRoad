@@ -5,6 +5,7 @@ using UnityEngine;
 using DG.Tweening;
 
 [System.Serializable]
+[System.Obsolete("Boost audio is obsolete, use BoostEffects instead")]
 public class BoostAudio
 {
     #region Private Editor Fields

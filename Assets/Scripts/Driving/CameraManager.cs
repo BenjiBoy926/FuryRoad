@@ -27,13 +27,13 @@ public class CameraManager : DrivingModule
     {
         base.Start();
 
-        manager.boostingModule.onBoostUpdate.AddListener(OnBoostUpdate);
-        manager.driftingModule.driftBoost.onBoostUpdate.AddListener(OnDriftBoostUpdate);
+        manager.boostingModule.EffectUpdateEvent.AddListener(OnMainBoostUpdate);
+        manager.driftingModule.driftBoost.EffectUpdateEvent.AddListener(OnDriftBoostUpdate);
     }
 
     private void FixedUpdate()
     {
-        if(!manager.boostingModule.boostActive)
+        if(!manager.boostingModule.EffectActive)
         {
             // Lerp towards the target position
             Vector3 target = GetGlobalPosition(backDistance);
@@ -45,16 +45,23 @@ public class CameraManager : DrivingModule
     #endregion
 
     #region Private Methods
+    private void OnMainBoostUpdate()
+    {
+        OnBoostUpdate(manager.boostingModule.MagnitudeInterpolator);
+    }
+    // Only update the position for a drift boost if the main boost is inactive
+    private void OnDriftBoostUpdate()
+    {
+        if (!manager.boostingModule.EffectActive)
+        {
+            OnBoostUpdate(manager.driftingModule.driftBoost.MagnitudeInterpolator);
+        }
+    }
     private void OnBoostUpdate(float boostPower)
     {
         // Lerp towards a position that is further back from the car as the car boosts
         Vector3 target = GetGlobalPosition(backDistance + (maxBoostZoom * boostPower));
         transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
-    }
-    // Only update the position for a drift boost if the main boost is inactive
-    private void OnDriftBoostUpdate(float boostPower)
-    {
-        if (!manager.boostingModule.boostActive) OnBoostUpdate(boostPower);
     }
     private Vector3 GetLocalPosition(float backDistance)
     {

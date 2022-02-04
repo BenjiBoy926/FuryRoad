@@ -138,7 +138,7 @@ public class Projectile : MonoBehaviour
                 // If the other is not the owner then make the owner boost
                 else
                 {
-                    owningDriver.boostingModule.StartBoosting();
+                    owningDriver.boostingModule.StartEffect();
 
                     // Invoke event for the owning driver and for the other driver
                     owningDriver.ProjectileHitOtherEvent.Invoke(driver);

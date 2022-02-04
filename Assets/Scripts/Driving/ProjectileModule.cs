@@ -40,7 +40,7 @@ public class ProjectileModule : DrivingModule
     /// <param name="dir"></param>
     public void TryFire(float dir)
     {
-        if(!manager.boostingModule.boostActive && manager.resources.hasResources)
+        if(!manager.boostingModule.EffectActive && manager.resources.hasResources)
         {
             Fire(dir);
         }

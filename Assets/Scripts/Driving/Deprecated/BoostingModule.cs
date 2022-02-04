@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
+[System.Obsolete("Boosting module is obsolete, use the SpeedOverTimeModule instead")]
 public class BoostingModule : DrivingModule, ITopSpeedModifier
 {
     #region Private Typedefs
@@ -46,6 +47,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
     [SerializeField]
     [Tooltip("Curve used to determine the boosting speed of the car.")]
     private AnimationCurve m_BoostCurve;
+
     [SerializeField]
     [Tooltip("References to the particle systems that activate during the boost")]
     private List<ParticleSystem> m_JetstreamParticles;

@@ -5,22 +5,17 @@ using UnityEngine.Events;
 
 public class SpeedOverTimeModule : DrivingModule, ITopSpeedModifier
 {
-    #region Public Typedefs
-    [System.Serializable]
-    public class FloatEvent : UnityEvent<float> { }
-    #endregion
-
     #region Public Properties
+    public float TimeSinceEffectStart => Time.time - timeOfEffectStart;
+    public bool EffectActive => TimeSinceEffectStart < effectDuration;
+    public float EffectInterpolator => TimeSinceEffectStart / effectDuration;
+    public float MagnitudeInterpolator => curve.Evaluate(EffectInterpolator);
+    public float CurrentEffectMagnitude => Mathf.Lerp(1f, effectMagnitude, MagnitudeInterpolator);
     public bool applyModifier => EffectActive;
     public float modifier => CurrentEffectMagnitude;
-    #endregion
-
-    #region Private Properties
-    private float TimeSinceEffectStart => Time.time - timeOfEffectStart;
-    private bool EffectActive => TimeSinceEffectStart < effectDuration;
-    private float EffectInterpolator => TimeSinceEffectStart / effectDuration;
-    private float MagnitudeInterpolator => curve.Evaluate(EffectInterpolator);
-    private float CurrentEffectMagnitude => Mathf.Lerp(1f, effectMagnitude, MagnitudeInterpolator);
+    public UnityEvent EffectStartEvent => effectStartEvent;
+    public UnityEvent EffectUpdateEvent => effectUpdateEvent;
+    public UnityEvent EffectStopEvent => effectStopEvent;
     #endregion
 
     #region Private Editor Fields
@@ -35,6 +30,13 @@ public class SpeedOverTimeModule : DrivingModule, ITopSpeedModifier
         "(modifier = 1) and having full effect on the speed (modifier = effectMagnitude). " +
         "The curve should range between (0, 0) - (1, 1)")]
     private AnimationCurve curve;
+    [SerializeField]
+    [Tooltip("If this is true, the module applies a large force to the driver " +
+        "to keep them at their top speed")]
+    private bool applyForce;
+    [SerializeField]
+    [Tooltip("The strength of the force that keeps the driver at their top speed")]
+    private float force = 100f;
 
     [Space]
 
@@ -43,7 +45,7 @@ public class SpeedOverTimeModule : DrivingModule, ITopSpeedModifier
     private UnityEvent effectStartEvent;
     [SerializeField]
     [Tooltip("Event invoked for every update of the effect")]
-    private FloatEvent effectUpdateEvent;
+    private UnityEvent effectUpdateEvent;
     [SerializeField]
     [Tooltip("Event invoked when the effect stops")]
     private UnityEvent effectStopEvent;
@@ -60,7 +62,13 @@ public class SpeedOverTimeModule : DrivingModule, ITopSpeedModifier
         // If the effect is active then invoke the event
         if (EffectActive)
         {
-            effectUpdateEvent.Invoke(CurrentEffectMagnitude);
+            // If we should apply a force then apply it
+            if (applyForce)
+            {
+                manager.rigidbody.AddForce(manager.forward * force);
+            }
+
+            effectUpdateEvent.Invoke();
         }
         // If the effect is inactive but has not stopped
         // then stop the effect
