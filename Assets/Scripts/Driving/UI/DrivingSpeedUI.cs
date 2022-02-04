@@ -14,7 +14,7 @@ public class DrivingSpeedUI : DrivingModule
     #region Monobehaviour Messages
     private void Update()
     {
-        speedText.text = (int)manager.drivingSpeed + " mph";
+        speedText.text = (int)manager.forwardSpeed + " mph";
     }
     #endregion
 }

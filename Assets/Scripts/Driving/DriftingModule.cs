@@ -111,9 +111,9 @@ public class DriftingModule : DrivingModule
             // Axis of rotation will be the ground normal of the vehicle
             Vector3 axis = manager.groundingModule.groundNormal;
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, axis);
-            return rotation * manager.heading;
+            return rotation * manager.forward;
         }
-        else return manager.heading;
+        else return manager.forward;
     }
 
 

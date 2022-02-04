@@ -29,7 +29,7 @@ public class MinimapController : DrivingModule
         minimapCameraRoot.position = manager.rigidbody.position + offset;
 
         // Set the up of the camera to point in the direction the vehicle is facing
-        minimapCameraRoot.forward = manager.heading;
+        minimapCameraRoot.forward = manager.forward;
     }
     #endregion
 }

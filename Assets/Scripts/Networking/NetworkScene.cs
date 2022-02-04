@@ -102,7 +102,7 @@ public class NetworkScene
             DrivingManager manager = clone.GetComponent<DrivingManager>();
 
             // Ensure correct rotation
-            manager.SetHeading(mySpawn.transform.forward);
+            manager.SetForward(mySpawn.transform.forward);
 
             // Set the tag object on the local player
             PhotonNetwork.LocalPlayer.TagObject = clone;

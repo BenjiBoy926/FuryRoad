@@ -40,7 +40,7 @@ public class CameraManager : DrivingModule
             transform.position = Vector3.Lerp(transform.position, target, translateSpeed * Time.fixedDeltaTime);
         }
         // Lerp towards the target rotation
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(manager.heading), rotateSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(manager.forward), rotateSpeed * Time.fixedDeltaTime);
     }
     #endregion
 
@@ -58,7 +58,7 @@ public class CameraManager : DrivingModule
     }
     private Vector3 GetLocalPosition(float backDistance)
     {
-        return (-manager.heading * backDistance) + (manager.groundingModule.groundNormal * lift);
+        return (-manager.forward * backDistance) + (manager.groundingModule.groundNormal * lift);
     }
     private Vector3 GetGlobalPosition(float backDistance)
     {

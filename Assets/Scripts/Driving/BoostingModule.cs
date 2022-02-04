@@ -95,7 +95,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
         if (boostActive)
         {
             // Add a large force in the direction of the manager to force it up to top speed
-            m_Manager.rigidbody.AddForce(manager.heading * BoostForce, ForceMode.Acceleration);
+            m_Manager.rigidbody.AddForce(manager.forward * BoostForce, ForceMode.Acceleration);
             m_OnBoostUpdate.Invoke(m_BoostCurve.Evaluate(currentBoostInterpolator));
         }
         // If the boost is inactive but the boost has not been stopped, then stop the boost
@@ -124,7 +124,7 @@ public class BoostingModule : DrivingModule, ITopSpeedModifier
     public void StartBoosting()
     {
         // At the start of the boost, set the velocity to the top speed
-        m_Manager.rigidbody.velocity = m_Manager.heading * m_Manager.topSpeedModule.currentTopSpeed;
+        m_Manager.rigidbody.velocity = m_Manager.forward * m_Manager.topSpeedModule.currentTopSpeed;
 
         // Set the time when the boost began
         m_BoostBeginTime = Time.time;

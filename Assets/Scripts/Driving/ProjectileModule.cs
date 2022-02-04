@@ -62,12 +62,12 @@ public class ProjectileModule : DrivingModule
     protected Vector3 ComputeProjectilePosition(float dir)
     {
         dir = Mathf.Sign(dir);
-        return m_Manager.rigidbody.position + (m_Manager.heading * offset * dir);
+        return m_Manager.rigidbody.position + (m_Manager.forward * offset * dir);
     }
     protected Vector3 ComputeProjectileVelocity(float dir)
     {
         dir = Mathf.Sign(dir);
-        return m_Manager.heading * dir * speed;
+        return m_Manager.forward * dir * speed;
     }
     #endregion
 }

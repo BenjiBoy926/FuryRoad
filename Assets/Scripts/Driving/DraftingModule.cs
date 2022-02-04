@@ -34,7 +34,7 @@ public class DraftingModule : DrivingModule, ITopSpeedModifier
     // otherwise we would name this "FixedUpdate"
     private void FixedUpdate()
     {
-        Ray ray = new Ray(m_Manager.rigidbody.position, m_Manager.heading);
+        Ray ray = new Ray(m_Manager.rigidbody.position, m_Manager.forward);
 
         // Cast a ray forward and see if we hit anyone
         draftActive = Physics.Raycast(ray, m_DraftDistance, m_PlayerLayer, QueryTriggerInteraction.Collide);
@@ -42,7 +42,7 @@ public class DraftingModule : DrivingModule, ITopSpeedModifier
         // If draft is active, force the rigidbody and enable particles
         if (draftActive)
         {
-            m_Manager.rigidbody.AddForce(m_Manager.heading * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            m_Manager.rigidbody.AddForce(m_Manager.forward * m_DraftStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
             if (!particles.isPlaying) particles.Play();
         }
         // If not drafting and particles are still playing, stop them

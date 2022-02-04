@@ -46,7 +46,7 @@ public class VehicleModelController : DrivingModule
         if (drifting.driftActive)
         {
             Quaternion rotation = Quaternion.Euler(0f, driftOffset * drifting.currentDirection, 0f);
-            targetRotation = rotation * Quaternion.LookRotation(manager.heading);
+            targetRotation = rotation * Quaternion.LookRotation(manager.forward);
 
             // Steer each of the wheels
             foreach(Transform wheel in steeringWheels)
@@ -58,7 +58,7 @@ public class VehicleModelController : DrivingModule
         }
         else
         {
-            targetRotation = Quaternion.LookRotation(manager.heading);
+            targetRotation = Quaternion.LookRotation(manager.forward);
 
             // Steer each of the wheels
             foreach(Transform wheel in steeringWheels)

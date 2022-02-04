@@ -32,7 +32,7 @@ public class DrivingAudio : DrivingModule
     }
     private void FixedUpdate()
     {
-        if (m_Manager.drivingSpeed < 5f)
+        if (m_Manager.forwardSpeed < 5f)
         {
             // Check to swap the clips
             if (engineAudioSource.clip != engineIdleAudio)
@@ -54,7 +54,7 @@ public class DrivingAudio : DrivingModule
             }
 
             // Lerp the pitch of the audio source so that higher pitch as it goes faster
-            float interpolator = m_Manager.drivingSpeed / topSpeed;
+            float interpolator = m_Manager.forwardSpeed / topSpeed;
             engineAudioSource.pitch = Mathf.LerpUnclamped(engineAudioPitchRange.min, engineAudioPitchRange.max, interpolator);
         }
     }

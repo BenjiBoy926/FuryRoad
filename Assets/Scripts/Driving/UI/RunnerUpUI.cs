@@ -101,11 +101,11 @@ public class RunnerUpUI : DrivingModule
         if (manager)
         {
             float maxX = RunnerUpSpaceWidth / 2f;
-            Vector3 topMiddle = manager.rigidbody.position - manager.heading * distanceRange.min;
-            Vector3 topLeft = manager.rigidbody.position - manager.right * maxX - manager.heading * distanceRange.min;
-            Vector3 topRight = manager.rigidbody.position + manager.right * maxX - manager.heading * distanceRange.min;
-            Vector3 bottomLeft = topLeft - manager.heading * distanceRange.max;
-            Vector3 bottomRight = topRight - manager.heading * distanceRange.max;
+            Vector3 topMiddle = manager.rigidbody.position - manager.forward * distanceRange.min;
+            Vector3 topLeft = manager.rigidbody.position - manager.right * maxX - manager.forward * distanceRange.min;
+            Vector3 topRight = manager.rigidbody.position + manager.right * maxX - manager.forward * distanceRange.min;
+            Vector3 bottomLeft = topLeft - manager.forward * distanceRange.max;
+            Vector3 bottomRight = topRight - manager.forward * distanceRange.max;
 
             Gizmos.DrawLine(topMiddle, bottomLeft);
             Gizmos.DrawLine(topMiddle, bottomRight);
@@ -158,7 +158,7 @@ public class RunnerUpUI : DrivingModule
         return new Vector3(
             Vector3.Dot(toThem, manager.right),
             Vector3.Dot(toThem, manager.up),
-            Vector3.Dot(toThem, manager.heading));
+            Vector3.Dot(toThem, manager.forward));
     }
     /// <summary>
     /// Determine if a runner up at the determined coordinate 

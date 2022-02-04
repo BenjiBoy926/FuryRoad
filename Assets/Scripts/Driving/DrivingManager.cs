@@ -26,18 +26,19 @@ public class DrivingManager : MonoBehaviour
     public DriftingModule driftingModule => m_DriftingModule;
     public DraftingModule draftingModule => m_DraftingModule;
     public ProjectileModule projectileModule => m_ProjectileModule;
-    public Vector3 heading => m_Heading;
-    // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
-    public float drivingSpeed => Vector3.Dot(m_Rigidbody.velocity, m_Heading);
     public UnityEvent<DrivingManager> DriverRegisteredEvent => driverRegisteredEvent;
     public UnityEvent<DrivingManager> DriverDeregisteredEvent => driverDeregisteredEvent;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
     public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
     public UnityEvent<Projectile> ProjectileHitMeEvent => projectileHitMeEvent;
-    // Rotate heading around the ground to get the right
-    public Vector3 right => Quaternion.AngleAxis(90f, m_GroundingModule.groundNormal) * m_Heading;
+    public Vector3 forward => m_Forward;
     public Vector3 up => m_GroundingModule.groundNormal;
+    // Rotate heading around the ground to get the right
+    public Vector3 right => Quaternion.AngleAxis(90f, up) * m_Forward;
+    // Speed that the car is driving at (excludes fall speed, only in the plane we are driving in)
+    public float forwardSpeed => Vector3.Dot(m_Rigidbody.velocity, m_Forward);
+    public float rightSpeed => Vector3.Dot(m_Rigidbody.velocity, right);
     public string ID => $"P{driverNumber.Invoke()}";
     public float steer => m_steer;
     #endregion
@@ -55,6 +56,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Tightness of the racer's turn")]
     private float m_Turn = 10f;
+    [SerializeField]
+    [Tooltip("A stabilizing force that pushes on the car laterally")]
+    private float m_StabilizingForce = 10f;
 
     [Space]
 
@@ -108,7 +112,7 @@ public class DrivingManager : MonoBehaviour
 
     #region Private Fields
     // Current heading of the movement module
-    private Vector3 m_Heading = Vector3.forward;
+    private Vector3 m_Forward = Vector3.forward;
     private float m_steer;
     #endregion
 
@@ -130,9 +134,9 @@ public class DrivingManager : MonoBehaviour
         Vector3 groundNormal = m_GroundingModule.groundNormal;
 
         // If the heading is at an angle with the ground normal, re-assign the heading of the movement module
-        if (Mathf.Abs(Vector3.Dot(m_Heading, groundNormal)) > Mathf.Epsilon)
+        if (Mathf.Abs(Vector3.Dot(m_Forward, groundNormal)) > Mathf.Epsilon)
         {
-            m_Heading = Vector3.ProjectOnPlane(m_Heading, groundNormal).normalized;
+            m_Forward = Vector3.ProjectOnPlane(m_Forward, groundNormal).normalized;
         }
 
         // Gravity pulls against the ground normal, it will not pull directly down!
@@ -142,6 +146,10 @@ public class DrivingManager : MonoBehaviour
 
         // Clamp the velocity magnitude within the top speed
         m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, m_TopSpeedModule.currentTopSpeed);
+
+        // Add a stabilizing force when the car is moving side to side
+        if (rightSpeed > 0.1f) m_Rigidbody.AddForce(-right * m_StabilizingForce);
+        else if (rightSpeed < -0.1f) m_Rigidbody.AddForce(right * m_StabilizingForce);
     }
     private void OnDestroy()
     {
@@ -166,14 +174,14 @@ public class DrivingManager : MonoBehaviour
 
             // TODO: Verify that this ensures the car properly turns when driving
             // backwards
-            if (Vector3.Dot(heading, m_Rigidbody.velocity) < 0f) { rotationAngle *= -1f; }
+            if (Vector3.Dot(forward, m_Rigidbody.velocity) < 0f) { rotationAngle *= -1f; }
 
             Quaternion rotation = Quaternion.AngleAxis(rotationAngle, groundingModule.groundNormal);
 
             // Rotate the rigidbody, the velocity, and the heading
             m_Rigidbody.velocity = rotation * m_Rigidbody.velocity;
             m_Rigidbody.angularVelocity = rotation * m_Rigidbody.angularVelocity;
-            m_Heading = rotation * m_Heading;
+            m_Forward = rotation * m_Forward;
         }
     }
     public void Thrust(float vertical)
@@ -184,12 +192,12 @@ public class DrivingManager : MonoBehaviour
             // Get the heading of the vehicle according to the drifting module,
             // because the drifting module rotates the true heading
             //Vector3 heading = driftingModule.GetHeading();
-            m_Rigidbody.AddForce(heading * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            m_Rigidbody.AddForce(forward * vertical * m_Thrust * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
-    public void SetHeading(Vector3 heading)
+    public void SetForward(Vector3 forward)
     {
-        m_Heading = heading;
+        m_Forward = forward;
     }
     public void OnNewLap(RacingLapData data)
     {
@@ -208,7 +216,7 @@ public class DrivingManager : MonoBehaviour
         // When the drift begins, immediate set the speed to go in the direction of the rotated heading
         // instead of the true heading
         Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
-        Vector3 drivingComponent = driftingModule.GetHeading().normalized * drivingSpeed;
+        Vector3 drivingComponent = driftingModule.GetHeading().normalized * forwardSpeed;
         m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     private void OnDriftStopped()
@@ -216,7 +224,7 @@ public class DrivingManager : MonoBehaviour
         // When the drift begins, immediate set the speed to go in the direction of the rotated heading
         // instead of the true heading
         Vector3 verticalComponent = Vector3.Project(m_Rigidbody.velocity, groundingModule.groundNormal);
-        Vector3 drivingComponent = heading.normalized * drivingSpeed;
+        Vector3 drivingComponent = forward.normalized * forwardSpeed;
         m_Rigidbody.velocity = drivingComponent + verticalComponent;
     }
     #endregion
