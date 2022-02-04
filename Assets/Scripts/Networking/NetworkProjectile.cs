@@ -17,6 +17,9 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     {
         // This does not seem to clear existing RPCs, resulting in errors when projectiles destroy each other
         projectile.destroySelf.SetOverride(DestroySelfOverNetwork);
+
+        // Override the projectile color
+        projectile.color.SetOverride(GetColor);
     }
     private void Start()
     {
@@ -47,6 +50,11 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
         if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
         // If this photon view is not mine then notify the owner so they perform a network destroy
         else photonView.RPC(nameof(DestroySelfRPCReceive), photonView.Owner);
+    }
+    private Color GetColor()
+    {
+        if (photonView.IsMine) return Color.green;
+        else return Color.red;
     }
     #endregion
 

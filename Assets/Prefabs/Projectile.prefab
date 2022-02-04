@@ -267,6 +267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8355122424088420728}
+  mesh: {fileID: 8355122424088420730}
+  trail: {fileID: 8355122423276037302}
   sphereCollisionEvents: {fileID: 4384918950430327058}
   triggerCollisionEvents: {fileID: 486930863460913786}
   root: {fileID: 8355122423557682877}
@@ -335,7 +337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 59ef7dc611ee0474092dff5c29ab828f, type: 2}
+  - {fileID: 2100000, guid: f0a6a86e908f6204ab518387a784ed36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
