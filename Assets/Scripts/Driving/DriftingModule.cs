@@ -119,7 +119,10 @@ public class DriftingModule : DrivingModule
 
     public bool TryStartDrifting(float horizontalInput)
     {
-        if(!m_DriftActive && (horizontalInput < -0.1 || horizontalInput > 0.1) && m_Manager.groundingModule.grounded)
+        if(!m_DriftActive && 
+            (horizontalInput < -0.1 || horizontalInput > 0.1) && 
+            m_Manager.groundingModule.grounded && 
+            m_Manager.forwardSpeed > cancelThreshold)
         {
             StartDrifting(horizontalInput);
             return true;
