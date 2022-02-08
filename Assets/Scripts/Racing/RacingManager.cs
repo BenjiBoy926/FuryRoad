@@ -88,6 +88,13 @@ public class RacingManager : MonoBehaviour
             RacingLapData previous = playerLapData[player];
             playerLapData[player] = playerLapData[player].CheckpointPassed(checkpoint, EarliestCheckpointOrder, LatestCheckpointOrder);
 
+            // If player is in last place...
+            if (playerLapData.Values.All(lapData => playerLapData[player] <= lapData))
+            {
+                // do boost
+                player.boostingModule.StartEffect();
+            }
+
             if (previous.CompletedLaps != playerLapData[player].CompletedLaps)
             {
                 // Notify the player that they just passed a new lap

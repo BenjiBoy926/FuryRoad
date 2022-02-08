@@ -53,4 +53,56 @@ public class RacingLapData
         else return new RacingLapData(checkpointPassed, 0);
     }
     #endregion
+
+    #region Operator Overloads
+    public static bool operator <=(RacingLapData a, RacingLapData b)
+    {
+        /* 1. Compare lap
+         * 2. If laps are equal, compare checkpoint order
+         */
+        if (a.CompletedLaps < b.CompletedLaps)
+        {
+            return true;
+        }
+        else if (a.CompletedLaps > b.CompletedLaps)
+        {
+            return false;
+        }
+        else // Equal completed laps
+        {
+            if (a.CurrentCheckpoint.Order <= b.CurrentCheckpoint.Order)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public static bool operator >=(RacingLapData a, RacingLapData b)
+    {
+        if (a.CompletedLaps < b.CompletedLaps)
+        {
+            return false;
+        }
+        else if (a.CompletedLaps > b.CompletedLaps)
+        {
+            return true;
+        }
+        else // Equal completed laps
+        {
+            if (a.CurrentCheckpoint.Order < b.CurrentCheckpoint.Order)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    #endregion
 }
