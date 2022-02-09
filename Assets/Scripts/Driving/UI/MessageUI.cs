@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using TMPro;
 using DG.Tweening;
-using Photon.Pun;
 
-public class ProjectileHitUI : DrivingModule
+public class MessageUI : DrivingModule
 {
     #region Public Typedefs
     [System.Serializable]
@@ -44,10 +44,12 @@ public class ProjectileHitUI : DrivingModule
     private float animationTime = 0.5f;
     [SerializeField]
     [Tooltip("Animation used when my projectile hits another driver")]
-    private TextAnimationData projectileHitOtherAnimation;
+    [FormerlySerializedAs("projectileHitOtherAnimation")]
+    private TextAnimationData positiveAnimation;
     [SerializeField]
     [Tooltip("Animation used when another projectile hits me")]
-    private TextAnimationData projectileHitMeAnimation;
+    [FormerlySerializedAs("projectileHitMeAnimation")]
+    private TextAnimationData negativeAnimation;
     #endregion
 
     #region Monobehaviour Messages
@@ -67,42 +69,38 @@ public class ProjectileHitUI : DrivingModule
     #region Event Listeners
     private void OnProjectileHitOther(DrivingManager other)
     {
-        // Animate the text
-        AnimateProjectileHitOther(other.ID);
+        ProjectileHitOtherMessage(other);
     }
     private void OnProjectileHitMe(Projectile projectile)
     {
-        if (projectile.OwningDriver != manager)
-        {
-            string projectileOwnerName = "P0";
-
-            // If the projectile has an owning driver then the name is their name
-            if (projectile.OwningDriver)
-            {
-                projectileOwnerName = projectile.OwningDriver.ID;
-            }
-
-            // Animate the text
-            AnimateProjectileHitMe(projectileOwnerName);
-        }
-        else
-        {
-            string content = "You hit yourself...";
-            projectileHitMeAnimation.Animate(text, animationTime, content);
-        }
+        ProjectileHitMeMessage(projectile.OwningDriver);
     }
     #endregion
 
     #region Public Methods
-    public void AnimateProjectileHitOther(string otherActorName)
+    public void PositiveMessage(string message)
     {
-        string content = $"You hit {otherActorName}!";
-        projectileHitOtherAnimation.Animate(text, animationTime, content);
+        positiveAnimation.Animate(text, animationTime, message);
     }
-    public void AnimateProjectileHitMe(string projectileActorName)
+    public void NegativeMessage(string message)
     {
-        string content = $"{projectileActorName} hit you...";
-        projectileHitMeAnimation.Animate(text, animationTime, content);
+        negativeAnimation.Animate(text, animationTime, message);
+    }
+    public void ProjectileHitOtherMessage(DrivingManager otherDriver)
+    {
+        if (otherDriver != manager)
+        {
+            PositiveMessage($"You hit {otherDriver.ID}!");
+        }
+        else NegativeMessage($"You hit yourself...");
+    }
+    public void ProjectileHitMeMessage(DrivingManager otherDriver)
+    {
+        if (otherDriver.driverNumber.Invoke() != manager.driverNumber.Invoke())
+        {
+            NegativeMessage($"{otherDriver.ID} hit you...");
+        }
+        else NegativeMessage("You hit yourself...");
     }
     #endregion
 }

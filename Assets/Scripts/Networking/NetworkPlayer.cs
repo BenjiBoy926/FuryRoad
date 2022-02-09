@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -17,7 +18,8 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     private PlayerDriving player;
     [SerializeField]
     [Tooltip("Reference to the ui that displays when a projectile hits someone")]
-    private ProjectileHitUI projectileUI;
+    [FormerlySerializedAs("projectileUI")]
+    private MessageUI messageUI;
     [SerializeField]
     [Tooltip("List of game objects to enable/disable depending on ownership of the photon view provided")]
     private GameObject[] networkSensitiveObjects;
@@ -87,8 +89,10 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
             GameObject otherCar = GetCar(projectileView.Owner);
             PhotonView otherView = otherCar.GetComponent<PhotonView>();
 
-            // Notify the other player that their projectile hit me
-            if (otherView)
+            // If we got a photon view for the other player,
+            // and they are not the same as myself, let them know
+            // that they just hit me
+            if (otherView && otherView.OwnerActorNr != photonView.OwnerActorNr)
             {
                 otherView.RPC(nameof(OnProjectileHitOtherRPC), otherView.Owner, photonView.OwnerActorNr);
             }
@@ -110,7 +114,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         // Make the UI animate for projectile hit other
         GameObject otherCar = GetCar(otherActorNumber);
         DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
-        projectileUI.AnimateProjectileHitOther(otherDriver.ID);
+        messageUI.ProjectileHitOtherMessage(otherDriver);
 
         // Make the driver boost. This is necessary because sometimes
         // my projectile on another machine hits that player's car,
@@ -123,7 +127,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     {
         GameObject otherCar = GetCar(projectileActorNumber);
         DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
-        projectileUI.AnimateProjectileHitMe(otherDriver.ID);
+        messageUI.ProjectileHitMeMessage(otherDriver);
     }
     #endregion
 

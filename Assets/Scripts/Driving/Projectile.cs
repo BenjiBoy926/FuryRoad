@@ -127,8 +127,6 @@ public class Projectile : MonoBehaviour
         if(driver)
         {
             // If this projectile has an owning driver, then give them a boost
-            // (May not have an owning driver since network instantiated projectiles
-            // are not set up)
             if(owningDriver)
             {
                 if (driver == owningDriver)

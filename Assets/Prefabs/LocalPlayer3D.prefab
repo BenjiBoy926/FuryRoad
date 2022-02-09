@@ -12493,7 +12493,7 @@ GameObject:
   - component: {fileID: 5083451063657279256}
   - component: {fileID: 2454419905453752215}
   m_Layer: 0
-  m_Name: ProjectileHitUI
+  m_Name: MessageUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12624,20 +12624,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3989567691524679650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d474912bc776b044389b9a6c7e275c21, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f308935cd433ba4d880aa03c9a0af76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 5083451063657279256}
   animationTime: 1
-  projectileHitOtherAnimation:
+  positiveAnimation:
     color: {r: 0, g: 1, b: 0, a: 1}
-    startingAnchor: {x: 0, y: -150}
-    endingAnchor: {x: 0, y: -50}
+    startingAnchor: {x: 0, y: -200}
+    endingAnchor: {x: 0, y: -100}
     animationEase: 28
-  projectileHitMeAnimation:
+  negativeAnimation:
     color: {r: 1, g: 0, b: 0, a: 1}
-    startingAnchor: {x: 0, y: 50}
-    endingAnchor: {x: 0, y: -50}
+    startingAnchor: {x: 0, y: 0}
+    endingAnchor: {x: 0, y: -100}
     animationEase: 30
 --- !u!1 &4199811367544503862
 GameObject:
