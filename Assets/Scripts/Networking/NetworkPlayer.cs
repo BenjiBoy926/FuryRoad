@@ -56,6 +56,15 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         {
             obj.SetActive(photonView.IsMine);
         }
+
+        // Try to get an audio listener in children
+        AudioListener listener = GetComponentInChildren<AudioListener>(true);
+
+        // Only listen with the audio listener if the photon view is mine
+        if (listener)
+        {
+            listener.enabled = photonView.IsMine;
+        }
     }
     #endregion
 

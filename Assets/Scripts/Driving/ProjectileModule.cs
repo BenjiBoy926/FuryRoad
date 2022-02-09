@@ -21,8 +21,11 @@ public class ProjectileModule : DrivingModule
     [Tooltip("Offset from the player manager that the projectile is placed")]
     private float offset = 5f;
     [SerializeField]
-    [Tooltip("Event invoked when a projectile fired from this module hits a driver")]
-    private DrivingManagerEvent driverHitEvent;
+    [Tooltip("Audio source used to play the launch sound")]
+    private AudioSource source;
+    [SerializeField]
+    [Tooltip("List of sounds that could play when the projectile is fired")]
+    private AudioClip[] launchSounds;
     #endregion
 
     #region Monobehaviour Messages
@@ -53,8 +56,11 @@ public class ProjectileModule : DrivingModule
         Projectile projectile = NetworkUtilities.InstantiateLocalOrNetwork(projectilePrefab, position, Quaternion.identity);
         // Setup the projectile
         projectile.Launch(manager, ComputeProjectileVelocity(dir));
-        // Consume a boost resource once the projectile is fired
+        // Consume a resource once the projectile is fired
         manager.resources.ConsumeResource();
+
+        // Play a launch sound
+        PlaySound();
     }
     #endregion
 
@@ -68,6 +74,12 @@ public class ProjectileModule : DrivingModule
     {
         dir = Mathf.Sign(dir);
         return m_Manager.forward * dir * speed;
+    }
+    protected void PlaySound()
+    {
+        int index = Random.Range(0, launchSounds.Length);
+        source.clip = launchSounds[index];
+        source.Play();
     }
     #endregion
 }
