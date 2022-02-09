@@ -269,6 +269,8 @@ MonoBehaviour:
   rb: {fileID: 8355122424088420728}
   mesh: {fileID: 8355122424088420730}
   trail: {fileID: 8355122423276037302}
+  explosionEffect: {fileID: 5061007178506597980, guid: 3bb6565ba27c1d34a926f889d0a5d7ae,
+    type: 3}
   sphereCollisionEvents: {fileID: 4384918950430327058}
   triggerCollisionEvents: {fileID: 486930863460913786}
   root: {fileID: 8355122423557682877}

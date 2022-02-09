@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class ProjectileModule : DrivingModule
 {
@@ -20,6 +21,10 @@ public class ProjectileModule : DrivingModule
     [SerializeField]
     [Tooltip("Offset from the player manager that the projectile is placed")]
     private float offset = 5f;
+    [SerializeField]
+    [Tooltip("Particle system to start up when the projectile is launched")]
+    [FormerlySerializedAs("launchParticle")]
+    private ParticleSystem launchParticle;
     [SerializeField]
     [Tooltip("Audio source used to play the launch sound")]
     private AudioSource source;
@@ -50,14 +55,20 @@ public class ProjectileModule : DrivingModule
     }
     public void Fire(float dir)
     {
-        // Compute projectile position
+        // Compute projectile position and direction
         Vector3 position = ComputeProjectilePosition(dir);
+        Vector3 direction = ComputeProjectileVelocity(dir);
         // Create the projectile
         Projectile projectile = NetworkUtilities.InstantiateLocalOrNetwork(projectilePrefab, position, Quaternion.identity);
         // Setup the projectile
-        projectile.Launch(manager, ComputeProjectileVelocity(dir));
+        projectile.Launch(manager, direction);
         // Consume a resource once the projectile is fired
         manager.resources.ConsumeResource();
+
+        // Setup and launch the particle
+        launchParticle.transform.position = position;
+        launchParticle.transform.forward = direction;
+        launchParticle.Play();
 
         // Play a launch sound
         PlaySound();

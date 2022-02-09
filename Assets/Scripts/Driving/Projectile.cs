@@ -25,6 +25,9 @@ public class Projectile : MonoBehaviour
     [Tooltip("Reference to the trail renderer for the projectile")]
     private TrailRenderer trail;
     [SerializeField]
+    [Tooltip("Game object to instantiate to create an explosion effect")]
+    private GameObject explosionEffect;
+    [SerializeField]
     [Tooltip("Reference to the collision event hook on the physical part of the projectile")]
     private CollisionEvents sphereCollisionEvents;
     [SerializeField]
@@ -52,7 +55,11 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         // Destroy the root object
-        destroySelf.SetVirtual(() => Destroy(root));
+        destroySelf.SetVirtual(() => 
+        {
+            Instantiate(explosionEffect, rb.transform.position, Quaternion.identity);
+            Destroy(root);
+        });
 
         // Default color is always green
         color.SetVirtual(() => Color.green);

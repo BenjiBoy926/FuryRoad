@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using DG.Tweening;
 
 public class BoostingEffects : DrivingModule
@@ -10,11 +11,18 @@ public class BoostingEffects : DrivingModule
     [Tooltip("Module to check for boosting")]
     private SpeedOverTimeModule boost;
     [SerializeField]
-    [Tooltip("Audio source that plays audio during the full boost")]
-    private AudioSource source;
+    [Tooltip("Audio source used to play the boosting one-shot audio")]
+    private AudioSource oneShotSource;
     [SerializeField]
     [Tooltip("One shot clip that plays at the start of the boost")]
-    private AudioClip clip;
+    private AudioClip oneShotClip;
+    [SerializeField]
+    [Tooltip("Audio source that plays audio during the full boost")]
+    private AudioSource loopSource;
+    [SerializeField]
+    [Tooltip("Loop clip that plays throughout the boost")]
+    [FormerlySerializedAs("clip")]
+    private AudioClip loopClip;
     [SerializeField]
     [Tooltip("Min-max pitch range for the audio clip")]
     private FloatRange pitchRange = new FloatRange(1f, 1.5f);
@@ -44,16 +52,20 @@ public class BoostingEffects : DrivingModule
     #region Event Listeners
     private void OnBoostStart()
     {
+        // Play the one shot clip
+        oneShotSource.clip = oneShotClip;
+        oneShotSource.Play();
+
         // Complete any tweens (in case the fade-out is still running)
-        source.DOComplete(true);
+        loopSource.DOComplete(true);
 
         // Fade the audio in
-        source.volume = 0f;
-        source.DOFade(1f, fadeIn);
+        loopSource.volume = 0f;
+        loopSource.DOFade(1f, fadeIn);
 
         // Play the audio that underscores the boost
-        source.clip = clip;
-        source.Play();
+        loopSource.clip = loopClip;
+        loopSource.Play();
 
         // Enable the jetstream
         jetstream.Play();
@@ -62,16 +74,16 @@ public class BoostingEffects : DrivingModule
     {
         // Change pitch based on current boost interpolator
         float interpolator = boost.MagnitudeInterpolator;
-        source.pitch = Mathf.LerpUnclamped(pitchRange.min, pitchRange.max, interpolator);
+        loopSource.pitch = Mathf.LerpUnclamped(pitchRange.min, pitchRange.max, interpolator);
     }
     private void OnBoostStop()
     {
         // Complete any tweens (in case the fade-in is still running)
-        source.DOComplete(true);
+        loopSource.DOComplete(true);
 
         // Fade the audio out
-        source.volume = 1f;
-        source.DOFade(0f, fadeOut).OnComplete(() => source.Stop());
+        loopSource.volume = 1f;
+        loopSource.DOFade(0f, fadeOut).OnComplete(() => loopSource.Stop());
 
         // Disable the jetstream
         jetstream.Stop();
