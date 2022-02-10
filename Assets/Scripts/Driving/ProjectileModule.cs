@@ -27,10 +27,7 @@ public class ProjectileModule : DrivingModule
     private ParticleSystem launchParticle;
     [SerializeField]
     [Tooltip("Audio source used to play the launch sound")]
-    private AudioSource source;
-    [SerializeField]
-    [Tooltip("List of sounds that could play when the projectile is fired")]
-    private AudioClip[] launchSounds;
+    private AudioSource launchSource;
     #endregion
 
     #region Monobehaviour Messages
@@ -71,7 +68,7 @@ public class ProjectileModule : DrivingModule
         launchParticle.Play();
 
         // Play a launch sound
-        PlaySound();
+        launchSource.Play();
     }
     #endregion
 
@@ -85,12 +82,6 @@ public class ProjectileModule : DrivingModule
     {
         dir = Mathf.Sign(dir);
         return m_Manager.forward * dir * speed;
-    }
-    protected void PlaySound()
-    {
-        int index = Random.Range(0, launchSounds.Length);
-        source.clip = launchSounds[index];
-        source.Play();
     }
     #endregion
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+[System.Obsolete("DriftingAudio is obsolete. Audio should be played " +
+    "directly on an audio source and synchronized over the network")]
 public class DriftingAudio
 {
     [SerializeField]

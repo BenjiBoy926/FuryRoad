@@ -1163,7 +1163,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -4196045213469826008, guid: 0bb132261b0522b4fb272c844549a62a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: dc9f34f8f8083485187956f1e0a5df2f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1573,7 +1573,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -4196045213469826008, guid: 0bb132261b0522b4fb272c844549a62a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ccc0344a102ea054e838a9333f9f3348, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1834,15 +1834,7 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     m_ColorMin: {r: 0, g: 0, b: 0, a: 1}
     m_ColorMax: {r: 1, g: 0, b: 0, a: 1}
-  audio:
-    skidSource: {fileID: 8862228342308956321}
-    skidSounds:
-    - {fileID: 8300000, guid: 8c9e488266693a44689147d57bdeb8ba, type: 3}
-    - {fileID: 8300000, guid: 6d5a1f954d2d355478aee4a722f0228b, type: 3}
-    - {fileID: 8300000, guid: 7fb1b55aa10395749834d615061f23e3, type: 3}
-    - {fileID: 8300000, guid: ccc0344a102ea054e838a9333f9f3348, type: 3}
-    - {fileID: 8300000, guid: 59687208ae7935441b9676c7f0d03869, type: 3}
-    - {fileID: 8300000, guid: 09151668fa7224d4abe9369a5b8abaac, type: 3}
+  driftAudio: {fileID: 8862228342308956321}
   m_driftStartEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1930,9 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boost: {fileID: 4991273436843196555}
   oneShotSource: {fileID: 4186133228430083199}
-  oneShotClip: {fileID: 8300000, guid: dc9f34f8f8083485187956f1e0a5df2f, type: 3}
   loopSource: {fileID: 7282523214234107454}
-  loopClip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
   pitchRange:
     _min: 1
     _max: 1.5
@@ -2236,20 +2226,20 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key1: {r: 1, g: 1, b: 0, a: 1}
+        key2: {r: 1, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
+        ctime1: 10794
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -2264,7 +2254,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 2
+        m_NumColorKeys: 3
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
@@ -7415,9 +7405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boost: {fileID: 3123362694168871876}
   oneShotSource: {fileID: 4186133228430083199}
-  oneShotClip: {fileID: 8300000, guid: dc9f34f8f8083485187956f1e0a5df2f, type: 3}
   loopSource: {fileID: 7282523214234107454}
-  loopClip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
   pitchRange:
     _min: 1
     _max: 1.5
@@ -12967,14 +12955,7 @@ MonoBehaviour:
   speed: 175
   offset: 10
   launchParticle: {fileID: 8657744265280403530}
-  source: {fileID: 6213739253878740994}
-  launchSounds:
-  - {fileID: 8300000, guid: 95e838e0a30c748cb9d08f70fd02e578, type: 3}
-  - {fileID: 8300000, guid: 3c1de4fe05be44abe9dfc42da59d5269, type: 3}
-  - {fileID: 8300000, guid: 0ed403ae0e0d84c2fb40f9b55116af79, type: 3}
-  - {fileID: 8300000, guid: e4c609fba48424a18ab56c47b7941a05, type: 3}
-  - {fileID: 8300000, guid: 67f76143878f743b1b9edc979752979a, type: 3}
-  - {fileID: 8300000, guid: bb83d4316e4a643c59edeba50f33cb8b, type: 3}
+  launchSource: {fileID: 6213739253878740994}
 --- !u!1 &5432906027522132011
 GameObject:
   m_ObjectHideFlags: 0
@@ -18424,7 +18405,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -4196045213469826008, guid: 0bb132261b0522b4fb272c844549a62a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 1256b1ce49da22e4f901acea3057b2aa, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -18552,7 +18533,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -4196045213469826008, guid: 0bb132261b0522b4fb272c844549a62a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 95e838e0a30c748cb9d08f70fd02e578, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -18904,20 +18885,20 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key1: {r: 1, g: 1, b: 0, a: 1}
+        key2: {r: 1, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
+        ctime1: 10794
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -18932,7 +18913,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 2
+        m_NumColorKeys: 3
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2

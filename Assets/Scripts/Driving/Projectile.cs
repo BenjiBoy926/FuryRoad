@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour
         // Destroy the root object
         destroySelf.SetVirtual(() => 
         {
-            Instantiate(explosionEffect, rb.transform.position, Quaternion.identity);
+            DestroyEffect();
             Destroy(root);
         });
 
@@ -116,6 +116,10 @@ public class Projectile : MonoBehaviour
         // Set the trail end color
         color.a = 0f;
         trail.endColor = color;
+    }
+    public void DestroyEffect()
+    {
+        NetworkUtilities.InstantiateLocalOrNetwork(explosionEffect, rb.position, Quaternion.identity);
     }
     #endregion
 

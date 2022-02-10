@@ -47,9 +47,9 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     private void DestroySelfOverNetwork()
     {
         // If this view is mine then destroy myself
-        if (photonView.IsMine) PhotonNetwork.Destroy(photonView);
+        if (photonView.IsMine) DestroySelf();
         // If this photon view is not mine then notify the owner so they perform a network destroy
-        else photonView.RPC(nameof(DestroySelfRPCReceive), photonView.Owner);
+        else photonView.RPC(nameof(DestroySelf), photonView.Owner);
     }
     private Color GetColor()
     {
@@ -60,8 +60,9 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
 
     #region RPC Callbacks
     [PunRPC]
-    public void DestroySelfRPCReceive()
+    public void DestroySelf()
     {
+        projectile.DestroyEffect();
         PhotonNetwork.Destroy(photonView);
     }
     #endregion

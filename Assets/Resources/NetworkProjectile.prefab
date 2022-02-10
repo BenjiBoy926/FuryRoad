@@ -47,7 +47,9 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8292959603938665990}
+  - {fileID: 7979039028811998024}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -134,6 +136,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkProjectile
       objectReference: {fileID: 0}
+    - target: {fileID: 9013473582428229902, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
+        type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 4032569127050640969, guid: f40766544bf90be42b9dc665d26224d6,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb76b6cf8bc09fc44b2f3337d1b81b20, type: 3}
 --- !u!1 &7933173728895378188 stripped

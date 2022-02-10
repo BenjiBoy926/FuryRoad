@@ -14,15 +14,8 @@ public class BoostingEffects : DrivingModule
     [Tooltip("Audio source used to play the boosting one-shot audio")]
     private AudioSource oneShotSource;
     [SerializeField]
-    [Tooltip("One shot clip that plays at the start of the boost")]
-    private AudioClip oneShotClip;
-    [SerializeField]
     [Tooltip("Audio source that plays audio during the full boost")]
     private AudioSource loopSource;
-    [SerializeField]
-    [Tooltip("Loop clip that plays throughout the boost")]
-    [FormerlySerializedAs("clip")]
-    private AudioClip loopClip;
     [SerializeField]
     [Tooltip("Min-max pitch range for the audio clip")]
     private FloatRange pitchRange = new FloatRange(1f, 1.5f);
@@ -53,7 +46,6 @@ public class BoostingEffects : DrivingModule
     private void OnBoostStart()
     {
         // Play the one shot clip
-        oneShotSource.clip = oneShotClip;
         oneShotSource.Play();
 
         // Complete any tweens (in case the fade-out is still running)
@@ -64,7 +56,6 @@ public class BoostingEffects : DrivingModule
         loopSource.DOFade(1f, fadeIn);
 
         // Play the audio that underscores the boost
-        loopSource.clip = loopClip;
         loopSource.Play();
 
         // Enable the jetstream

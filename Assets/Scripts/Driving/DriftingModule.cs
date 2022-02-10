@@ -42,7 +42,7 @@ public class DriftingModule : DrivingModule
     private ParticleSystem.MinMaxGradient boostIsReadyColor = Color.red;
     [SerializeField]
     [Tooltip("Handle the audio of the drift")]
-    private new DriftingAudio audio;
+    private AudioSource driftAudio;
     [SerializeField]
     [Tooltip("Event invoked when the drifting begins")]
     private UnityEvent m_driftStartEvent;
@@ -137,7 +137,7 @@ public class DriftingModule : DrivingModule
         m_DriftStartTime = Time.time;
 
         // Play a skid sound
-        audio.PlaySkidSound();
+        driftAudio.Play();
 
         // Set drifting direction
         m_CurrentDirection = Mathf.Sign(horizontalInput);
@@ -165,7 +165,7 @@ public class DriftingModule : DrivingModule
     // Stop the drift, without trying to check the boost
     public void StopDrifting()
     {
-        if(m_DriftActive) audio.PlaySkidSound();
+        if(m_DriftActive) driftAudio.Play();
 
         // Disable the drift
         m_DriftActive = false;

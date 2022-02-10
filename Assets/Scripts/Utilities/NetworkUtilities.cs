@@ -7,9 +7,18 @@ public static class NetworkUtilities
 {
     public static GameObject InstantiateLocalOrNetwork(GameObject gameObject, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
     {
+        // Check if network is connected
         if (PhotonNetwork.IsConnected)
         {
-            return PhotonNetwork.Instantiate(gameObject.name, position, rotation, group, data);
+            // Check if object has a photon view
+            PhotonView view = gameObject.GetComponent<PhotonView>();
+
+            // If it has a photon view then instantiate over the network
+            if (view)
+            {
+                return PhotonNetwork.Instantiate(gameObject.name, position, rotation, group, data);
+            }
+            else return Object.Instantiate(gameObject, position, rotation);
         }
         else return Object.Instantiate(gameObject, position, rotation);
     }
