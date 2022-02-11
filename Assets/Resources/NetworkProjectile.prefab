@@ -29,6 +29,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 6988841831036077247}
+  mesh: {fileID: 7933173730534733003}
+  trail: {fileID: 7933173729713959175}
 --- !u!114 &8632815301711910035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +167,18 @@ MonoBehaviour:
 --- !u!1 &7933173730534732996 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8355122424088420725, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
+    type: 3}
+  m_PrefabInstance: {fileID: 2155835444561663409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7933173730534733003 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8355122424088420730, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
+    type: 3}
+  m_PrefabInstance: {fileID: 2155835444561663409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &7933173729713959175 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 8355122423276037302, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
     type: 3}
   m_PrefabInstance: {fileID: 2155835444561663409}
   m_PrefabAsset: {fileID: 0}

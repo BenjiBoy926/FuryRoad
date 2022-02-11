@@ -22,6 +22,20 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8484829072789128275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032569127050640969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1199f7c7ccdcf8344b26ccba991d55f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 4032569127050640971}
+  photonView: {fileID: -1163636102683450887}
 --- !u!1001 &8199611776033687573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +108,12 @@ PrefabInstance:
 --- !u!1 &4032569127050640969 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5061007178506597980, guid: 3bb6565ba27c1d34a926f889d0a5d7ae,
+    type: 3}
+  m_PrefabInstance: {fileID: 8199611776033687573}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4032569127050640971 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5061007178506597982, guid: 3bb6565ba27c1d34a926f889d0a5d7ae,
     type: 3}
   m_PrefabInstance: {fileID: 8199611776033687573}
   m_PrefabAsset: {fileID: 0}

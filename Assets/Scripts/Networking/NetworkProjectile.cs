@@ -10,6 +10,12 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("Reference to the projectile to sync on the network")]
     private Projectile projectile;
+    [SerializeField]
+    [Tooltip("Reference to the renderer for the projectile")]
+    private MeshRenderer mesh;
+    [SerializeField]
+    [Tooltip("Reference to the trail renderer for the projectile")]
+    private TrailRenderer trail;
     #endregion
 
     #region Monobehaviour Callbacks
@@ -17,9 +23,6 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     {
         // This does not seem to clear existing RPCs, resulting in errors when projectiles destroy each other
         projectile.destroySelf.SetOverride(DestroySelfOverNetwork);
-
-        // Override the projectile color
-        projectile.color.SetOverride(GetColor);
     }
     private void Start()
     {
@@ -40,6 +43,10 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
         }
         else Debug.LogWarning($"Network projectile could not find a car " +
             $"owned by player {photonView.OwnerActorNr}, who owns this projectile");
+
+        // Set the projectile's color
+        if (photonView.IsMine) SetColor(Color.green);
+        else SetColor(Color.red);
     }
     #endregion
 
@@ -51,10 +58,17 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
         // If this photon view is not mine then notify the owner so they perform a network destroy
         else photonView.RPC(nameof(DestroySelf), photonView.Owner);
     }
-    private Color GetColor()
+    public void SetColor(Color color)
     {
-        if (photonView.IsMine) return Color.green;
-        else return Color.red;
+        // Set the material's color
+        mesh.material.color = color;
+
+        // Set the trail start color
+        trail.startColor = color;
+
+        // Set the trail end color
+        color.a = 0f;
+        trail.endColor = color;
     }
     #endregion
 

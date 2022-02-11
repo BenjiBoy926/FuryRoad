@@ -11,19 +11,12 @@ public class Projectile : MonoBehaviour
 
     #region Public Fields
     public readonly VirtualAction destroySelf = new VirtualAction();
-    public readonly VirtualFunc<Color> color = new VirtualFunc<Color>();
     #endregion
 
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the rigidbody of the projectile")]
     private Rigidbody rb;
-    [SerializeField]
-    [Tooltip("Reference to the renderer for the projectile")]
-    private MeshRenderer mesh;
-    [SerializeField]
-    [Tooltip("Reference to the trail renderer for the projectile")]
-    private TrailRenderer trail;
     [SerializeField]
     [Tooltip("Game object to instantiate to create an explosion effect")]
     private GameObject explosionEffect;
@@ -60,9 +53,6 @@ public class Projectile : MonoBehaviour
             DestroyEffect();
             Destroy(root);
         });
-
-        // Default color is always green
-        color.SetVirtual(() => Color.green);
     }
     private void Start()
     {
@@ -75,9 +65,6 @@ public class Projectile : MonoBehaviour
 
         // Set the time of the projectile's creation
         timeOfCreation = Time.time;
-
-        // Set the color of the projectile
-        SetColor(color.Invoke());
     }
     private void Update()
     {
@@ -104,18 +91,6 @@ public class Projectile : MonoBehaviour
     public void SetOwner(DrivingManager owningDriver)
     {
         this.owningDriver = owningDriver;
-    }
-    public void SetColor(Color color)
-    {
-        // Set the material's color
-        mesh.material.color = color;
-
-        // Set the trail start color
-        trail.startColor = color;
-
-        // Set the trail end color
-        color.a = 0f;
-        trail.endColor = color;
     }
     public void DestroyEffect()
     {
