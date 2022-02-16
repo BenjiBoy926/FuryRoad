@@ -34,6 +34,7 @@ public class DrivingManager : MonoBehaviour
     public UnityEvent<int> PlayerFinishedEvent => playerFinishedEvent;
     public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
     public UnityEvent<Projectile> ProjectileHitMeEvent => projectileHitMeEvent;
+    public UnityEvent PityBoostReceivedEvent => pityBoostReceivedEvent;
     public Vector3 forward => m_Forward;
     public Vector3 up => m_GroundingModule.groundNormal;
     // Rotate heading around the ground to get the right
@@ -111,6 +112,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Event invoked when another projectile hit me")]
     private ProjectileEvent projectileHitMeEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when this driver gets a pity boost")]
+    private UnityEvent pityBoostReceivedEvent;
     #endregion
 
     #region Public Fields

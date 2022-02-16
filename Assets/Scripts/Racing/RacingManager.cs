@@ -93,6 +93,7 @@ public class RacingManager : MonoBehaviour
             {
                 // do boost
                 player.boostingModule.StartEffect();
+                player.PityBoostReceivedEvent.Invoke();
             }
 
             if (previous.CompletedLaps != playerLapData[player].CompletedLaps)

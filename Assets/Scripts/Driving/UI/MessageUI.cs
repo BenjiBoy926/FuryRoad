@@ -63,6 +63,9 @@ public class MessageUI : DrivingModule
         // Subscribe to projectile events
         manager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
         manager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+
+        // Subscribe to pity boost received event
+        manager.PityBoostReceivedEvent.AddListener(OnPityBoostReceived);
     }
     #endregion
 
@@ -74,6 +77,10 @@ public class MessageUI : DrivingModule
     private void OnProjectileHitMe(Projectile projectile)
     {
         ProjectileHitMeMessage(projectile.OwningDriver);
+    }
+    private void OnPityBoostReceived()
+    {
+        PositiveMessage("Pity boost!");
     }
     #endregion
 
