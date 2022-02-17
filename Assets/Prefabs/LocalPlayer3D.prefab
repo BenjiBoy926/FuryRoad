@@ -7001,6 +7001,9 @@ MonoBehaviour:
   projectileHitMeEvent:
     m_PersistentCalls:
       m_Calls: []
+  pityBoostReceivedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2310409300590355751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12648,7 +12651,7 @@ MonoBehaviour:
   m_PlayerLayer:
     serializedVersion: 2
     m_Bits: 512
-  m_DraftStrength: 10
+  m_DraftStrength: 25
   m_DraftDistance: 100
   m_TopSpeedModifier: 1.2
   particles: {fileID: 7524532138655846017}
@@ -12953,7 +12956,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 9013473582428229902, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
     type: 3}
   speed: 175
-  offset: 10
+  offset: 5
   launchParticle: {fileID: 8657744265280403530}
   launchSource: {fileID: 6213739253878740994}
 --- !u!1 &5432906027522132011
