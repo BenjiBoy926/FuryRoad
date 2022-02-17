@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
+using DG.Tweening;
 
 public class ResourceUI : DrivingModule
 {
@@ -17,10 +18,24 @@ public class ResourceUI : DrivingModule
     [Tooltip("Slider for the boost power")]
     [FormerlySerializedAs("powerSlider")]
     private Slider rechargeSlider;
+
+    [SerializeField]
+    [Tooltip("Audio source used to play UI sounds")]
+    private AudioSource uiAudioSource;
+    [SerializeField]
+    [Tooltip("Audio that plays when a new resource is gained")]
+    private AudioClip rechargeAudioClip;
+    [SerializeField]
+    [Tooltip("Amount that the scale increases when a new resource is gained")]
+    private float scalePunch = 0.5f;
+    [SerializeField]
+    [Tooltip("Time of the scale punch when a new resource is gained")]
+    private float scalePunchTime = 0.2f;
     #endregion
 
     #region Private Fields
     private ResourceWidget[] resourceWidgets;
+    private int previousResources;
     #endregion
 
     #region Monobehaviour Messages
@@ -39,6 +54,12 @@ public class ResourceUI : DrivingModule
 
         // Add listener for when available boosts change
         manager.resources.onAvailableResourcesChanged.AddListener(OnAvailableResourcesChanged);
+
+        // Setup the previous resources
+        previousResources = manager.resources.ResourcesAvailable;
+
+        // Update all on the start
+        OnAvailableResourcesChanged(manager.resources.ResourcesAvailable);
     }
     private void Update()
     {
@@ -65,6 +86,22 @@ public class ResourceUI : DrivingModule
         {
             resourceWidgets[i].SetActive(resources > i);
         }
+
+        // If current resources are more than previous resources,
+        // then call the method to create the effect for resources increased
+        if (resources > previousResources) OnResourcesIncreased();
+
+        // Set previous resources
+        previousResources = resources;
+    }
+    private void OnResourcesIncreased()
+    {
+        // Punch the scale of the transform
+        transform.DOPunchScale(Vector3.one * scalePunch, scalePunchTime);
+
+        // Play the recharge clip
+        uiAudioSource.clip = rechargeAudioClip;
+        uiAudioSource.Play();
     }
     #endregion
 }

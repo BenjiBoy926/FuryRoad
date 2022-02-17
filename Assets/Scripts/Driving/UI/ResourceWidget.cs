@@ -8,7 +8,7 @@ public class ResourceWidget : MonoBehaviour, System.IComparable<ResourceWidget>
     #region Private Editor Fields
     [SerializeField]
     [Tooltip("Reference to the image that displays when we have a boost resource available")]
-    private Image image;
+    private Graphic[] graphics;
     [SerializeField]
     [Tooltip("Color of the resource when available")]
     private Color available;
@@ -20,13 +20,23 @@ public class ResourceWidget : MonoBehaviour, System.IComparable<ResourceWidget>
     #region Public Methods
     public void SetActive(bool active)
     {
-        if (active) image.color = available;
-        else image.color = unavailable;
+        if (active) SetColor(available);
+        else SetColor(unavailable);
     }
     // Sort from widget lowest to widget highest
     public int CompareTo(ResourceWidget other)
     {
         return (int)(transform.position.y - other.transform.position.y);
+    }
+    #endregion
+
+    #region Private Methods
+    private void SetColor(Color color)
+    {
+        foreach (Graphic g in graphics)
+        {
+            g.color = color;
+        }
     }
     #endregion
 }
