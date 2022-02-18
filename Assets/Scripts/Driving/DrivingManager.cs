@@ -20,6 +20,7 @@ public class DrivingManager : MonoBehaviour
     #region Public Properties
     // Public getters
     public new Rigidbody rigidbody => m_Rigidbody;
+    public Collider rigidbodyCollider => m_RigidbodyCollider;
     public GroundingModule groundingModule => m_GroundingModule;
     public TopSpeedModule topSpeedModule => m_TopSpeedModule;
     public ResourcesModule resources => m_Resources;
@@ -50,6 +51,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Referene to the sphere rigidbody that moves the car around")]
     private Rigidbody m_Rigidbody;
+    [SerializeField]
+    [Tooltip("Collider attached to the rigidbody of the driver")]
+    private Collider m_RigidbodyCollider;
     [SerializeField]
     [Tooltip("Strength of gravity's pull on the movement module")]
     private float gravity = -9.81f;

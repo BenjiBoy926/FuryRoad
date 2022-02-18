@@ -10,6 +10,9 @@ public class VehicleModelController : DrivingModule
     [Tooltip("Reference to the rigidbody on the model controller")]
     private Rigidbody rb;
     [SerializeField]
+    [Tooltip("Reference to the collider on the model controller")]
+    private Collider col;
+    [SerializeField]
     [Tooltip("Amount that the vehicle model rotates away from the movement heading when drifting")]
     private float driftOffset;
     [SerializeField]
@@ -37,7 +40,7 @@ public class VehicleModelController : DrivingModule
     void FixedUpdate()
     {
         // Copy the position of the movement module's rigidbody
-        rb.position = manager.rigidbody.position;
+        rb.MovePosition(ComputeModelPosition());
 
         DriftingModule drifting = manager.driftingModule;
         Quaternion targetRotation;
@@ -68,7 +71,7 @@ public class VehicleModelController : DrivingModule
         }
 
         // Rotate the forward vector towards the heading target
-        rb.rotation = Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
+        rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime));
     }
     #endregion
 
@@ -76,6 +79,17 @@ public class VehicleModelController : DrivingModule
     private void RotateWheel(Transform wheel, float steer, float angleOffset, float maxAngle)
     {
         wheel.localRotation = Quaternion.Euler(0f, angleOffset + (steer * maxAngle), 0f);
+    }
+    private Vector3 ComputeModelPosition()
+    {
+        Vector3 position = manager.rigidbody.position;
+        
+        // Put the collider of the model at the bottom of the collider for the rigidbody
+        float theirMinY = manager.rigidbodyCollider.bounds.min.y;
+        float myExtentsY = col.bounds.extents.y;
+        position.y = theirMinY + myExtentsY;
+
+        return position;
     }
     #endregion
 }
