@@ -6987,9 +6987,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crashStrength: 20
   crashParticles: {fileID: 6541558068080420577}
+  particleOffset: 2
   crashAudio: {fileID: 8782511997546986029}
   colliders:
-  - {fileID: 4421726133217227062}
   - {fileID: 8941214085940616142}
 --- !u!1 &2510057681921769648
 GameObject:
@@ -7035,7 +7035,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 9ae8050ecc42c1640ac185e06a96b0de, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7196,6 +7196,7 @@ MonoBehaviour:
   m_DraftingModule: {fileID: 5001690254259539076}
   m_ProjectileModule: {fileID: 2377211861322896346}
   m_SlowDownModule: {fileID: 1607810426534898151}
+  m_CrashingModule: {fileID: 4980009160483074120}
   driverRegisteredEvent:
     m_PersistentCalls:
       m_Calls: []

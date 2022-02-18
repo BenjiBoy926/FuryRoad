@@ -163,7 +163,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -173,12 +173,21 @@ TrailRenderer:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.6208665
+        outSlope: -0.6208665
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.38845146
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1.3447055
+        outSlope: -1.3447055
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.07874018
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -267,8 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8355122424088420728}
-  mesh: {fileID: 8355122424088420730}
-  trail: {fileID: 8355122423276037302}
   explosionEffect: {fileID: 5061007178506597980, guid: 3bb6565ba27c1d34a926f889d0a5d7ae,
     type: 3}
   sphereCollisionEvents: {fileID: 4384918950430327058}

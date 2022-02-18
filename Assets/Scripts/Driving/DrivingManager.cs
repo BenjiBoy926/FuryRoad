@@ -29,6 +29,7 @@ public class DrivingManager : MonoBehaviour
     public DraftingModule draftingModule => m_DraftingModule;
     public ProjectileModule projectileModule => m_ProjectileModule;
     public SpeedOverTimeModule slowDownModule => m_SlowDownModule;
+    public CrashingModule crashingModule => m_CrashingModule;
     public UnityEvent<DrivingManager> DriverRegisteredEvent => driverRegisteredEvent;
     public UnityEvent<DrivingManager> DriverDeregisteredEvent => driverDeregisteredEvent;
     public UnityEvent<RacingLapData> NewLapEvent => newLapEvent;
@@ -36,6 +37,7 @@ public class DrivingManager : MonoBehaviour
     public UnityEvent<DrivingManager> ProjectileHitOtherEvent => projectileHitOtherEvent;
     public UnityEvent<Projectile> ProjectileHitMeEvent => projectileHitMeEvent;
     public UnityEvent PityBoostReceivedEvent => pityBoostReceivedEvent;
+    public UnityEvent<DrivingManager> DriverHitMeEvent => driverHitMeEvent;
     public Vector3 forward => m_Forward;
     public Vector3 up => m_GroundingModule.groundNormal;
     // Rotate heading around the ground to get the right
@@ -95,6 +97,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Module that causes the driver to slow down temporarily")]
     private SpeedOverTimeModule m_SlowDownModule;
+    [SerializeField]
+    [Tooltip("Module that causes cars to dramatically crash into each other")]
+    private CrashingModule m_CrashingModule;
 
     [Space]
 
@@ -119,6 +124,9 @@ public class DrivingManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Event invoked when this driver gets a pity boost")]
     private UnityEvent pityBoostReceivedEvent;
+    [SerializeField]
+    [Tooltip("Event invoked when another driver crashes into this driver")]
+    private DrivingManagerEvent driverHitMeEvent;
     #endregion
 
     #region Public Fields

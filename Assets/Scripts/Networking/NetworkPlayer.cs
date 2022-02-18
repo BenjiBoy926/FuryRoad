@@ -47,6 +47,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         // Listen for when my projectile hits another and when another hits me
         player.drivingManager.ProjectileHitOtherEvent.AddListener(OnProjectileHitOther);
         player.drivingManager.ProjectileHitMeEvent.AddListener(OnProjectileHitMe);
+        player.drivingManager.DriverHitMeEvent.AddListener(OnDriverHitMe);
 
         // Disable the player driving if they are not owned by me
         player.setControl.InvokeVirtual(photonView.IsMine);
@@ -107,6 +108,18 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
             }
         }
     }
+    private void OnDriverHitMe(DrivingManager otherDriver)
+    {
+        PhotonView otherView = otherDriver.GetComponent<PhotonView>();
+
+        // If we got a photon view on the other driver
+        // then send an RPC to the owner of this car
+        // that the other driver hit them
+        if (otherView)
+        {
+            photonView.RPC(nameof(OnDriverHitMeRPC), photonView.Owner, otherView.OwnerActorNr);
+        }
+    }
     #endregion
 
     #region Interface Implementation
@@ -137,6 +150,13 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
         GameObject otherCar = GetCar(projectileActorNumber);
         DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
         messageUI.ProjectileHitMeMessage(otherDriver);
+    }
+    [PunRPC]
+    public void OnDriverHitMeRPC(int driverActorNumber)
+    {
+        GameObject otherCar = GetCar(driverActorNumber);
+        DrivingManager otherDriver = otherCar.GetComponent<DrivingManager>();
+        player.drivingManager.crashingModule.PushAway(otherDriver);
     }
     #endregion
 
