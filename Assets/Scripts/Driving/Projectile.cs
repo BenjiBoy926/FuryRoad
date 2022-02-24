@@ -134,6 +134,15 @@ public class Projectile : MonoBehaviour
 
             // Destroy self when I hit a player
             destroySelf.Invoke();
+
+            Photon.Pun.PhotonView otherView = driver.GetComponent<Photon.Pun.PhotonView>();
+            Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
+
+            if (otherView && myView)
+            {
+                Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with driver {otherView.OwnerActorNr}" +
+                    $"\n\t{NetworkManager.CurrentRoomString()}");
+            }
         }
     }
     

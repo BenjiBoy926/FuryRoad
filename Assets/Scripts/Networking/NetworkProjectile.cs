@@ -18,6 +18,10 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     private TrailRenderer trail;
     #endregion
 
+    #region Private Fields
+    private bool destroyHasBroadcast = false;
+    #endregion
+
     #region Monobehaviour Callbacks
     private void Awake()
     {
@@ -76,8 +80,12 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DestroySelf()
     {
-        projectile.DestroyEffect();
-        PhotonNetwork.Destroy(photonView);
+        if (!destroyHasBroadcast)
+        {
+            projectile.DestroyEffect();
+            PhotonNetwork.Destroy(photonView);
+            destroyHasBroadcast = true;
+        }
     }
     #endregion
 }
