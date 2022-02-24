@@ -6985,7 +6985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc680864efd62674caf9f4ef802edd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crashStrength: 10
+  crashSpeed: 30
   crashParticles: {fileID: 6541558068080420577}
   particleOffset: 2
   crashAudio: {fileID: 8782511997546986029}

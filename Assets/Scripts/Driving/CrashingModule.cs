@@ -6,8 +6,8 @@ public class CrashingModule : DrivingModule
 {
     #region Private Editor Fields
     [SerializeField]
-    [Tooltip("Force to exert on the driver when it hits another driver")]
-    private float crashStrength;
+    [Tooltip("Speed of the driver when it hits another driver")]
+    private float crashSpeed;
     [SerializeField]
     [Tooltip("Particle system to activate when a crash occurs")]
     private ParticleSystem crashParticles;
@@ -72,8 +72,13 @@ public class CrashingModule : DrivingModule
         // Get the direction that points at the other driver
         toOther = manager.right * leftOrRight;
 
-        // Deliver an impulse force to myself away from the driver
-        manager.rigidbody.AddForce(toOther * crashStrength * -1f, ForceMode.Impulse);
+        // Decompose the velocity components
+        Vector3 rightComponent = toOther * crashSpeed * -1f;
+        Vector3 upComponent = Vector3.Project(manager.rigidbody.velocity, manager.up);
+        Vector3 forwardComponent = Vector3.Project(manager.rigidbody.velocity, manager.forward);
+
+        // Set the velocity. This leaves forward and up unchanged while setting the right component
+        manager.rigidbody.velocity = rightComponent + upComponent + forwardComponent;
 
         // Point the particles in the direction of shove and play the effect
         crashParticles.transform.forward = toOther;
