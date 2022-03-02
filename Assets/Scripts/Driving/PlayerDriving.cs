@@ -22,6 +22,7 @@ public class PlayerDriving : MonoBehaviour
     #region Private Fields
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
+    private float m_ProjectileAxis;
     #endregion
 
     #region Monobehaviour Messages
@@ -42,15 +43,15 @@ public class PlayerDriving : MonoBehaviour
         m_HorizontalAxis = Input.GetAxis("Horizontal");
         m_VerticalAxis = Input.GetAxis("Drive");
 
-        // Jump button fires projectiles
-        if(Input.GetButtonDown("Action"))
+        // Get previous and current projectile axis
+        float prevProjectileAxis = m_ProjectileAxis;
+        m_ProjectileAxis = Input.GetAxisRaw("ProjectileVertical");
+
+        // Fire projectile if previously zero and not currently zero
+        if(prevProjectileAxis == 0 && m_ProjectileAxis != 0)
         {
             // If axis less than zero, or down keys pressed on laptop standalone, then fire a projectile
-            if (Input.GetAxis("Vertical") < -0.2 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-                m_DrivingManager.projectileModule.TryFire(-1f);
-            }
-            else m_DrivingManager.projectileModule.TryFire(1f);
+            m_DrivingManager.projectileModule.TryFire(m_ProjectileAxis);
         }
         if (Input.GetButton("Drift"))
         {
