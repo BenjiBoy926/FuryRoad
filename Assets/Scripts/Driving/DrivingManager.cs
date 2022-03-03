@@ -174,7 +174,7 @@ public class DrivingManager : MonoBehaviour
         // Check if there is no thrust
         if (Mathf.Abs(m_thrust) < 0.1f)
         {
-            // Apply artifical draf while there is not thrust
+            // Apply artifical drag while there is not thrust
             if (forwardSpeed > 1f) m_Rigidbody.AddForce(-forward * m_ArtificialDrag);
             else if (forwardSpeed < -1f) m_Rigidbody.AddForce(forward * m_ArtificialDrag);
         }

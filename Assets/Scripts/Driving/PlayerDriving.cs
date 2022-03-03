@@ -8,6 +8,7 @@ public class PlayerDriving : MonoBehaviour
     #region Public Properties
     public DrivingManager drivingManager => m_DrivingManager;
     public Vector2 projectileAxis => m_ProjectileAxis;
+    public bool usingJoystickAxis => m_UsingJoystickAxis;
     #endregion
 
     #region Public Fields
@@ -30,6 +31,7 @@ public class PlayerDriving : MonoBehaviour
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
     private Vector2 m_ProjectileAxis;
+    private bool m_UsingJoystickAxis = false;
     #endregion
 
     #region Monobehaviour Messages
@@ -65,8 +67,11 @@ public class PlayerDriving : MonoBehaviour
             Input.GetAxis("ProjectileHorizontal"),
             Input.GetAxis("ProjectileVertical"));
 
-        // If the projectile axis is low, then use the mouse to compute it
-        if (currentAxis.sqrMagnitude < 0.1f)
+        // Use the joystick axis if we got an input from it
+        m_UsingJoystickAxis = currentAxis.sqrMagnitude > 0.1f;
+
+        // If we are not using the joystick axis then use the mouse direction instead
+        if (!m_UsingJoystickAxis)
         {
             currentAxis = ComputeMouseDirection();
         }
@@ -74,7 +79,6 @@ public class PlayerDriving : MonoBehaviour
         // Assign the axis if it has a magnitude,
         // otherwise keep the axis from the previous update
         if (currentAxis.sqrMagnitude > 0.1f) m_ProjectileAxis = currentAxis;
-        //Debug.Log(currentAxis);
 
         // If the button is pressed then fire a projectile
         if (Input.GetButtonDown("ProjectileFire"))
@@ -91,8 +95,8 @@ public class PlayerDriving : MonoBehaviour
     }
     #endregion
 
-    #region Private Methods
-    private Vector2 ComputeMouseDirection()
+    #region Public Methods
+    public Vector3 ComputeMousePosition()
     {
         // Shoot a ray out from the camera
         Ray camRay = driverCam.ScreenPointToRay(Input.mousePosition);
@@ -101,11 +105,22 @@ public class PlayerDriving : MonoBehaviour
         // Check if there was a hit
         if (hit)
         {
-            // Transform local position of hit to driver coordinates
-            Vector3 toHit = hitInfo.point - m_DrivingManager.rigidbody.position;
-            toHit = m_DrivingManager.TransformPoint(toHit);
-            toHit = toHit.normalized;
-            return new Vector2(toHit.x, toHit.z);
+            return hitInfo.point;
+        }
+        else return Vector3.zero;
+    }
+    public Vector2 ComputeMouseDirection()
+    {
+        // Compute mouse ray position
+        Vector3 mousePosition = ComputeMousePosition();
+
+        // If we got a position then return the magnitude
+        if (mousePosition.sqrMagnitude > 0.1f)
+        {
+            mousePosition -= m_DrivingManager.rigidbody.position;
+            mousePosition = m_DrivingManager.TransformPoint(mousePosition);
+            mousePosition = mousePosition.normalized;
+            return new Vector2(mousePosition.x, mousePosition.z);
         }
         else return Vector2.zero;
     }
