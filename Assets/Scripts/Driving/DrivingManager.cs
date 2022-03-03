@@ -242,6 +242,13 @@ public class DrivingManager : MonoBehaviour
         playerFinishedEvent.Invoke(rank);
     }
     public int RegistryIndex() => DriverRegistry.IndexOf(this);
+    public Vector3 TransformPoint(Vector3 point)
+    {
+        return new Vector3(
+            Vector3.Dot(point, right),
+            Vector3.Dot(point, up),
+            Vector3.Dot(point, forward));
+    }
     #endregion
 
     #region Private Methods

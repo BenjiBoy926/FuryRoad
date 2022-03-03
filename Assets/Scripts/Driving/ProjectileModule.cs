@@ -43,14 +43,14 @@ public class ProjectileModule : DrivingModule
     /// and there are resources left
     /// </summary>
     /// <param name="dir"></param>
-    public void TryFire(float dir)
+    public void TryFire(Vector2 dir)
     {
         if(!manager.boostingModule.EffectActive && manager.resources.hasResources)
         {
             Fire(dir);
         }
     }
-    public void Fire(float dir)
+    public void Fire(Vector2 dir)
     {
         // Compute projectile position and direction
         Vector3 position = ComputeProjectilePosition(dir);
@@ -73,15 +73,18 @@ public class ProjectileModule : DrivingModule
     #endregion
 
     #region Protected Methods
-    protected Vector3 ComputeProjectilePosition(float dir)
+    protected Vector3 ComputeProjectilePosition(Vector2 dir)
     {
-        dir = Mathf.Sign(dir);
-        return m_Manager.rigidbody.position + (m_Manager.forward * offset * dir);
+        Vector3 point = new Vector3(dir.x, 0f, dir.y);
+        point = manager.TransformPoint(point);
+        return m_Manager.rigidbody.position + (point * offset);
     }
-    protected Vector3 ComputeProjectileVelocity(float dir)
+    protected Vector3 ComputeProjectileVelocity(Vector2 dir)
     {
-        dir = Mathf.Sign(dir);
-        return m_Manager.forward * dir * speed;
+        Vector3 direction = new Vector3(dir.x, 0f, dir.y);
+        direction = direction.normalized;
+        direction = manager.TransformPoint(direction);
+        return direction * speed;
     }
     #endregion
 }

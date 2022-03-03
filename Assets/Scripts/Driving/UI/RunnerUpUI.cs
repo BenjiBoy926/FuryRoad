@@ -155,10 +155,7 @@ public class RunnerUpUI : DrivingModule
 
         // Get the vector that points to them 
         // relative to the manager's coordinate system
-        return new Vector3(
-            Vector3.Dot(toThem, manager.right),
-            Vector3.Dot(toThem, manager.up),
-            Vector3.Dot(toThem, manager.forward));
+        return manager.TransformPoint(toThem);
     }
     /// <summary>
     /// Determine if a runner up at the determined coordinate 

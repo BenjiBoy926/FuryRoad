@@ -22,7 +22,7 @@ public class PlayerDriving : MonoBehaviour
     #region Private Fields
     private float m_HorizontalAxis;
     private float m_VerticalAxis;
-    private float m_ProjectileAxis;
+    private Vector2 m_ProjectileAxis;
     #endregion
 
     #region Monobehaviour Messages
@@ -43,16 +43,7 @@ public class PlayerDriving : MonoBehaviour
         m_HorizontalAxis = Input.GetAxis("Horizontal");
         m_VerticalAxis = Input.GetAxis("Drive");
 
-        // Get previous and current projectile axis
-        float prevProjectileAxis = m_ProjectileAxis;
-        m_ProjectileAxis = Input.GetAxisRaw("ProjectileVertical");
-
-        // Fire projectile if previously zero and not currently zero
-        if(prevProjectileAxis == 0 && m_ProjectileAxis != 0)
-        {
-            // If axis less than zero, or down keys pressed on laptop standalone, then fire a projectile
-            m_DrivingManager.projectileModule.TryFire(m_ProjectileAxis);
-        }
+        // Setup the drift
         if (Input.GetButton("Drift"))
         {
             m_DrivingManager.driftingModule.TryStartDrifting(m_HorizontalAxis);
@@ -60,6 +51,27 @@ public class PlayerDriving : MonoBehaviour
         if(Input.GetButtonUp("Drift"))
         {
             m_DrivingManager.driftingModule.FinishDrifting();
+        }
+
+        // Setup the projectile axis
+        m_ProjectileAxis.x = Input.GetAxis("ProjectileHorizontal");
+        m_ProjectileAxis.y = Input.GetAxis("ProjectileVertical");
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            m_DrivingManager.projectileModule.TryFire(Vector2.up);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            m_DrivingManager.projectileModule.TryFire(Vector2.down);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            m_DrivingManager.projectileModule.TryFire(Vector2.left);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            m_DrivingManager.projectileModule.TryFire(Vector2.right);
         }
     }
 
