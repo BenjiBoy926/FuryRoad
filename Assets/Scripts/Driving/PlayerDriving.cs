@@ -61,14 +61,20 @@ public class PlayerDriving : MonoBehaviour
         }
 
         // Setup the projectile axis
-        m_ProjectileAxis.x = Input.GetAxis("ProjectileHorizontal");
-        m_ProjectileAxis.y = Input.GetAxis("ProjectileVertical");
+        Vector2 currentAxis = new Vector2(
+            Input.GetAxis("ProjectileHorizontal"),
+            Input.GetAxis("ProjectileVertical"));
 
         // If the projectile axis is low, then use the mouse to compute it
-        if (m_ProjectileAxis.sqrMagnitude < 0.1f)
+        if (currentAxis.sqrMagnitude < 0.1f)
         {
-            m_ProjectileAxis = ComputeMouseDirection();
+            currentAxis = ComputeMouseDirection();
         }
+
+        // Assign the axis if it has a magnitude,
+        // otherwise keep the axis from the previous update
+        if (currentAxis.sqrMagnitude > 0.1f) m_ProjectileAxis = currentAxis;
+        //Debug.Log(currentAxis);
 
         // If the button is pressed then fire a projectile
         if (Input.GetButtonDown("ProjectileFire"))
@@ -97,12 +103,11 @@ public class PlayerDriving : MonoBehaviour
         {
             // Transform local position of hit to driver coordinates
             Vector3 toHit = hitInfo.point - m_DrivingManager.rigidbody.position;
-            Debug.DrawRay(m_DrivingManager.rigidbody.position, toHit);
             toHit = m_DrivingManager.TransformPoint(toHit);
             toHit = toHit.normalized;
             return new Vector2(toHit.x, toHit.z);
         }
-        else return m_ProjectileAxis;
+        else return Vector2.zero;
     }
     #endregion
 }
