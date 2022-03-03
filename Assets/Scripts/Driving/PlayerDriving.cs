@@ -7,6 +7,7 @@ public class PlayerDriving : MonoBehaviour
 {
     #region Public Properties
     public DrivingManager drivingManager => m_DrivingManager;
+    public Vector2 projectileAxis => m_ProjectileAxis;
     #endregion
 
     #region Public Fields
@@ -17,6 +18,12 @@ public class PlayerDriving : MonoBehaviour
     [SerializeField]
     [Tooltip("Reference to the movement module that this script drives")]
     private DrivingManager m_DrivingManager;
+    [SerializeField]
+    [Tooltip("Reference to the camera used to compute the mouse's direction")]
+    private Camera driverCam;
+    [SerializeField]
+    [Tooltip("Environment layer used to find the mouse's direction")]
+    private LayerMask environmentLayer;
     #endregion
 
     #region Private Fields
@@ -57,21 +64,16 @@ public class PlayerDriving : MonoBehaviour
         m_ProjectileAxis.x = Input.GetAxis("ProjectileHorizontal");
         m_ProjectileAxis.y = Input.GetAxis("ProjectileVertical");
 
-        if (Input.GetKeyDown(KeyCode.W))
+        // If the projectile axis is low, then use the mouse to compute it
+        if (m_ProjectileAxis.sqrMagnitude < 0.1f)
         {
-            m_DrivingManager.projectileModule.TryFire(Vector2.up);
+            m_ProjectileAxis = ComputeMouseDirection();
         }
-        if (Input.GetKeyDown(KeyCode.S))
+
+        // If the button is pressed then fire a projectile
+        if (Input.GetButtonDown("ProjectileFire"))
         {
-            m_DrivingManager.projectileModule.TryFire(Vector2.down);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            m_DrivingManager.projectileModule.TryFire(Vector2.left);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            m_DrivingManager.projectileModule.TryFire(Vector2.right);
+            m_DrivingManager.projectileModule.TryFire(m_ProjectileAxis);
         }
     }
 
@@ -80,6 +82,27 @@ public class PlayerDriving : MonoBehaviour
         // Use the movement module to move the car
         m_DrivingManager.Turn(m_HorizontalAxis);
         m_DrivingManager.Thrust(m_VerticalAxis);
+    }
+    #endregion
+
+    #region Private Methods
+    private Vector2 ComputeMouseDirection()
+    {
+        // Shoot a ray out from the camera
+        Ray camRay = driverCam.ScreenPointToRay(Input.mousePosition);
+        bool hit = Physics.Raycast(camRay, out RaycastHit hitInfo, 100f, environmentLayer);
+
+        // Check if there was a hit
+        if (hit)
+        {
+            // Transform local position of hit to driver coordinates
+            Vector3 toHit = hitInfo.point - m_DrivingManager.rigidbody.position;
+            Debug.DrawRay(m_DrivingManager.rigidbody.position, toHit);
+            toHit = m_DrivingManager.TransformPoint(toHit);
+            toHit = toHit.normalized;
+            return new Vector2(toHit.x, toHit.z);
+        }
+        else return m_ProjectileAxis;
     }
     #endregion
 }

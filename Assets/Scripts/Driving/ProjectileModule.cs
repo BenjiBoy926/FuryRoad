@@ -75,15 +75,15 @@ public class ProjectileModule : DrivingModule
     #region Protected Methods
     protected Vector3 ComputeProjectilePosition(Vector2 dir)
     {
-        Vector3 point = new Vector3(dir.x, 0f, dir.y);
-        point = manager.TransformPoint(point);
-        return m_Manager.rigidbody.position + (point * offset);
+        Vector3 direction = new Vector3(dir.x, 0f, dir.y);
+        direction = manager.TransformDirection(direction);
+        return m_Manager.rigidbody.position + (direction * offset);
     }
     protected Vector3 ComputeProjectileVelocity(Vector2 dir)
     {
         Vector3 direction = new Vector3(dir.x, 0f, dir.y);
         direction = direction.normalized;
-        direction = manager.TransformPoint(direction);
+        direction = manager.TransformDirection(direction);
         return direction * speed;
     }
     #endregion

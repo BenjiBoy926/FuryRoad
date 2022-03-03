@@ -7170,6 +7170,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DrivingManager: {fileID: 7101292500975048723}
+  driverCam: {fileID: 3165222375483301168}
+  environmentLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &7101292500975048723
 MonoBehaviour:
   m_ObjectHideFlags: 0

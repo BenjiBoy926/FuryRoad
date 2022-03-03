@@ -249,6 +249,10 @@ public class DrivingManager : MonoBehaviour
             Vector3.Dot(point, up),
             Vector3.Dot(point, forward));
     }
+    public Vector3 TransformDirection(Vector3 direction)
+    {
+        return right * direction.x + up * direction.y + forward * direction.z;
+    }
     #endregion
 
     #region Private Methods
