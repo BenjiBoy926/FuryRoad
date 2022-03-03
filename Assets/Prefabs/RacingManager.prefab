@@ -182,8 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalLaps: 3
-  racingMusic: {fileID: 8300000, guid: b992256bb67f99e4896cf115adec754b, type: 3}
-  racingMusicSource: {fileID: 5466337344807596726}
   checkpointPassedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -201,11 +199,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3688847086487513405, guid: 0bb132261b0522b4fb272c844549a62a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 42473177e27deec47a049056af08c108, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

@@ -33,13 +33,6 @@ public class RacingManager : MonoBehaviour
     private int totalLaps = 3;
 
     [SerializeField]
-    [Tooltip("Audio clip to play for the racing soundtrack")]
-    private AudioClip racingMusic;
-    [SerializeField]
-    [Tooltip("Audio source used to play the racing soundtrack")]
-    private AudioSource racingMusicSource;
-
-    [SerializeField]
     [Tooltip("Event invoked when a player passes a checkpoint")]
     private DrivingManagerRacingCheckpointEvent checkpointPassedEvent;
     [SerializeField]
@@ -72,10 +65,6 @@ public class RacingManager : MonoBehaviour
 
         // At the start, the race finished event has not been invoked yet
         finishedEventInvoked = false;
-
-        // Play the racing music
-        racingMusicSource.clip = racingMusic;
-        racingMusicSource.Play();
     }
     #endregion
 
