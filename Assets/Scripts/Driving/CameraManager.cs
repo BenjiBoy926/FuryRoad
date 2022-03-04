@@ -42,6 +42,16 @@ public class CameraManager : DrivingModule
         // Lerp towards the target rotation
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(manager.forward), rotateSpeed * Time.fixedDeltaTime);
     }
+    private void OnValidate()
+    {
+        if (!m_Manager) m_Manager = GetComponentInParent<DrivingManager>();
+
+        // Check if we have a manager before validating
+        if (m_Manager)
+        {
+            transform.position = GetGlobalPosition(backDistance);
+        }
+    }
     #endregion
 
     #region Private Methods
@@ -72,4 +82,5 @@ public class CameraManager : DrivingModule
         return manager.rigidbody.position + GetLocalPosition(backDistance);
     }
     #endregion
+
 }
