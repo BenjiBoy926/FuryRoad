@@ -23,8 +23,8 @@ public class PlayerDriving : MonoBehaviour
     [Tooltip("Reference to the camera used to compute the mouse's direction")]
     private Camera driverCam;
     [SerializeField]
-    [Tooltip("Environment layer used to find the mouse's direction")]
-    private LayerMask environmentLayer;
+    [Tooltip("Physics layers that the mouse can hit to aim the weapon")]
+    private LayerMask mouseAimLayer;
     #endregion
 
     #region Private Fields
@@ -100,7 +100,7 @@ public class PlayerDriving : MonoBehaviour
     {
         // Shoot a ray out from the camera
         Ray camRay = driverCam.ScreenPointToRay(Input.mousePosition);
-        bool hit = Physics.Raycast(camRay, out RaycastHit hitInfo, 100f, environmentLayer);
+        bool hit = Physics.Raycast(camRay, out RaycastHit hitInfo, 100f, mouseAimLayer);
 
         // Check if there was a hit
         if (hit)

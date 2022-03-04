@@ -30,23 +30,17 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
+        // Get the car owned by this player
         GameObject owningCar = NetworkPlayer.GetCar(photonView.Owner);
+        DrivingManager driver = owningCar.GetComponent<DrivingManager>();
 
-        // Check if there is an owning car
-        if (owningCar)
+        // Set the owner of the driver to this local driving manager
+        if (driver)
         {
-            DrivingManager driver = owningCar.GetComponent<DrivingManager>();
-
-            // Set the owner of the driver to this local driving manager
-            if (driver)
-            {
-                projectile.SetOwner(driver);
-            }
-            else Debug.LogWarning($"No driving manager attached to the car " +
-                $"owned by player {photonView.OwnerActorNr}");
+            projectile.SetOwner(driver);
         }
-        else Debug.LogWarning($"Network projectile could not find a car " +
-            $"owned by player {photonView.OwnerActorNr}, who owns this projectile");
+        else Debug.LogWarning($"No driving manager attached to the car " +
+            $"owned by player {photonView.OwnerActorNr}");
 
         // Set the projectile's color
         if (photonView.IsMine) SetColor(Color.green);
@@ -86,6 +80,11 @@ public class NetworkProjectile : MonoBehaviourPunCallbacks
             PhotonNetwork.Destroy(photonView);
             destroyHasBroadcast = true;
         }
+    }
+    [PunRPC]
+    public void SelfHitReport(string message)
+    {
+        Debug.Log(message);
     }
     #endregion
 }

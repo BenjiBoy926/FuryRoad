@@ -109,40 +109,18 @@ public class Projectile : MonoBehaviour
     }
     private void HandlePlayerPhysicsEnter(DrivingManager driver)
     {
-        // Only handle the player enter 
-        if(driver)
+        // If a driver exists and our owner exists and we did not hit ourselves,
+        // then destroy ourselves
+        if(driver && driver != owningDriver && owningDriver)
         {
-            // If this projectile has an owning driver, then give them a boost
-            if(owningDriver)
-            {
-                if (driver == owningDriver)
-                {
-                    // Slow the owner a little
-                    owningDriver.slowDownModule.StartEffect();
-                    owningDriver.ProjectileHitMeEvent.Invoke(this);
-                }
-                // If the other is not the owner then make the owner boost
-                else
-                {
-                    owningDriver.boostingModule.StartEffect();
+            owningDriver.boostingModule.StartEffect();
 
-                    // Invoke event for the owning driver and for the other driver
-                    owningDriver.ProjectileHitOtherEvent.Invoke(driver);
-                    driver.ProjectileHitMeEvent.Invoke(this);
-                }
-            }
+            // Invoke event for the owning driver and for the other driver
+            owningDriver.ProjectileHitOtherEvent.Invoke(driver);
+            driver.ProjectileHitMeEvent.Invoke(this);
 
             // Destroy self when I hit a player
             destroySelf.Invoke();
-
-            Photon.Pun.PhotonView otherView = driver.GetComponent<Photon.Pun.PhotonView>();
-            Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
-
-            if (otherView && myView)
-            {
-                Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with driver {otherView.OwnerActorNr}" +
-                    $"\n\t{NetworkManager.CurrentRoomString()}");
-            }
         }
     }
     
@@ -156,15 +134,6 @@ public class Projectile : MonoBehaviour
         {
             destroySelf.Invoke();
             otherProjectile.destroySelf.Invoke();
-
-            Photon.Pun.PhotonView otherView = otherProjectile.GetComponent<Photon.Pun.PhotonView>();
-            Photon.Pun.PhotonView myView = GetComponent<Photon.Pun.PhotonView>();
-
-            if (otherView && myView)
-            {
-                Debug.Log($"Projectile from actor {myView.OwnerActorNr} detected collision with projectile from actor {otherView.OwnerActorNr}" +
-                    $"\n\t{NetworkManager.CurrentRoomString()}");
-            }
         }
     }
     #endregion
