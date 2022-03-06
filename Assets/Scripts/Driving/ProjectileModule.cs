@@ -81,10 +81,12 @@ public class ProjectileModule : DrivingModule
     }
     protected Vector3 ComputeProjectileVelocity(Vector2 dir)
     {
-        Vector3 direction = new Vector3(dir.x, 0f, dir.y);
-        direction = direction.normalized;
-        direction = manager.TransformDirection(direction);
-        return direction * speed;
+        // Compute the velocity relative to the manager
+        Vector3 velocity = new Vector3(dir.x, 0f, dir.y);
+        velocity = manager.TransformDirection(velocity.normalized) * speed;
+
+        // Fire the projectile relative to the vehicle's frame of reference
+        return velocity  + manager.rigidbody.velocity;
     }
     #endregion
 }
