@@ -14229,7 +14229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 9013473582428229902, guid: bb76b6cf8bc09fc44b2f3337d1b81b20,
     type: 3}
-  speed: 175
+  speed: 100
   offset: 5
   launchParticle: {fileID: 8657744265280403530}
   launchSource: {fileID: 6213739253878740994}
