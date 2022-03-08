@@ -23,6 +23,12 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     [SerializeField]
     [Tooltip("List of game objects to enable/disable depending on ownership of the photon view provided")]
     private GameObject[] networkSensitiveObjects;
+
+    public CarModelSelector carModelSelector;
+
+    [SerializeField] private Mesh[] carModelsList;
+    [SerializeField] private Material[] carMaterialsList;
+
     #endregion
 
     #region Monobehaviour Messages
@@ -126,6 +132,18 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         info.Sender.TagObject = gameObject;
+        Player player = info.Sender;
+        if (player.CustomProperties.ContainsKey("Car Model"))
+        {
+            int carModel = (int)player.CustomProperties["Car Model"];
+            MeshFilter carMeshFilter = NetworkPlayer.GetCar(player).GetComponentInChildren<MeshFilter>();
+            Renderer carMeshRenderer = NetworkPlayer.GetCar(player).GetComponentInChildren<Renderer>();
+            carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModelsList[(int)player.CustomProperties["Car Model"]].name);
+            carMeshRenderer.sharedMaterial = carMaterialsList[(int)player.CustomProperties["Car Model"]];
+
+            Debug.Log($"Player #{player.ActorNumber} has their car model set up!");
+        }
+        else Debug.LogWarning($"Player #{player.ActorNumber} has not car model property");
     }
     #endregion
 
