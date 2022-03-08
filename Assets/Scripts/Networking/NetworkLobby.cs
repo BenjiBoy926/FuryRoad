@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -21,7 +21,8 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     [SerializeField]
     [Tooltip("Parent object for the GUI that displays the countdown before the race loads")]
     private NetworkLobbyCountdown countdown;
-    private CarModelSelector carModelSelector;
+
+    
     #endregion
 
     #region Monobehaviour Messages
@@ -44,10 +45,9 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
     #region Photon Callbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("We got here");
         UpdatePlayerText();
         CheckLoadRace();
-        UpdatePlayerCarModel();
+        //UpdatePlayerCarModel();
     }
     // When a player leaves the room, we need to make sure the lobby is open and player text is displayed
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -94,21 +94,28 @@ public class NetworkLobby : MonoBehaviourPunCallbacks
         playerText.text = "Waiting for players to join: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 
-    private void UpdatePlayerCarModel()
+    /*private void UpdatePlayerCarModel()
     {
         Debug.Log("We got here");
         foreach(Player player in PhotonNetwork.PlayerList)
 		{
+            if(player.CustomProperties.ContainsKey("Car Model"))
+            {
+                int carModel = (int)player.CustomProperties["Car Model"];
+                Debug.Log("YAY! Then we got here");
+                Debug.Log(carModel + "This from here");
+                Debug.Log(carModelsList[carModel].name);
+            }
             Debug.Log("Then we got here");
-            MeshFilter carMeshFilter = NetworkPlayer.GetCar(player).GetComponent<MeshFilter>();
-            Renderer carMeshRenderer = NetworkPlayer.GetCar(player).GetComponent<Renderer>();
-            carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModelSelector.carModels[(int)player.CustomProperties["Car Model"]].name); 
-            carMeshRenderer.sharedMaterial = carModelSelector.carMaterials[(int)player.CustomProperties["Car Model"]];
-            Debug.Log(player.CustomProperties["Car Model"]);
-            Debug.Log(NetworkPlayer.GetCar(player).GetComponent<MeshFilter>());
-            Debug.Log(NetworkPlayer.GetCar(player).GetComponent<Renderer>());
+            MeshFilter carMeshFilter = NetworkPlayer.GetCar(player).GetComponentInChildren<MeshFilter>();
+            Renderer carMeshRenderer = NetworkPlayer.GetCar(player).GetComponentInChildren<Renderer>();
+            Debug.Log(carMeshFilter);
+            Debug.Log(carMeshRenderer);
+
+            carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModelsList[(int)player.CustomProperties["Car Model"]].name); 
+            carMeshRenderer.sharedMaterial = carMaterialsList[(int)player.CustomProperties["Car Model"]];
         }
             
-    }
+    }*/
     #endregion
 }
