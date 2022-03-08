@@ -106,7 +106,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         info.Sender.TagObject = gameObject;
-        Player player = photonView.Owner;
+        Player player = info.Sender;
         if(player.CustomProperties.ContainsKey("Car Model"))
         {
             int carModel = (int)player.CustomProperties["Car Model"];
