@@ -24,8 +24,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     [Tooltip("List of game objects to enable/disable depending on ownership of the photon view provided")]
     private GameObject[] networkSensitiveObjects;
 
-    public CarModelSelector carModelSelector;
-
     [SerializeField] private Mesh[] carModelsList;
     [SerializeField] private Material[] carMaterialsList;
 
@@ -131,19 +129,43 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunInstantiateMagicCall
     #region Interface Implementation
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
+        // Set the tag object on the player sending the instantiate message
         info.Sender.TagObject = gameObject;
+
+        // Get the player to get the properties for
         Player player = info.Sender;
+
+        // Check if this player has the car model key set up
         if (player.CustomProperties.ContainsKey("Car Model"))
         {
+            // Get the car model index
             int carModel = (int)player.CustomProperties["Car Model"];
-            MeshFilter carMeshFilter = NetworkPlayer.GetCar(player).GetComponentInChildren<MeshFilter>();
-            Renderer carMeshRenderer = NetworkPlayer.GetCar(player).GetComponentInChildren<Renderer>();
-            carMeshFilter.sharedMesh = Resources.Load<Mesh>(carModelsList[(int)player.CustomProperties["Car Model"]].name);
-            carMeshRenderer.sharedMaterial = carMaterialsList[(int)player.CustomProperties["Car Model"]];
+
+            // Check if car model is in range of the models list
+            if (carModel >= 0 && carModel < carModelsList.Length)
+            {
+                MeshFilter carMeshFilter = GetComponentInChildren<MeshFilter>();
+                carMeshFilter.sharedMesh = carModelsList[carModel];
+            }
+            else Debug.LogWarning(
+                $"Model number '{carModel}' has no mesh associated with it." +
+                $"\n\tPlayer: {player.ActorNumber}" +
+                $"\n\tLocal player: {PhotonNetwork.LocalPlayer.ActorNumber}");
+
+            // Check if car model is in range of the materials list
+            if (carModel >= 0 && carModel < carModelsList.Length)
+            {
+                Renderer carMeshRenderer = GetComponentInChildren<Renderer>();
+                carMeshRenderer.sharedMaterial = carMaterialsList[carModel];
+            }
+            else Debug.LogWarning(
+                $"Model number '{carModel}' has no material associated with it." +
+                $"\n\tPlayer: {player.ActorNumber}" +
+                $"\n\tLocal player: {PhotonNetwork.LocalPlayer.ActorNumber}");
 
             Debug.Log($"Player #{player.ActorNumber} has their car model set up!");
         }
-        else Debug.LogWarning($"Player #{player.ActorNumber} has not car model property");
+        else Debug.LogWarning($"Player #{player.ActorNumber} has no car model property");
     }
     #endregion
 
