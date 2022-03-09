@@ -68,17 +68,8 @@ public class RacingLapData
         {
             return false;
         }
-        else // Equal completed laps
-        {
-            if (a.CurrentCheckpoint.Order <= b.CurrentCheckpoint.Order)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        // If the laps are equal then compare the checkpoints
+        else return a.CurrentCheckpoint.Order <= b.CurrentCheckpoint.Order;
     }
 
     public static bool operator >=(RacingLapData a, RacingLapData b)
@@ -91,17 +82,8 @@ public class RacingLapData
         {
             return true;
         }
-        else // Equal completed laps
-        {
-            if (a.CurrentCheckpoint.Order < b.CurrentCheckpoint.Order)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        // If the laps are equal, compare the order of the checkpoints
+        else return a.CurrentCheckpoint.Order >= b.CurrentCheckpoint.Order;
     }
 
     #endregion

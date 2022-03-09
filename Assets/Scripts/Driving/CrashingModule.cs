@@ -40,11 +40,13 @@ public class CrashingModule : DrivingModule
     #region Event Listeners
     private void OnDriverCollisionEnter(Collision collision)
     {
-        DriverCrash(collision.gameObject.GetComponentInParent<DrivingManager>());
+        if (enabled)
+            DriverCrash(collision.gameObject.GetComponentInParent<DrivingManager>());
     }
     private void OnDriverTriggerEnter(Collider collider)
     {
-        DriverCrash(collider.GetComponent<DrivingManager>());
+        if (enabled)
+            DriverCrash(collider.GetComponent<DrivingManager>());
     }
     #endregion
 

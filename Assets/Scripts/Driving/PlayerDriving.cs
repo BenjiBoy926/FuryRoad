@@ -44,6 +44,7 @@ public class PlayerDriving : MonoBehaviour
             // Make sure the drafting module is enabled/disabled so that
             // a car without controls cannot draft
             m_DrivingManager.draftingModule.enabled = enabled;
+            m_DrivingManager.crashingModule.enabled = enabled;
         });
     }
     protected virtual void Update()

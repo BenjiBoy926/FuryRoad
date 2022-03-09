@@ -45,8 +45,6 @@ public class RacingStart : MonoBehaviour
     {
         // Wait for one second, cached for slight efficiency
         WaitForSeconds oneSecond = new WaitForSeconds(1f);
-        // Get all player drivers
-        PlayerDriving[] players = FindObjectsOfType<PlayerDriving>();
 
         // Enable the starting panel
         startPanel.SetActive(true);
@@ -54,7 +52,10 @@ public class RacingStart : MonoBehaviour
 
         // Wait for end of frame to ensure that all drivers have been properly set up
         yield return new WaitForEndOfFrame();
-        
+
+        // Get all player drivers
+        PlayerDriving[] players = FindObjectsOfType<PlayerDriving>();
+
         // Disable all drivers
         foreach (PlayerDriving player in players)
         {
