@@ -54,11 +54,11 @@ public class PlayerDriving : MonoBehaviour
         m_VerticalAxis = Input.GetAxis("Drive");
 
         // Setup the drift
-        if (Input.GetButton("Drift"))
+        if (Input.GetAxis("Drift") > 0.8f)
         {
             m_DrivingManager.driftingModule.TryStartDrifting(m_HorizontalAxis);
         }
-        if(Input.GetButtonUp("Drift"))
+        if(Input.GetAxis("Drift") < 0.3f)
         {
             m_DrivingManager.driftingModule.FinishDrifting();
         }
